@@ -1,12 +1,20 @@
-*.class
+.gradle
+.settings
+bin
+!build
+build/*
+!build/libs
+!build/libs/*
+eclipse
+gradle
+!src
+!stuff
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+!build.gradle
+!README.txt
+!CHANGELOG.txt
+!.gitignore
 
-# Package Files #
-*.jar
-*.war
-*.ear
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -56,4 +64,4 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk
+!*.lnk
