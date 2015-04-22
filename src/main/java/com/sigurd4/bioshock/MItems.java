@@ -97,6 +97,13 @@ public class MItems
 		public ItemAudioLog audiolog_audio_diary = M.registerItem("audio_diary", (ItemAudioLog)new ItemAudioLog(true).setUnlocalizedName("audiologAudioDiary"), false, new String[]{});
 		public ItemAudioLog audiolog_voxophone = M.registerItem("voxophone", (ItemAudioLog)new ItemAudioLog(false).setUnlocalizedName("audiologVoxophone"), false, new String[]{});
 	}
+	public Money money = new Money();
+	
+	public class Money
+	{
+		public ItemMoney dollars = M.registerItem("dollars", (ItemMoney)new ItemMoney().setUnlocalizedName("moneyDollars"), false, new String[]{});
+		public ItemMoney silver_eagles = M.registerItem("silver_eagles", (ItemMoney)new ItemMoney().setUnlocalizedName("moneySilverEagles"), false, new String[]{});
+	}
 	public Consumables consumables = new Consumables();
 	
 	public class Consumables
