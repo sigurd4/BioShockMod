@@ -1,5 +1,6 @@
 package com.sigurd4.bioshock.itemtags;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 
 public class ItemTagInteger extends ItemTagComparable<Integer, NBTTagInt>
@@ -9,15 +10,16 @@ public class ItemTagInteger extends ItemTagComparable<Integer, NBTTagInt>
 		super(key, defaultValue, min, max, local);
 	}
 	
-	protected Integer isValid(Integer original)
+	@Override
+	protected Integer isValid(NBTTagCompound compound, Integer original)
 	{
-		if(original > max)
+		if(original > this.max)
 		{
-			return max;
+			return this.max;
 		}
-		if(original < min)
+		if(original < this.min)
 		{
-			return min;
+			return this.min;
 		}
 		return original;
 	}
@@ -38,6 +40,7 @@ public class ItemTagInteger extends ItemTagComparable<Integer, NBTTagInt>
 		return 0;
 	}
 	
+	@Override
 	protected Integer add(Integer value1, Integer value2)
 	{
 		return value1 + value2;
