@@ -90,5 +90,12 @@ import com.sigurd4.bioshock.reference.RefMod;
 
 public class MItems
 {
+	public Audiologs audiologs = new Audiologs();
+	
+	public class Audiologs
+	{
+		public ItemAudioLog audiolog_audio_diary = M.registerItem("audio_diary", (ItemAudioLog)new ItemAudioLog(true).setUnlocalizedName("audiologAudioDiary"), false, new String[]{});
+		public ItemAudioLog audiolog_voxophone = M.registerItem("voxophone", (ItemAudioLog)new ItemAudioLog(false).setUnlocalizedName("audiologVoxophone"), false, new String[]{});
+	}
 }
 
