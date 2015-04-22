@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.minecraft.block.Block;
+import net.minecraft.command.ICommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,15 +18,19 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.sigurd4.bioshock.Stuff.HashMapStuff;
+import com.sigurd4.bioshock.commands.CommandSetCash;
 import com.sigurd4.bioshock.item.IItemIdFrom;
 import com.sigurd4.bioshock.item.IItemTextureVariants;
+import com.sigurd4.bioshock.item.ItemCrafting;
+import com.sigurd4.bioshock.item.ItemMonsterPlacerMod;
 import com.sigurd4.bioshock.proxy.ProxyCommon;
 import com.sigurd4.bioshock.reference.RefMod;
-import com.sigurd4.bioshock.tab.TabGeneric;
 
 @Mod(modid = RefMod.MODID, name = RefMod.NAME, version = RefMod.VERSION, guiFactory = RefMod.GUI_FACTORY_CLASS)
 public class M
@@ -32,7 +39,7 @@ public class M
 	public static void registerEntity(Class<? extends Entity> entityClass, String name, int entityID, int primaryColor, int secondaryColor)
 	{
 		EntityRegistry.registerGlobalEntityID(entityClass, name, entityID);
-		ItemMonsterPlacer2.EntityList2.registerEntity(entityClass, entityID, name, primaryColor, secondaryColor);
+		ItemMonsterPlacerMod.EntityList2.registerEntity(entityClass, entityID, name, primaryColor, secondaryColor);
 	}
 	
 	/** Register entity without egg **/
@@ -107,10 +114,13 @@ public class M
 		return !ids.containsKey(item) || ids.get(item).visible;
 	}
 	
+	public static final String[] otherIcons = {"enrage_ball", "hypnotize_big_daddy_ball", "return_to_sender_ball", "infinite_eve_orb", "infinite_ammo_orb", "infinite_shields_orb"};
+	public static int otherIconsIndex = -1;
+	
 	public static HashMap<Integer, ArrayList<String>> getTypes(Item item)
 	{
 		HashMap<Integer, ArrayList<String>> types = new HashMap();
-		for(int meta = 0; meta < item.getMaxDamage(); ++meta)
+		for(int meta = 0; meta <= item.getMaxDamage(); ++meta)
 		{
 			types.put(meta, new ArrayList());
 			if(item instanceof IItemTextureVariants)
@@ -133,7 +143,15 @@ public class M
 					types.get(meta).add("" + Item.itemRegistry.getNameForObject(item));
 				}
 			}
+			if(item instanceof ItemCrafting)
+			{
+				for(int i = 0; i < otherIcons.length; ++i)
+				{
+					types.get(meta).add(RefMod.MODID + ":" + otherIcons[i]);
+				}
+			}
 		}
+		
 		return types;
 	}
 	
@@ -146,7 +164,7 @@ public class M
 		
 		public boolean shouldBeReplaced()
 		{
-			return oreDictNames.length <= 0 || !replacedIfAlreadyAnOreDict;
+			return this.oreDictNames.length <= 0 || !this.replacedIfAlreadyAnOreDict;
 		};
 		
 		public boolean visible;
@@ -253,16 +271,14 @@ public class M
 	
 	public static SimpleNetworkWrapper network;
 	
-	/** tabs **/
-	public static TabGeneric tabCore = new TabGeneric("core");
-	public static TabGeneric tabWeapons = new TabGeneric("weapons");
-	public static TabGeneric tabPassives = new TabGeneric("passives");
-	public static TabGeneric tabCraftingItems = new TabGeneric("craftingItems");
-	public static TabGeneric tabConsumables = new TabGeneric("consumables");
+	// //TABS:
+	public static MTabs tabs = new MTabs();
 	
 	// //ITEMS:
+	public static MItems items = new MItems();
 	
 	// //BLOCKS:
+	public static MBlocks blocks = new MBlocks();
 	
 	public M()
 	{
@@ -288,5 +304,24 @@ public class M
 	public void init(FMLPostInitializationEvent event)
 	{
 		proxy.postInit(event);
+	}
+	
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+		ICommand[] c = {new CommandSetCash()};
+		
+		for(int i = 0; i < c.length; ++i)
+		{
+			Side s = FMLCommonHandler.instance().getSide();
+			if(s == Side.SERVER)
+			{
+				event.registerServerCommand(c[i]);
+			}
+			if(s == Side.CLIENT)
+			{
+				ClientCommandHandler.instance.registerCommand(c[i]);
+			}
+		}
 	}
 }

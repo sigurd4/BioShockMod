@@ -5,8 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -24,8 +29,13 @@ import com.sigurd4.bioshock.M.Id;
 import com.sigurd4.bioshock.config.Config;
 import com.sigurd4.bioshock.event.HandlerCommon;
 import com.sigurd4.bioshock.event.HandlerCommonFML;
+import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
+import com.sigurd4.bioshock.gui.GuiHandler;
+import com.sigurd4.bioshock.item.ItemAudioLog;
 import com.sigurd4.bioshock.packet.PacketKey;
 import com.sigurd4.bioshock.packet.PacketPlayerData;
+import com.sigurd4.bioshock.packet.PacketPlayerSkin;
+import com.sigurd4.bioshock.particles.ParticleHandler.EnumParticleTypes2;
 import com.sigurd4.bioshock.reference.RefMod;
 
 public abstract class ProxyCommon
@@ -64,6 +74,7 @@ public abstract class ProxyCommon
 		M.network = NetworkRegistry.INSTANCE.newSimpleChannel(RefMod.MODID);
 		M.network.registerMessage(PacketKey.Handler.class, PacketKey.class, 0, Side.SERVER);
 		M.network.registerMessage(PacketPlayerData.Handler.class, PacketPlayerData.class, 1, Side.CLIENT);
+		M.network.registerMessage(PacketPlayerSkin.Handler.class, PacketPlayerSkin.class, 2, Side.SERVER);
 	}
 	
 	private void recipes()
@@ -211,5 +222,37 @@ public abstract class ProxyCommon
 		}
 		
 		//stuff on init
+	}
+	
+	public void sendPlayerSkinData(EntityPlayer entity)
+	{
+		
+	}
+	
+	public void playTargetSound(BlockPos oldHookCoords, MovingObjectPosition pos, EntityLivingBase thrower)
+	{
+		
+	}
+	
+	public void createAudioLogSound(Entity entity, ItemStack stack, boolean b)
+	{
+		if(entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)entity;
+			ExtendedPlayer props = ExtendedPlayer.get(player);
+			String sound = "audiologs." + ItemAudioLog.OWNER.get(stack) + "." + ItemAudioLog.LOG.get(stack);
+			props.passiveController.listenToAudiolog(stack, sound);
+			props.audiologsObtained.add(sound);
+		}
+	}
+	
+	public void stopAllAudioLogSounds(Entity entity)
+	{
+		
+	}
+	
+	public void particle(EnumParticleTypes2 particleEnum, World world, boolean ignoreDistance, double x, double y, double z, double mx, double my, double mz, int... par)
+	{
+		
 	}
 }
