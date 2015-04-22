@@ -104,6 +104,42 @@ public class MItems
 		public ItemMoney dollars = M.registerItem("dollars", (ItemMoney)new ItemMoney().setUnlocalizedName("moneyDollars"), false, new String[]{});
 		public ItemMoney silver_eagles = M.registerItem("silver_eagles", (ItemMoney)new ItemMoney().setUnlocalizedName("moneySilverEagles"), false, new String[]{});
 	}
+	public CraftingItems crafting = new CraftingItems();
+	
+	public class CraftingItems
+	{
+		public ItemCrafting battery = M.registerItem("battery", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBattery"), false, new String[]{});
+		public ItemCrafting brackets = M.registerItem("brackets", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBrackets"), false, new String[]{});
+		public ItemCrafting brass_tube = M.registerItem("brass_tube", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBrassTube"), false, new String[]{});
+		public ItemCrafting bullet_standard = M.registerItem("bullet_standard", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletStandard"), false, new String[]{});
+		public ItemCrafting bullet_armor_piercing = M.registerItem("bullet_armor_piercing", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletArmorPiercing"), false, new String[]{});
+		public ItemCrafting bullet_antipersonnel = M.registerItem("bullet_antipersonnel", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletAntipersonnel"), false, new String[]{});
+		public ItemCrafting chlorophyll_solution = M.registerItem("vial_chlorophyll_solution", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemChlorophyllSolution").setContainerItem(M.items.crafting.empty_vial), false, new String[]{});
+		public ItemCrafting cup = M.registerItem("cup", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemCup"), false, new String[]{});
+		public ItemCrafting cup_white = M.registerItem("cup2", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemCup"), false, new String[]{});
+		public ItemCrafting empty_auto_round = M.registerItem("empty_auto_round", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyAutoRound"), false, new String[]{});
+		public ItemCrafting empty_bullet_cartridge = M.registerItem("empty_bullet_cartridge", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyBulletCartridge"), false, new String[]{});
+		public ItemCrafting empty_hypo = M.registerItem("hypo_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyHypo"), false, new String[]{});
+		public ItemCrafting empty_pipette = M.registerItem("pipette_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyPipette"), false, new String[]{});
+		public ItemCrafting empty_pistol_round = M.registerItem("empty_pistol_round", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyPistolRound"), false, new String[]{});
+		public ItemCrafting empty_shell_casing = M.registerItem("empty_shell_casing", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyShellCasing"), false, new String[]{});
+		public ItemCrafting empty_tank = M.registerItem("tank_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyTank"), false, new String[]{});
+		public ItemCrafting empty_vial = M.registerItem("vial_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyVial"), false, new String[]{});
+		public ItemCrafting enzyme_sample = M.registerItem("pipette_enzyme_sample", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEnzymeSample").setContainerItem(M.items.crafting.empty_pipette), false, new String[]{});
+		public ItemConsumable fresh_water = M.items.consumables.drink.fresh_water;
+		public ItemCrafting gear_steel = M.registerItem("gear_steel", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemGear"), false, new String[]{});
+		public ItemCrafting glue = M.registerItem("glue", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemGlue"), false, new String[]{});
+		public ItemCrafting kerosene = M.registerItem("kerosene_can", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemKerosene"), false, new String[]{});
+		public ItemCrafting opened_vacuum_cleaner = M.registerItem("opened_vacuum_cleaner", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemOpenedVacuumCleaner"), false, new String[]{});
+		public ItemCrafting pneumo_hooks = M.registerItem("pneumo_hooks", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemPneumoHooks"), false, new String[]{});
+		public ItemCrafting rubber_hose = M.registerItem("rubber_hose", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemRubberHose"), false, new String[]{});
+		public ItemRubbingAlcohol rubbing_alcohol = M.registerItem("rubbing_alcohol", (ItemRubbingAlcohol)new ItemRubbingAlcohol(400).setUnlocalizedName("craftingItemRubbingAlcohol"), false, new String[]{});
+		public ItemCrafting screw = M.registerItem("screw", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemScrew"), false, new String[]{});
+		public ItemCrafting sea_slug_carcass = M.registerItem("sea_slug_carcass", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemSeaSlugCarcass").setMaxStackSize(1), false, new String[]{});
+		public ItemCrafting shotgun_shots = M.registerItem("shotgun_shots", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemShotgunShots"), false, new String[]{});
+		public ItemCrafting wires = M.registerItem("wires", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemWires"), false, new String[]{});
+	}
+	
 	public Consumables consumables = new Consumables();
 	
 	public class Consumables
