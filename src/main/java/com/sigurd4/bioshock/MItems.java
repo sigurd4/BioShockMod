@@ -722,4 +722,8 @@ public class MItems
 			public ItemWeaponWrench WeaponWrench = M.registerItem("wrench", (ItemWeaponWrench)new ItemWeaponWrench(3.0F, 0, RefMod.MODID + ":" + "item.weapon.wrench.pickup").setUnlocalizedName("weaponWrench"), false, new String[]{});
 			public ItemWeaponMelee WeaponPipe = M.registerItem("pipe", (ItemWeaponMelee)new ItemWeaponMelee(3.0F, 5, RefMod.MODID + ":" + "item.weapon.wrench.pickup").setUnlocalizedName("weaponPipe"), false, new String[]{});
 			
+			public ItemWeaponSkyHook WeaponSkyHook = M.registerItem("sky_hook", new ItemWeaponSkyHook(5, true, RefMod.MODID + ":" + "item.weapon.pistol.cock"), false, new String[]{});
+			public ItemWeaponSkyHook WeaponAirGrabber = M.registerItem("air_grabber", (ItemWeaponSkyHook)new ItemWeaponSkyHook(5, false, RefMod.MODID + ":" + "item.weapon.pistol.cock").setUnlocalizedName("weaponAirGrabber"), false, new String[]{});
+		}
+		
 }
