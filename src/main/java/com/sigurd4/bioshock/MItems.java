@@ -710,5 +710,16 @@ public class MItems
 			public ItemConsumable vitamins = M.registerItem("consumable_vitamins", (ItemConsumable)new ItemConsumable(EnumConsumableType.MEDICAL, "vitamins", 2, 0, 0, 0.2F, 9, 0, false, "cork").setUnlocalizedName("consumableVitamins"), false, new String[]{});
 		}
 	}
+	
+	public Weapons weapons = new Weapons();
+	
+	public class Weapons
+	{
+		public Melee melee = new Melee();
+		
+		public class Melee
+		{
+			public ItemWeaponWrench WeaponWrench = M.registerItem("wrench", (ItemWeaponWrench)new ItemWeaponWrench(3.0F, 0, RefMod.MODID + ":" + "item.weapon.wrench.pickup").setUnlocalizedName("weaponWrench"), false, new String[]{});
+			public ItemWeaponMelee WeaponPipe = M.registerItem("pipe", (ItemWeaponMelee)new ItemWeaponMelee(3.0F, 5, RefMod.MODID + ":" + "item.weapon.wrench.pickup").setUnlocalizedName("weaponPipe"), false, new String[]{});
+			
 }
-

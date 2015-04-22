@@ -31,7 +31,7 @@ public class ItemWeaponMelee extends Item implements IItemWeapon
 	public ItemWeaponMelee(float damage, int maxDamage, String weaponPickupSound)
 	{
 		super();
-		this.setCreativeTab(M.tabWeapons);
+		this.setCreativeTab(M.tabs.weapons);
 		if(maxDamage > 0)
 		{
 			this.setMaxDamage(maxDamage);
@@ -68,10 +68,10 @@ public class ItemWeaponMelee extends Item implements IItemWeapon
 	}
 	
 	@Override
-	public boolean hitEntity(ItemStack itemstack, EntityLivingBase target, EntityLivingBase user)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase user)
 	{
-		itemstack.damageItem(1, user);
-		return super.hitEntity(itemstack, target, user);
+		stack.damageItem(1, user);
+		return super.hitEntity(stack, target, user);
 	}
 	
 	@Override
@@ -86,7 +86,7 @@ public class ItemWeaponMelee extends Item implements IItemWeapon
 	}
 	
 	@Override
-	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer player)
+	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player)
 	{
 		IBlockState state = player.worldObj.getBlockState(pos);
 		if(player.worldObj.getBlockState(pos) == null || !(player.worldObj.getBlockState(pos).getBlock() instanceof IBlockBreakRegardless))
@@ -101,27 +101,44 @@ public class ItemWeaponMelee extends Item implements IItemWeapon
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void playPickupSound(EntityPlayer player, ItemStack itemstack)
+	public void playRightClickSound(ItemStack stack, World world, EntityPlayer player)
 	{
-		if(weaponPickupSound != null)
-		{
-			player.playSound(weaponPickupSound, 1.0F, 0.9F + Item.itemRand.nextFloat() * 0.2F);
-		}
+		
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean showCrosshair()
 	{
 		return false;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean onEntitySwing(EntityLivingBase entity, ItemStack stack)
 	{
 		boolean b = super.onEntitySwing(entity, stack);
-		if(!b)
+		if(!b && entity.worldObj.isRemote && entity == Minecraft.getMinecraft().thePlayer)
 		{
 			entity.playSound(RefMod.MODID + ":" + "item.weapon.wrench.swing", 0.5F, 0.9F + Minecraft.getMinecraft().theWorld.rand.nextFloat() * 0.2F);
 		}
 		return b;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void playPickupSound(EntityPlayer player, ItemStack stack)
+	{
+		if(this.weaponPickupSound != null)
+		{
+			player.playSound(this.weaponPickupSound, 1.0F, 0.9F + Item.itemRand.nextFloat() * 0.2F);
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void playSelectSound(EntityPlayer player, ItemStack stack)
+	{
+		this.playPickupSound(player, stack);
 	}
 }
