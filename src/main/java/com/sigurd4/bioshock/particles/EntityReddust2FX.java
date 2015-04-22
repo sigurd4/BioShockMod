@@ -7,16 +7,16 @@ import net.minecraft.world.World;
 
 public class EntityReddust2FX extends EntityReddustFX
 {
-	public EntityReddust2FX(World world, double x, double y, double z, float mx, float my, float mz)
+	public EntityReddust2FX(World world, double x, double y, double z, double r, double g, double b)
 	{
-		super(world, x, y, z, mx, my, mz);
+		super(world, x, y, z, (float)r, (float)g, (float)b);
 		this.particleMaxAge = Math.max(particleMaxAge, 4);
 		
 	}
 	
-	public EntityReddust2FX(World world, double x, double y, double z, float size, float mx, float my, float mz)
+	public EntityReddust2FX(World world, double x, double y, double z, float size, double r, double g, double b)
 	{
-		super(world, x, y, z, size, mx, my, mz);
+		super(world, x, y, z, size, (float)r, (float)g, (float)b);
 		this.particleMaxAge = Math.max(particleMaxAge, 4);
 	}
 	

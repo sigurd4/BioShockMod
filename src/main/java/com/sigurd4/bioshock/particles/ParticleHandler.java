@@ -2,7 +2,9 @@ package com.sigurd4.bioshock.particles;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityDropParticleFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.world.World;
@@ -32,7 +34,7 @@ public class ParticleHandler
 		REDSTONE2()
 		{
 			@Override
-			public EntityFX get(World world, double x, double y, double z, float mx, float my, float mz, int... par)
+			public EntityFX get(World world, double x, double y, double z, double mx, double my, double mz, int... par)
 			{
 				float scale = 1;
 				if(par.length == 1)
@@ -56,13 +58,31 @@ public class ParticleHandler
 				p.motionX = 0;
 				p.motionY = 0;
 				p.motionZ = 0;
-				if(world.isRemote)
+				
+				RenderManager rm = Minecraft.getMinecraft().getRenderManager();
+				if(p.getDistance(rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ) > 64)
 				{
-					RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-					if(p.getDistance(rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ) > 64)
-					{
-						return null;
-					}
+					return null;
+				}
+				
+				return p;
+			}
+			
+			@Override
+			public void update(P p)
+			{
+				
+			}
+		},
+		DRIP2()
+		{
+			@Override
+			public EntityFX get(World world, double x, double y, double z, double mx, double my, double mz, int... par)
+			{
+				EntityDropParticleFX p = new EntityDrop2FX(world, x, y, z, mx, my, mz, Material.water);
+				for(int i2 = 0; p != null && i2 < 40; ++i2)
+				{
+					p.onUpdate();
 				}
 				return p;
 			}
@@ -79,13 +99,13 @@ public class ParticleHandler
 			
 		}
 		
-		public abstract EntityFX get(World world, double x, double y, double z, float mx, float my, float mz, int... par);
+		public abstract EntityFX get(World world, double x, double y, double z, double mx, double my, double mz, int... par);
 		
 		public abstract void update(P p);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static EntityFX particle(EnumParticleTypes2 particleEnum, World world, boolean ignoreDistance, double x, double y, double z, float mx, float my, float mz, int... par)
+	public static EntityFX particle(EnumParticleTypes2 particleEnum, World world, boolean ignoreDistance, double x, double y, double z, double mx, double my, double mz, int... par)
 	{
 		EntityFX particle = particleEnum.get(world, x, y, z, mx, my, mz, par);
 		if(particle != null)
@@ -94,13 +114,13 @@ public class ParticleHandler
 			particle.prevPosY = particle.posY;
 			particle.prevPosZ = particle.posZ;
 			particles.add(new P(particle, particleEnum, par));
-			return spawnEntityFX(particle, ignoreDistance, x, y, z, mx, my, mz, par);
+			return spawnEntityFX(particle, ignoreDistance, par);
 		}
 		return null;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static EntityFX spawnEntityFX(EntityFX particle, boolean ignoreDistance, double x, double y, double z, float mx, float my, float mz, int... par)
+	public static EntityFX spawnEntityFX(EntityFX particle, boolean ignoreDistance, int... par)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
 		if(mc != null && mc.getRenderViewEntity() != null && mc.effectRenderer != null)
@@ -112,9 +132,9 @@ public class ParticleHandler
 				k = 2;
 			}
 			
-			double d6 = mc.getRenderViewEntity().posX - x;
-			double d7 = mc.getRenderViewEntity().posY - y;
-			double d8 = mc.getRenderViewEntity().posZ - z;
+			double d6 = mc.getRenderViewEntity().posX - particle.posX;
+			double d7 = mc.getRenderViewEntity().posY - particle.posY;
+			double d8 = mc.getRenderViewEntity().posZ - particle.posZ;
 			
 			double r = 32;
 			if(!(ignoreDistance || d6 * d6 + d7 * d7 + d8 * d8 <= r * r && k <= 1))
