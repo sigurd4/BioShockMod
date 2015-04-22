@@ -7,20 +7,27 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkProviderSettings;
 
 import com.google.common.collect.Lists;
+import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
+import com.sigurd4.bioshock.inventory.IContainerAddPlayerSlots;
 
 public final class Stuff
 {
@@ -41,14 +48,19 @@ public final class Stuff
 			return rand.nextDouble() * i * 2 - i;
 		}
 		
-		public static float r(float i, Random rand)
-		{
-			return rand.nextFloat() * i * 2 - i;
-		}
-		
 		public static float r(float i)
 		{
-			return r(i, Stuff.rand);
+			return (float)r(i, Stuff.rand);
+		}
+		
+		public static double rG(double i)
+		{
+			return rG(i, Stuff.rand);
+		}
+		
+		public static double rG(double i, Random rand)
+		{
+			return rand.nextGaussian() * i * 2 - i;
 		}
 		
 		public static <T> T getRandom(List<T> es)
@@ -197,32 +209,35 @@ public final class Stuff
 			return new Vec3(xCoord, yCoord, zCoord);
 		}
 		
-		public static Vec3i getVecFromAxis(Axis axis, AxisDirection direction)
+		public static BlockPos getVecFromAxis(Axis axis, AxisDirection direction)
 		{
-			int x = 0;
-			int y = 0;
-			int z = 0;
+			BlockPos pos = new BlockPos(0, 0, 0);
 			
 			switch(axis)
 			{
 			case X:
 			{
-				x = direction.getOffset();
+				pos = new BlockPos(direction.getOffset(), 0, 0);
 				break;
 			}
 			case Y:
 			{
-				y = direction.getOffset();
+				pos = new BlockPos(0, direction.getOffset(), 0);
 				break;
 			}
 			case Z:
 			{
-				z = direction.getOffset();
+				pos = new BlockPos(0, 0, direction.getOffset());
 				break;
 			}
 			}
 			
-			return new Vec3i(x, y, z);
+			return pos;
+		}
+		
+		public static Vec3 middle(BlockPos pos)
+		{
+			return new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 		}
 	}
 	
@@ -374,66 +389,25 @@ public final class Stuff
 	{
 		public static HashMap<Entity, Vec3> hit = new HashMap<Entity, Vec3>();
 		
-		public static List<Entity> getEntitiesWithinRadius(Entity e, double r)
+		public static List<Entity> getEntitiesWithinEllipse(World w, Vec3 v, Vec3 size1)
 		{
-			return getEntitiesWithinRadius(e, r, true);
+			return getEntitiesWithinEllipse(w, v, size1, size1);
 		}
 		
-		public static List<Entity> getEntitiesWithinRadius(Entity e, double r, boolean exclude)
+		public static List<Entity> getEntitiesWithinEllipse(World w, Vec3 v, Vec3 size1, Vec3 size2)
 		{
-			if(e != null)
+			double r = MathWithMultiple.biggest(new double[]{size1.xCoord, size1.yCoord, size1.zCoord, size2.xCoord, size2.yCoord, size2.zCoord});
+			List<Entity> es = getEntitiesWithinCube(w, v, r);
+			for(int i = 0; i > es.size(); ++i)
 			{
-				List<Entity> es = getEntitiesWithinRadius(e.worldObj, new Vec3(e.posX, e.posY, e.posZ), r);
-				for(int i = 0; i > es.size(); ++i)
+				Entity e2 = es.get(i);
+				if(e2.getDistance(v.xCoord / (v.xCoord < e2.posX ? size1.xCoord : size2.xCoord), v.yCoord / (v.yCoord < e2.posY ? size1.yCoord : size2.yCoord), v.zCoord / (v.zCoord < e2.posZ ? size1.zCoord : size2.zCoord)) > 1)
 				{
-					Entity e2 = es.get(i);
-					if(e2 == e)
-					{
-						es.remove(i);
-						--i;
-					}
+					es.remove(i);
+					--i;
 				}
-				return es;
 			}
-			return null;
-		}
-		
-		public static Entity getRandomEntityWithinRadius(Entity e, double r, Random rand)
-		{
-			List<Entity> es = getEntitiesWithinRadius(e, r);
-			Entity e2 = Randomization.getRandom(es);
-			return e2;
-		}
-		
-		public static Entity getRandomEntityWithinCube(Entity e, double m, Random rand)
-		{
-			List<Entity> es = getEntitiesWithinCube(e, m);
-			Entity e2 = Randomization.getRandom(es);
-			return e2;
-		}
-		
-		public static List<Entity> getEntitiesWithinCube(Entity e, double m)
-		{
-			return getEntitiesWithinCube(e, m, true);
-		}
-		
-		public static List<Entity> getEntitiesWithinCube(Entity e, double m, boolean exclude)
-		{
-			if(e != null)
-			{
-				List<Entity> es = getEntitiesWithinCube(e.worldObj, new Vec3(e.posX, e.posY, e.posZ), m);
-				for(int i = 0; i > es.size(); ++i)
-				{
-					Entity e2 = es.get(i);
-					if(e2 == e && exclude)
-					{
-						es.remove(i);
-						--i;
-					}
-				}
-				return es;
-			}
-			return null;
+			return es;
 		}
 		
 		public static List<Entity> getEntitiesWithinRadius(World w, Vec3 v, double r)
@@ -521,6 +495,19 @@ public final class Stuff
 			for(int i = 0; i < ds.length; ++i)
 			{
 				d += ds[i];
+			}
+			return d;
+		}
+		
+		public static double biggest(double... ds)
+		{
+			double d = ds[0];
+			for(int i = 0; i < ds.length; ++i)
+			{
+				if(ds[i] > d)
+				{
+					d = ds[i];
+				}
 			}
 			return d;
 		}
@@ -628,6 +615,50 @@ public final class Stuff
 				s = s + c;
 			}
 			return s;
+		}
+		
+		public static String owner(String s)
+		{
+			return s.length() > 0 && s.charAt(s.length() - 1) == 's' ? "'" : "'s";
+		}
+	}
+	
+	public static final class ItemStacks
+	{
+		public static ItemStack createNbt(ItemStack stack)
+		{
+			if(stack.getTagCompound() == null)
+			{
+				stack.setTagCompound(new NBTTagCompound());
+			}
+			return stack;
+		}
+		
+		public static void syringeUse(ItemStack stack, World world, EntityPlayer player)
+		{
+			world.playSoundAtEntity(player, "game.player.hurt", 0.3F, 0.9F);
+			--stack.stackSize;
+			if(!player.capabilities.isCreativeMode)
+			{
+				player.inventory.addItemStackToInventory(new ItemStack(M.items.crafting.empty_hypo));
+			}
+			if(!world.isRemote)
+			{
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 80, 0, true, false));
+			}
+		}
+		
+		public static void adamEffect(ItemStack stack, World world, EntityPlayer player)
+		{
+			ExtendedPlayer props = ExtendedPlayer.get(player);
+			player.clearActivePotions();
+			props.setDrunkness(0);
+			if(!world.isRemote)
+			{
+				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 600, 0));
+				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 300, 1, true, false));
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 300, 5, true, false));
+			}
 		}
 	}
 }
