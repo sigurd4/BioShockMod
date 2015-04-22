@@ -2,12 +2,15 @@ package com.sigurd4.bioshock.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public abstract interface IItemPickupSound
 {
-	public void setPickupSound(String sound);
+	public void playPickupSound(EntityPlayer player, ItemStack stack);
 	
-	public void playPickupSound(EntityPlayer player, ItemStack itemstack);
+	public void playSelectSound(EntityPlayer player, ItemStack stack);
+	
+	public void playRightClickSound(ItemStack stack, World world, EntityPlayer player);
 	
 	public static final class Variables
 	{
