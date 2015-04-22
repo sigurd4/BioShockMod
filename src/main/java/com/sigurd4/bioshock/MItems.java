@@ -97,6 +97,47 @@ public class MItems
 		public ItemAudioLog audiolog_audio_diary = M.registerItem("audio_diary", (ItemAudioLog)new ItemAudioLog(true).setUnlocalizedName("audiologAudioDiary"), false, new String[]{});
 		public ItemAudioLog audiolog_voxophone = M.registerItem("voxophone", (ItemAudioLog)new ItemAudioLog(false).setUnlocalizedName("audiologVoxophone"), false, new String[]{});
 	}
+	
+	public Plasmids plasmids = new Plasmids();
+	
+	public class Plasmids
+	{
+		public Injectable injectable = new Injectable();
+		
+		public class Injectable
+		{
+			public ItemPlasmidInjectable cyclone_trap = M.registerItem(new ItemPlasmidInjectable(new PlasmidCycloneTrap("cyclone_trap", 20, -1, false, new String[]{"Teach your enemies a lesson", "they'll never forget"})), false, new String[]{});
+			public ItemPlasmidInjectable electro_bolt = M.registerItem(new ItemPlasmidInjectable(new PlasmidElectroBolt("electro_bolt", 13, 42, false, new String[]{"Don't be a dolt - use Electro Bolt!"})), false, new String[]{});
+			public ItemPlasmidInjectable enrage = M.registerItem(new ItemPlasmidInjectable(new PlasmidEnrage("enrage", 14, 35, false, new String[]{"Make your foes fight each other!"})), false, new String[]{});
+			public ItemPlasmidInjectable hypnotizeBigDaddy = M.registerItem(new ItemPlasmidInjectable(new PlasmidHypnotizeBigDaddy("hypnotize_big_daddy", 200, -1, false, new String[]{"Watch as he fights to protect you."})), false, new String[]{});
+			public ItemPlasmidInjectable incinerate = M.registerItem(new ItemPlasmidInjectable(new PlasmidIncinerate("incinerate", 18, 37, false, new String[]{"Fire at your fingertips!"})), false, new String[]{});
+			public ItemPlasmidInjectable insect_swarm = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("insect_swarm", 24, 41, false, new String[]{"Nothing clears a room like", "swarms of stinging bees."})), false, new String[]{});
+			public ItemPlasmidInjectable security_bullseye = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("security_bullseye", 14, 24, false, new String[]{"Light them up!"})), false, new String[]{});
+			public ItemPlasmidInjectable sonic_boom = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("sonic_boom", 21, 0, false, new String[]{"When push comes to shove."})), false, new String[]{});
+			public ItemPlasmidInjectable target_dummy = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("target_dummy", 25, -1, false, new String[]{"They take the heat... so you", "don't have to!"})), false, new String[]{});
+			public ItemPlasmidInjectable telekinesis = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("telekinesis", 4, -1, false, new String[]{"Mind over matter!"})), false, new String[]{});
+			public ItemPlasmidInjectable winter_blast = M.registerItem(new ItemPlasmidInjectable(new PlasmidWinterBlast("winter_blast", 16, 38, false, new String[]{"Give your foes the cold shoulder!"})), false, new String[]{});
+			public ItemPlasmidInjectable rescue_little_sister = M.registerItem(new ItemPlasmidInjectable(new PlasmidUnfinished("rescue_little_sister", 0, -1, false, new String[]{"To save one life", "is to save the world entire."})), false, new String[]{});
+		}
+		
+		public Drinkable drinkable = new Drinkable();
+		
+		public class Drinkable
+		{
+			public ItemPlasmidDrinkable old_man_winter = M.registerItem(new ItemPlasmidDrinkable(new PlasmidOldManWinter("old_man_winter", 24, 54, false, new String[]{"Freeze your foes with", "this arctic ally!"})), false, new String[]{});
+			public ItemPlasmidDrinkable peeping_tom = M.registerItem(new ItemPlasmidDrinkable(new PlasmidPeepingTom("peeping_tom", 1, 24, false, 3, new String[]{"Turn every room into a peepshow!"})), false, new String[]{});
+			public ItemPlasmidDrinkable bucking_bronco = M.registerItem(new ItemPlasmidDrinkable(new PlasmidUnfinished("bucking_bronco", 31, 47, true, new String[]{"Break even the curliest wolf!"})), false, new String[]{});
+			public ItemPlasmidDrinkable charge = M.registerItem(new ItemPlasmidDrinkable(new PlasmidUnfinished("charge", 18, -1, true, new String[]{"Blow your enemies away", "with a powerful CHARGE!"})), false, new String[]{});
+			public ItemPlasmidDrinkable devils_kiss = M.registerItem(new ItemPlasmidDrinkable(new PlasmidDevilsKiss("devils_kiss", 31, 53, true, new String[]{"Light the way!"})), false, new String[]{});
+			public ItemPlasmidDrinkable ironsides = M.registerItem(new ItemPlasmidDrinkable(new PlasmidIronsides("ironsides", 1, -1, true, 2, new String[]{"Generate a bullet catching shield!"})), false, new String[]{});
+			public ItemPlasmidDrinkable murder_of_crows = M.registerItem(new ItemPlasmidDrinkable(new PlasmidMurderOfCrows("murder_of_crows", 32, 57, true, new String[]{"Proven deterrent against hooligans"})), false, new String[]{});
+			public ItemPlasmidDrinkable possession = M.registerItem(new ItemPlasmidDrinkable(new PlasmidUnfinished("possession", 50, 64, true, new String[]{"Any STALLION can be TAMED"})), false, new String[]{});
+			public ItemPlasmidDrinkable return_to_sender = M.registerItem(new ItemPlasmidDrinkable(new PlasmidReturnToSender("return_to_sender", 1, 35, true, 1, new String[]{"Send your enemies' attacks", "back where they came from!"})), false, new String[]{});
+			public ItemPlasmidDrinkable shock_jockey = M.registerItem(new ItemPlasmidDrinkable(new PlasmidShockJockey("shock_jockey", 23, 57, true, new String[]{"Who needs the power company?"})), false, new String[]{});
+			public ItemPlasmidDrinkable undertow = M.registerItem(new ItemPlasmidDrinkable(new PlasmidUndertow("undertow", 18, 36, true, new String[]{"Wash away your enemies!"})), false, new String[]{});
+		}
+	}
+	
 	public Passives passives = new Passives();
 	
 	public class Passives
