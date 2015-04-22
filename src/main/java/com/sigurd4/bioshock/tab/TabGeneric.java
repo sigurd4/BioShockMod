@@ -47,20 +47,20 @@ public class TabGeneric extends CreativeTabs
 		World world = M.proxy.world(0);
 		long time = world.getTotalWorldTime();
 		ArrayList<Item> items = getItems();
-		ArrayList<ItemStack> itemstacks = Lists.newArrayList();
+		ArrayList<ItemStack> stacks = Lists.newArrayList();
 		for(int i = 0; i < items.size(); ++i)
 		{
 			ArrayList<ItemStack> variants = Lists.newArrayList();
 			items.get(i).getSubItems(items.get(i), this, variants);
-			//itemstacks.addAll(variants);
+			//stacks.addAll(variants);
 			if(variants.size() > 0)
 			{
-				itemstacks.add(variants.get(Stuff.Randomization.randSeed(world.getSeed(), world.getTotalWorldTime() / 10).nextInt(variants.size())));
+				stacks.add(variants.get(Stuff.Randomization.randSeed(world.getSeed(), world.getTotalWorldTime() / 10).nextInt(variants.size())));
 			}
 		}
-		if(itemstacks.size() > 0)
+		if(stacks.size() > 0)
 		{
-			return itemstacks.get((int)(time / 10 % itemstacks.size()));
+			return stacks.get((int)(time / 10 % stacks.size()));
 		}
 		else
 		{
