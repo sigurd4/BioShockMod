@@ -97,6 +97,16 @@ public class MItems
 		public ItemAudioLog audiolog_audio_diary = M.registerItem("audio_diary", (ItemAudioLog)new ItemAudioLog(true).setUnlocalizedName("audiologAudioDiary"), false, new String[]{});
 		public ItemAudioLog audiolog_voxophone = M.registerItem("voxophone", (ItemAudioLog)new ItemAudioLog(false).setUnlocalizedName("audiologVoxophone"), false, new String[]{});
 	}
+	public Infusions infusions = new Infusions();
+	
+	public class Infusions
+	{
+		public ItemInfusionHealth health = M.registerItem("infusion_health", new ItemInfusionHealth(), false, new String[]{});
+		public ItemInfusionSalts salts = M.registerItem("infusion_shields", new ItemInfusionSalts(), false, new String[]{});
+		public ItemInfusionShields shields = M.registerItem("infusion_shields", new ItemInfusionShields(), false, new String[]{});
+		public ItemInfusionQuantumSuperposition quantum_superposition = M.registerItem("infusion_quantum_superposition", new ItemInfusionQuantumSuperposition(this.health, this.salts, this.shields), false, new String[]{});
+	}
+	
 	public Money money = new Money();
 	
 	public class Money
