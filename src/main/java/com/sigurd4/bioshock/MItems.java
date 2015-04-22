@@ -97,6 +97,201 @@ public class MItems
 		public ItemAudioLog audiolog_audio_diary = M.registerItem("audio_diary", (ItemAudioLog)new ItemAudioLog(true).setUnlocalizedName("audiologAudioDiary"), false, new String[]{});
 		public ItemAudioLog audiolog_voxophone = M.registerItem("voxophone", (ItemAudioLog)new ItemAudioLog(false).setUnlocalizedName("audiologVoxophone"), false, new String[]{});
 	}
+	public Passives passives = new Passives();
+	
+	public class Passives
+	{
+		public Tonics tonics = new Tonics();
+		
+		public class Tonics
+		{
+			public Combat combat = new Combat();
+			
+			public class Combat
+			{
+				public ItemPassiveTonic armored_shell = new ItemPassiveTonic(new PassiveArmor("armored_shell", "armoredShell", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 - 15F / 100F), new String[]{"Useful in any hazardous situation,", "Armored Shell offers fantastic", "protection against life's bumps", "and bruises. Don't be a softie", " -- use Armored Shell now!"});
+				public ItemPassiveTonic armored_shell_2 = new ItemPassiveTonic(new PassiveArmor("armored_shell_2", "armoredShell2", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 - 25F / 100F), new String[]{"When the bullets and blows are", "blasting away, you need all", "the protection you can get.", "Armored Shell Two provides more", "protection than our competitor!"});
+				//damage research
+				//damage research 2
+				public ItemPassiveTonic electric_flesh = new ItemPassiveTonic(new PassiveElementalBoost("electric_flesh", "electricFlesh", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.ELECTRICITY, 1 - 75F / 100, 1 + 30F / 100), new String[]{"Supercharge your body with", "Electric Flesh, the ultimate in", "electricity enhancements.", "Insulate yourself from harm with", "the new Electric Flesh!"});
+				public ItemPassiveTonic electric_flesh_2 = new ItemPassiveTonic(new PassiveElementalBoost("electric_flesh_2", "electricFlesh2", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.ELECTRICITY, 0, 1 + 60F / 100), new String[]{"When we said Electric Flesh", "was the ultimate in electricity", "enhancements, we turned out", "to be premature.", "New Electric Flesh Two is", "even better! Be the shock-er, not the", "shock-ee, with Electric Flesh Two!"});
+				public ItemPassiveTonic frozen_field = new ItemPassiveTonic(new PassiveFrozenField("frozen_field", "frozenField", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 - 15F / 100, 10F / 100), new String[]{"Leave your foes out in", "the cold with Frozen Field!"});
+				public ItemPassiveTonic frozen_field_2 = new ItemPassiveTonic(new PassiveFrozenField("frozen_field_2", "frozenField2", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 - 30F / 100, 20F / 100), new String[]{"Don't let yourself be frozen out", "�get Frozen Field Two today!"});
+				public ItemPassiveTonic human_inferno = new ItemPassiveTonic(new PassiveElementalBoost("human_inferno", "humanInferno", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.FIRE, 1 - 75F / 100, 1 + 30F / 100), new String[]{"Human Inferno", "-- the hottest Gene Tonic in Rapture!"});
+				public ItemPassiveTonic human_inferno_2 = new ItemPassiveTonic(new PassiveElementalBoost("human_inferno_2", "humanInferno", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.FIRE, 0, 1 + 60F / 100), new String[]{"Human Inferno Two", "-- hotter than ever!"});
+				//machine buster
+				//machine buster 2
+				//photographer's eye
+				//photographer's eye 2
+				public ItemPassiveTonic static_discharge = new ItemPassiveTonic(new PassiveStaticDischarge("_discharge", "Discharge", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.ELECTRICITY, 3, 15F / 100), new String[]{"Ryan Industries introduces the latest", "in wartime deterrent genetics.", "Static Discharge makes you a walking Tesla Coil,", "zapping anything and everything foolish", "enough to strike you. Feel safe, be safe", "with Static Discharge!"});
+				public ItemPassiveTonic static_discharge_2 = new ItemPassiveTonic(new PassiveStaticDischarge("_discharge_2", "Discharge2", new Passive[]{}, new Passive[]{}, Type.COMBAT, Element.ELECTRICITY, 5, 25F / 100), new String[]{"Is your old Static Discharge not", "slowing them down enough?", "Upgrade to new Static Discharge Two, today", "(A Ryan Industries Gene Tonic)!"});
+				public ItemPassiveTonic wrench_jockey = new ItemPassiveTonic(new PassiveWrenchJockey("wrench_jockey", "wrenchJockey", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 + 75F / 100), new String[]{"Wrench Jockey bulks up your upper body,", "allowing you to wield club-like weapons", "with unprecedented skill and power!"});
+				public ItemPassiveTonic wrench_jockey_2 = new ItemPassiveTonic(new PassiveWrenchJockey("wrench_jockey_2", "wrenchJockey2", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 + 175F / 100), new String[]{"When your opponent has Wrench Jockey,", "how can you hope to beat him in a fight?", "By installing Wrench Jockey Two, of course!", "Don't get caught with last year's model,", "upgrade today!"});
+				public ItemPassiveTonic wrench_lurker = new ItemPassiveTonic(new PassiveWrenchLurker("wrench_lurker", "wrenchLurker", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 + 50F / 100, 1 - 60F / 100), new String[]{"When fighting those stronger or faster than", "yourself, you'll need every advantage", "possible in a scrum. Wrench Lurker allows you", "to make the most of your opportunities when", "your antagonist is caught off guard."});
+				public ItemPassiveTonic wrench_lurker_2 = new ItemPassiveTonic(new PassiveWrenchLurker("wrench_lurker_2", "wrenchLurker2", new Passive[]{}, new Passive[]{}, Type.COMBAT, 1 + 100F / 100, 1 - 90F / 100), new String[]{"Only a fool fights fair. When you want to", "take them down from behind, be smart,", "use Wrench Lurker Two!"});
+				//drill power
+				//drill power 2
+				//drill specialist
+				//elemental storm
+				//fire storm
+				//headhunter
+				//ice storm
+				//drill dash
+			}
+			
+			public Engineering engineering = new Engineering();
+			
+			public class Engineering
+			{
+				//alarm expert
+				//alarm expert 2
+				//clever inventor
+				//focused hacker
+				//focused hacker 2
+				//hacking expert
+				//hacking expert 2
+				//public  ItemPassiveTonic prolific_inventor = new ItemPassiveTonic(new PassiveProlificInventor("prolific_inventor", "prolificInventor", new Passive[]{}, new Passive[]{}, Type.ENGINEERING, 2), new String[]{""});
+				//safecracker
+				//safecracker 2
+				//security expert
+				//security expert 2
+				//shorten alarms
+				//shorten alarms 2
+				//speedy hacker
+				//speedy hacker 2
+				//vending expert
+				//vending expert 2
+				//deadly machines
+				//handyman
+				//hardy machines
+				//thrifty hacker
+			}
+			
+			public Physical physical = new Physical();
+			
+			public class Physical
+			{
+				public ItemPassiveTonic bloodlust = new ItemPassiveTonic(new PassiveBloodlust("bloodlust", "bloodlust", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 25F / 100), new String[]{"Bloodlust heals your body and your mind as you swing!", "Be red in tooth and claw", "�with Bloodlust!"});
+				public ItemPassiveTonic booze_hound = new ItemPassiveTonic(new PassiveBoozeHound("booze_hound", "boozeHound", new Passive[]{}, new Passive[]{}, Type.PHYSICAL), new String[]{"Take full advantage of Rapture's distilleries and vintners.", "Drink to your health with Booze Hound!"});
+				public ItemPassiveTonic eve_link = new ItemPassiveTonic(new PassiveEveLink("eve_link", "eveLink", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 10), new String[]{"Get more out of your First Aid Kits with EVE Link!", "This revolutionary new Gene Tonic causes", "your body to produce EVE whenever", "you use First Aid Kits."});
+				public ItemPassiveTonic eve_link_2 = new ItemPassiveTonic(new PassiveEveLink("eve_link_2", "eveLink2", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 20), new String[]{"Get more EVE with every First Aid Kit", "by using EVE Link Two!"});
+				public ItemPassiveTonic eve_saver = new ItemPassiveTonic(new PassiveEveSaver("eve_saver", "eveSaver", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 - 10F / 100), new String[]{"In today's genetic wonderland, you probably", "feel like there's never enough EVE at hand.", "With EVE Saver, your EVE will", "go farther than ever before!"});
+				public ItemPassiveTonic eve_saver_2 = new ItemPassiveTonic(new PassiveEveSaver("eve_saver_2", "eveSaver2", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 - 15F / 100), new String[]{"Is Eve Saver not quite enough for you?", "Never change. Try Eve Saver 2 today!"});
+				public ItemPassiveTonic extra_nutrition = new ItemPassiveTonic(new PassiveExtraNutrition("extra_nutrition", "extraNutrition", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 10F / 100), new String[]{"Extra Nutrition boosts your body's", "natural ability to turn food", "into renewed vitality."});
+				public ItemPassiveTonic extra_nutrition_2 = new ItemPassiveTonic(new PassiveExtraNutrition("extra_nutrition_2", "extraNutrition2", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 15F / 100), new String[]{"Make your food even healthier", "with new Extra Nutrition Two!"});
+				public ItemPassiveTonic extra_nutrition_3 = new ItemPassiveTonic(new PassiveExtraNutrition("extra_nutrition_3", "extraNutrition3", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 20F / 100), new String[]{"The latest in the Extra Nutrition line", "makes food taste twice as good as it used to.", "Try it today!"});
+				//hacker's delight
+				//hacker's delight 2
+				//hacker's delight 3
+				public ItemPassiveTonic medical_expert = new ItemPassiveTonic(new PassiveMedicalExpert("medical_expert", "medicalExpert", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 20F / 100), new String[]{"With Medical Expert, your", "First Aid Kits will go farther,", "healing sickness and injury at a rate", "you're sure to find astonishing.", "Don't use a First Aid Kit without", "your best friend, Medical Expert!"});
+				public ItemPassiveTonic medical_expert_2 = new ItemPassiveTonic(new PassiveMedicalExpert("medical_expert_2", "medicalExpert2", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 40F / 100), new String[]{"With new Medical Expert Two,", "First Aid Kits heal you more than ever!"});
+				public ItemPassiveTonic medical_expert_3 = new ItemPassiveTonic(new PassiveMedicalExpert("medical_expert_3", "medicalExpert3", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 60F / 100), new String[]{"Heal your injuries in the blink", "of an eye with new Medical Expert Three.", "Your best friend just got better!"});
+				public ItemPassiveTonic natural_camouflage = new ItemPassiveTonic(new PassiveNaturalCamouflage("natural_camouflage", "naturalCamouflage", new Passive[]{}, new Passive[]{}, Type.PHYSICAL), new String[]{"Need some peace and quiet?", "Splice in Natural Camouflage, stop moving,", "and just fade away. Remember,", "not seeing is believing!"});
+				//scrounger
+				//security evasion
+				//security evasion 2
+				public ItemPassiveTonic sports_boost = new ItemPassiveTonic(new PassiveSportsBoost("sportsboost", "sportsBoost", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 10F / 100), new String[]{"In today's dangerous times,", "it never hurts to be a little faster,", "a little quicker on the draw. Remember,", "you don't have to outrun the crazed Splicer", "- just your neighbor!"});
+				public ItemPassiveTonic sports_boost_2 = new ItemPassiveTonic(new PassiveSportsBoost("sportsboost_2", "sportsBoost2", new Passive[]{}, new Passive[]{}, Type.PHYSICAL, 1 + 20F / 100), new String[]{"Tired of being outrun by your neighbor", "with SportsBoost installed?", "Get new SportsBoost Two, and outrun HIM!"});
+				//cure all
+				//elemental sponge
+				//elemental vampire
+				//fountain of youth
+				//short circuit
+				//short circuit 2
+			}
+		}
+		
+		public Gear gear = new Gear();
+		
+		public class Gear
+		{
+			public Hats hats = new Hats();
+			
+			public class Hats
+			{
+				//gear
+				public ItemPassiveGear ammo_cap = new ItemPassiveGear(new PassiveAmmoCap("ammo_cap", "ammoCap", new Passive[]{}, new Passive[]{}, Type.GEAR, 40F / 100), EnumArmorType.HEAD, new String[]{"Get another try, where others do not!"});
+				public ItemPassiveGear burning_halo = new ItemPassiveGear(new PassiveBurningHalo("burning_halo", "burningHalo", new Passive[]{}, new Passive[]{}, Type.GEAR, 70F / 100, 4, Element.FIRE), EnumArmorType.HEAD, new String[]{"Let the angels protect you and", "ward off evil with blazing fire!"});
+				public ItemPassiveGear electric_punch = new ItemPassiveGear(new PassiveBurningHalo("electric_punch", "electricPunch", new Passive[]{}, new Passive[]{}, Type.GEAR, 70F / 100, 4, Element.ELECTRICITY), EnumArmorType.HEAD, new String[]{"Smite your enemies like powerful a lightning!"});
+				public ItemPassiveGear electric_touch = new ItemPassiveGear(new PassiveBurningHalo("electric_touch", "electricTouch", new Passive[]{}, new Passive[]{}, Type.GEAR, 50F / 100, 3, Element.ELECTRICITY), EnumArmorType.HEAD, new String[]{"Give your enemies a dazzling shock!"});
+				//evil eye
+				public ItemPassiveGear extra_extra = new ItemPassiveGear(new PassiveExtraExtra("extra_extra", "extraExtra", new Passive[]{}, new Passive[]{}, Type.GEAR, true), EnumArmorType.HEAD, new String[]{"Breaking news! A new piece of gear,", "from the amazing Fink m.f.g.!", "Stay up to date with Extra! Extra!"});
+				//gear head
+				public ItemPassiveGear hill_runners_hat = new ItemPassiveGear(new PassiveHillRunnersHat("hill_runners_hat", "hillRunnersHat", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 + 50F / 100, 5), EnumArmorType.HEAD, new String[]{"Get far away once you are in the heat."});
+				//quick handed
+				//rising bloodlust
+				public ItemPassiveGear sheltered_life = new ItemPassiveGear(new PassiveShelteredLife("sheltered_life", "shelteredLife", new Passive[]{}, new Passive[]{}, Type.GEAR, 3), EnumArmorType.HEAD, new String[]{"Stay safe with the all new Sheltered Life gear!"});
+				//storm
+				public ItemPassiveGear surprise_element = new ItemPassiveGear(new PassiveSurpriseElement("surprise_element", "surpriseElement", new Passive[]{}, new Passive[]{}, Type.GEAR, 50F / 100), EnumArmorType.HEAD, new String[]{"Not even a fortune teller will", "forsee what magic it is."});
+				//throttle control
+				public ItemPassiveGear ticket_puncher = new ItemPassiveGear(new PassiveTicketPuncher("ticket_puncher", "ticketPuncher", new Passive[]{}, new Passive[]{}, Type.GEAR, 2, 3, 20F / 100), EnumArmorType.HEAD, new String[]{"With Ticket Puncher, you", "will surely pack a punch!"});
+			}
+			
+			public Shirts shirt = new Shirts();
+			
+			public class Shirts
+			{
+				//ammo advantage
+				public ItemPassiveGear better_mousetrap = new ItemPassiveGear(new PassiveEveSaver("better_mousetrap", "betterMousetrap", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 - 20F / 100), EnumArmorType.BODY, new String[]{"Your powers can now be better than ever!"});
+				public ItemPassiveGear blood_to_salts = new ItemPassiveGear(new PassiveBloodToSalts("blood_to_salts", "bloodToSalts", new Passive[]{}, new Passive[]{}, Type.GEAR, 20F / 100, 40F / 100), EnumArmorType.BODY, new String[]{"Get your valuable salts back!"});
+				//bullet boon
+				public ItemPassiveGear coat_of_harms = new ItemPassiveGear(new PassiveCoatOfHarms("coat_of_harms", "coatOfHarms", new Passive[]{}, new Passive[]{}, Type.GEAR, 30F / 100), EnumArmorType.BODY, new String[]{"Make sure your enemies", "will feel the pain!"});
+				public ItemPassiveGear drop_cloth = new ItemPassiveGear(new PassiveDropCloth("drop_cloth", "dropCloth", new Passive[]{}, new Passive[]{}, Type.GEAR, 1.5F, 5), EnumArmorType.BODY, new String[]{"Keep on going once you drop!"});
+				public ItemPassiveGear executioner = new ItemPassiveGear(new PassiveExecutioner("executioner", "executioner", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 + 25F / 100, 60F / 100), EnumArmorType.BODY, new String[]{"A quick death for your enemy,", "guaranteed."});
+				//magic bullet
+				//explosive vest
+				public ItemPassiveGear pyromaniac = new ItemPassiveGear(new PassiveStaticDischarge("pyromaniac", "pyromaniac", new Passive[]{}, new Passive[]{}, Type.GEAR, Element.FIRE, 3, 50F / 100), EnumArmorType.BODY, new String[]{"Play with fire!"});
+				public ItemPassiveGear roar_to_life = new ItemPassiveGear(new PassiveRoarToLife("roar_to_life", "roarToLife", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 + 20F / 100, 1 + 40F / 100, 5), EnumArmorType.BODY, new String[]{"Get out of that sticky mess", "with a majestic roar!"});
+				public ItemPassiveGear scavengers_vest = new ItemPassiveGear(new PassiveScavengersVest("scavengers_vest", "scavengersVest", new Passive[]{}, new Passive[]{}, Type.GEAR, 40F / 100), EnumArmorType.BODY, new String[]{"With the Scavenger's Vest gear, the", "firepower lies just around the corner!"});
+				public ItemPassiveGear shock_jacket = new ItemPassiveGear(new PassiveStaticDischarge("shock_jacket", "shockJacket", new Passive[]{}, new Passive[]{}, Type.GEAR, Element.ELECTRICITY, 2, 50F / 100), EnumArmorType.BODY, new String[]{"If something hits you,", "it sure won't do it again!"});
+				//sky-line accuracy
+				public ItemPassiveGear sugar_rush = new ItemPassiveGear(new PassiveSugarRush("sugar_rush", "sugarRush", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 + 50F / 100, 3), EnumArmorType.BODY, new String[]{"Do you have a sweet tooth?", "Make sure you get the maximum", "sweet enjoyment with Sugar Rush!"});
+				public ItemPassiveGear winter_shield = new ItemPassiveGear(new PassiveWinterShield("winter_shield", "winterShield", new Passive[]{}, new Passive[]{}, Type.GEAR, 5), EnumArmorType.BODY, new String[]{"Hazards when using the Sky-Lines?", "Worry no more! Put on your winter shield", "for the full protection!"});
+			}
+			
+			public Pants pants = new Pants();
+			
+			public class Pants
+			{
+				public ItemPassiveGear angry_stompers = new ItemPassiveGear(new PassiveAngryStompers("angry_stompers", "angryStompers", new Passive[]{}, new Passive[]{}, Type.GEAR, 200F / 100, 25F / 100), EnumArmorType.LEGS, new String[]{"Hit hard when you need to."});
+				public ItemPassiveGear brittle_skinned = new ItemPassiveGear(new PassiveBrittleSkinned("brittle_skinned", "brittleSkinned", new Passive[]{}, new Passive[]{}, Type.GEAR, 200F / 100, 5), EnumArmorType.LEGS, new String[]{"Expose your foes' weaknesses!"});
+				public ItemPassiveGear bull_rush = new ItemPassiveGear(new PassiveBullRush("bull_rush", "bullRush", new Passive[]{}, new Passive[]{}, Type.GEAR, 200F / 100), EnumArmorType.LEGS, new String[]{"Hit them with the force of a charging bull!"});
+				//deadly lungers
+				public ItemPassiveGear death_benefit = new ItemPassiveGear(new PassiveDeathBenefit("death_benefit", "deathBenefit", new Passive[]{}, new Passive[]{}, Type.GEAR, 2), EnumArmorType.LEGS, new String[]{"Have Death on your side!"});
+				public ItemPassiveGear filthy_leech = new ItemPassiveGear(new PassiveFilthyLeech("filthy_leech", "filthyLeech", new Passive[]{}, new Passive[]{}, Type.GEAR, 10F / 100), EnumArmorType.LEGS, new String[]{"Get your pep back with this flithy trick!"});
+				public ItemPassiveGear fire_bird = new ItemPassiveGear(new PassiveFireBird("fire_bird", "fireBird", new Passive[]{}, new Passive[]{}, Type.GEAR, 3, 4), EnumArmorType.LEGS, new String[]{"Give your foes a warm welcome from above!"});
+				//ghost posse
+				//ghost soldier
+				//head master
+				//health for salts
+				public ItemPassiveGear last_man_standing = new ItemPassiveGear(new PassiveLastManStanding("last_man_standing", "lastManStanding", new Passive[]{}, new Passive[]{}, Type.GEAR, 6, 20F / 100), EnumArmorType.LEGS, new String[]{"Stay alive when it really matters!"});
+				//quick draw
+				public ItemPassiveGear sky_line_reloader = new ItemPassiveGear(new PassiveSkyLineReloader("skyline_reloader", "skyLineReloader", new Passive[]{}, new Passive[]{}, Type.GEAR), EnumArmorType.LEGS, new String[]{"Let the skylines do the", "boring work for you!"});
+				//spectral sidekick
+				//urgent care
+			}
+			
+			public Boots boots = new Boots();
+			
+			public class Boots
+			{
+				//betrayer
+				//death from above
+				//eagle strike
+				//fit as a fiddle
+				//fleet feet
+				//handyman nemesis
+				public ItemPassiveGear high_and_mighty = new ItemPassiveGear(new PassiveHighAndMighty("high_and_mighty", "highAndMighty", new Passive[]{}, new Passive[]{}, Type.GEAR, 5, 1 + 25F / 100, 40F / 100), EnumArmorType.FEET, new String[]{"With this piece of gear you'll", "be way better than all those loosers!"});
+				public ItemPassiveGear kill_to_live = new ItemPassiveGear(new PassiveKillToLive("kill_to_live", "killToLive", new Passive[]{}, new Passive[]{}, Type.GEAR, 2, 65F / 100), EnumArmorType.FEET, new String[]{"Thrive in your opponent's misery."});
+				public ItemPassiveGear newtons_law = new ItemPassiveGear(new PassiveNewtonsLaw("newtons_law", "newtonsLaw", new Passive[]{}, new Passive[]{}, Type.GEAR, 4), EnumArmorType.FEET, new String[]{"F = ma"});
+				//nor'easter
+				public ItemPassiveGear overkill = new ItemPassiveGear(new PassiveOverkill("overkill", "overkill", new Passive[]{}, new Passive[]{}, Type.GEAR, 9, 4), EnumArmorType.FEET, new String[]{"There's no kill like Overkill!", "Deliver death blows that are simply stunning."});
+				public ItemPassiveGear tunnel_vision = new ItemPassiveGear(new PassiveTunnelVision("tunnel_vision", "tunnelVision", new Passive[]{}, new Passive[]{}, Type.GEAR, 1 + 25F / 100, 1 - 25F / 100), EnumArmorType.FEET, new String[]{"With Tunnel Vision, you'll hit just the right spot!", "Aim like a hero! - Try it today!"});
+				public ItemPassiveGear vampires_embrace = new ItemPassiveGear(new PassiveKillToLive("vampires_embrace", "vampiresEmbrace", new Passive[]{}, new Passive[]{}, Type.GEAR, 3, 1), EnumArmorType.FEET, new String[]{"Drain power from your foes."});
+			}
+		}
+	}
+	
 	public Infusions infusions = new Infusions();
 	
 	public class Infusions
