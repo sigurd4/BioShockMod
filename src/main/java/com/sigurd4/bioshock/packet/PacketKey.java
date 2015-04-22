@@ -87,7 +87,22 @@ public class PacketKey implements IMessage
 			Key k = Key.get(message.i);
 			switch(k)
 			{
-			//TODO: add key actions
+			case RIGHT_CLICK:
+			{
+				if(props != null)
+				{
+					props.setRightClick(true);
+				}
+				break;
+			}
+			case NOT_RIGHT_CLICK:
+			{
+				if(props != null)
+				{
+					props.setRightClick(false);
+				}
+				break;
+			}
 			}
 			return null;
 		}
