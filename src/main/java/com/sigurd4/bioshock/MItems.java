@@ -726,4 +726,76 @@ public class MItems
 			public ItemWeaponSkyHook WeaponAirGrabber = M.registerItem("air_grabber", (ItemWeaponSkyHook)new ItemWeaponSkyHook(5, false, RefMod.MODID + ":" + "item.weapon.pistol.cock").setUnlocalizedName("weaponAirGrabber"), false, new String[]{});
 		}
 		
+		public Crossbow crossbow = new Crossbow();
+		
+		public class Crossbow
+		{
+			public Ammo ammo = new Ammo();
+			
+			public class Ammo
+			{
+				public ItemAmmo steel_tip_bolt = M.registerItem("ammo_crossbow_bolt_steel_tip", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltSteelTip").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo incendiary_bolt = M.registerItem("ammo_crossbow_bolt_incendiary", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltIncendiary").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo trap_bolt = M.registerItem("ammo_crossbow_bolt_trap", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltTrap").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo tranquilizer_bolt = M.registerItem("ammo_crossbow_bolt_tranquilizer", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltTranquilizer").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo noisemaker_bolt = M.registerItem("ammo_crossbow_bolt_noisemaker", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltNoisemaker").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo gas_bolt = M.registerItem("ammo_crossbow_bolt_gas", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltGas").setCreativeTab(M.tabs.weapons), false, new String[]{});
+			}
+		}
+		
+		public Pistol pistol = new Pistol();
+		
+		public class Pistol
+		{
+			public Ammo ammo = new Ammo();
+			
+			public class Ammo
+			{
+				public ItemAmmo standard_round = M.registerItem("ammo_pistol_round_standard", (ItemAmmo)new ItemAmmo(6).setUnlocalizedName("weaponPistolAmmoStandard").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo armor_piercing_round = M.registerItem("ammo_pistol_round_armor_piercing", (ItemAmmo)new ItemAmmo(6).setUnlocalizedName("weaponPistolAmmoArmorPiercing").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo antipersonnel_round = M.registerItem("ammo_pistol_round_antipersonnel", (ItemAmmo)new ItemAmmo(6).setUnlocalizedName("weaponPistolAmmoAntipersonnel").setCreativeTab(M.tabs.weapons), false, new String[]{});
+			}
+		}
+		
+		public Shotgun shotgun = new Shotgun();
+		
+		public class Shotgun
+		{
+			public Ammo ammo = new Ammo();
+			
+			public class Ammo
+			{
+				public ItemAmmo standard_buck = M.registerItem("ammo_shotgun_shell_00", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmo00").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo electric_buck = M.registerItem("ammo_shotgun_shell_electric", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmoElectric").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo exploding_buck = M.registerItem("ammo_shotgun_shell_exploding", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmoExploding").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo solid_slug = M.registerItem("ammo_shotgun_shell_solid_slug", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmoSolidSlug").setCreativeTab(M.tabs.weapons), false, new String[]{});
+			}
+		}
+		
+		public TommyGun tommy_gun = new TommyGun();
+		
+		public class TommyGun
+		{
+			public Ammo ammo = new Ammo();
+			
+			public class Ammo
+			{
+				public ItemAmmo standard_round = M.registerItem("ammo_auto_round_standard", (ItemAmmo)new ItemAmmo(30).setUnlocalizedName("weaponAutoAmmoStandard").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo antipersonnel_round = M.registerItem("ammo_auto_round_antipersonnel", (ItemAmmo)new ItemAmmo(30).setUnlocalizedName("weaponAutoAmmoAntipersonnel").setCreativeTab(M.tabs.weapons), false, new String[]{});
+				public ItemAmmo armor_piercing_round = M.registerItem("ammo_auto_round_armor_piercing", (ItemAmmo)new ItemAmmo(30).setUnlocalizedName("weaponAutoAmmoArmorPiercing").setCreativeTab(M.tabs.weapons), false, new String[]{});
+			}
+		}
+		
+		public GrenadeLauncher grenade_launcher = new GrenadeLauncher();
+		
+		public class GrenadeLauncher
+		{
+			public Ammo ammo = new Ammo();
+			
+			public class Ammo
+			{
+				public ItemAmmo frag_grenade = M.registerItem("ammo_grenade_frag", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponGrenadeLauncherAmmoFrag").setCreativeTab(M.tabs.weapons), false, new String[]{});
+			}
+		}
+	}
 }

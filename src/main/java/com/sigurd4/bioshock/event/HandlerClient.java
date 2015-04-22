@@ -50,6 +50,20 @@ public class HandlerClient
 	}
 	
 	@SubscribeEvent
+	public void playerRenderEventPre(RenderPlayerEvent.Pre event)
+	{
+		EntityPlayer player = (EntityPlayer)event.entity;
+		if(player.getHeldItem() != null)
+		{
+			if(player.getHeldItem().getItem() instanceof ItemWeaponRanged && ItemWeaponRanged.heldUp(player.getHeldItem()))
+			{
+				event.renderer.getPlayerModel().aimedBow = true;
+			}
+			
+		}
+	}
+	
+	@SubscribeEvent
 	public void playerRenderEventPost(RenderPlayerEvent.Post event)
 	{
 		playerRenders.put(event.entityPlayer, event.renderer);
