@@ -45,12 +45,12 @@ public class HandlerClientFML
 					if(mc.thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IItemPickupSound && IItemPickupSound.Variables.playRightClickSound)
 					{
 						IItemPickupSound.Variables.playRightClickSound = false;
-						((IItemPickupSound)Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).playPickupSound(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().thePlayer.getHeldItem());
+						((IItemPickupSound)Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).playSelectSound(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().thePlayer.getHeldItem());
 					}
 					if(mc.thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof ItemWeaponMelee && IItemPickupSound.Variables.playRightClickSound)
 					{
 						IItemPickupSound.Variables.playRightClickSound = false;
-						((ItemWeaponMelee)Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).playPickupSound(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().thePlayer.getHeldItem());
+						((ItemWeaponMelee)Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).playSelectSound(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().thePlayer.getHeldItem());
 					}
 				}
 			}

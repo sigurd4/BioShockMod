@@ -7,11 +7,18 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.config.Config;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
+import com.sigurd4.bioshock.item.IItemPickupSound;
+import com.sigurd4.bioshock.item.ItemPlasmid;
 import com.sigurd4.bioshock.packet.PacketPlayerData;
 import com.sigurd4.bioshock.reference.RefMod;
 
@@ -26,7 +33,7 @@ public class HandlerCommonFML
 	{
 		ExtendedPlayer props = ExtendedPlayer.get(event.player);
 		
-		if(!event.player.worldObj.isRemote)
+		if(event.side == Side.SERVER)
 		{
 			int i = 10;
 			if(event.player instanceof EntityPlayerMP && event.player.worldObj.getWorldTime() % i == i - 1)
@@ -49,6 +56,52 @@ public class HandlerCommonFML
 		}
 		
 		props.update();
+	}
+	
+	@SubscribeEvent
+	public void itemPickupEvent(ItemPickupEvent event)
+	{
+		if(event.pickedUp.getEntityItem() != null && event.pickedUp.getEntityItem().getItem() instanceof IItemPickupSound)
+		{
+			((IItemPickupSound)event.pickedUp.getEntityItem().getItem()).playPickupSound(event.player, event.pickedUp.getEntityItem());
+		}
+	}
+	
+	@SubscribeEvent
+	public void tickEvent(TickEvent event)
+	{
+		++ItemPlasmid.tickd;
+		if(ItemPlasmid.tickd > 2)
+		{
+			ItemPlasmid.tickd = -1;
+		}
+		M.otherIconsIndex = -1;
+	}
+	
+	@SubscribeEvent
+	public void ItemCraftedEvent(ItemCraftedEvent event)
+	{
+		if(event.player != null)
+		{
+			ExtendedPlayer props = ExtendedPlayer.get(event.player);
+			if(props != null)
+			{
+				props.passiveController.itemCrafted(event);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void ItemSmeltedEvent(ItemSmeltedEvent event)
+	{
+		if(event.player != null)
+		{
+			ExtendedPlayer props = ExtendedPlayer.get(event.player);
+			if(props != null)
+			{
+				props.passiveController.itemCrafted(event);
+			}
+		}
 	}
 	
 	@SubscribeEvent
