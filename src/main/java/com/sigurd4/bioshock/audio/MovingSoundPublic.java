@@ -6,6 +6,8 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class MovingSoundPublic extends MovingSound
 {
+	private boolean hasBeenSetToDone = false;
+	
 	protected MovingSoundPublic(ResourceLocation resource)
 	{
 		super(resource);
@@ -28,7 +30,16 @@ public abstract class MovingSoundPublic extends MovingSound
 		this.repeat = repeat;
 	}
 	
-	public void done()
+	public final void done()
+	{
+		if(!hasBeenSetToDone)
+		{
+			setDone();
+			hasBeenSetToDone = true;
+		}
+	}
+	
+	protected void setDone()
 	{
 		this.donePlaying = true;
 	}

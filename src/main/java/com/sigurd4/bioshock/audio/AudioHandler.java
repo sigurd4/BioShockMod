@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,111 +12,118 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class AudioHandler
 {
 	@SideOnly(Side.CLIENT)
-	public static HashMap<Entity, HashMap<String, ArrayList<ISound>>> sounds = new HashMap<Entity, HashMap<String, ArrayList<ISound>>>();
+	public static HashMap<Entity, ArrayList<ISound>> sounds = new HashMap<Entity, ArrayList<ISound>>();
+	@SideOnly(Side.CLIENT)
+	public static ArrayList<ISound> soundsToStop = new ArrayList<ISound>();
+	@SideOnly(Side.CLIENT)
+	public static ArrayList<ISound> soundsToPlay = new ArrayList<ISound>();
 	
 	public static ISound getSound(Entity entity, String string)
 	{
-		if(sounds.containsKey(entity) && sounds.get(entity) != null)
+		if(entity.worldObj.isRemote)
+			return getSound_(entity, string);
+		return null;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static ISound getSound_(Entity entity, String string)
+	{
+		if(sounds.get(entity) != null)
 		{
-			for(int i = 0; i < sounds.get(entity).get(string).size(); ++i)
+			for(int i = 0; i < sounds.get(entity).size(); ++i)
 			{
-				ISound sound = sounds.get(entity).get(string).get(i);
-				if(sounds.get(entity).get(string).get(i) != null)
+				if(sounds.get(entity).get(i).getSoundLocation().toString().equals(string))
 				{
-					if(!(sound instanceof MovingSound) || !((MovingSound)sound).isDonePlaying())
-					{
-						return sound;
-					}
+					return sounds.get(entity).get(i);
 				}
 			}
 		}
 		return null;
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static void createMovingEntitySound(Entity entity, String string, float volume, float pitch, boolean repeat)
 	{
-		ISound sound = new MovingSoundEntityGeneric(entity, string, volume, pitch, repeat);
-		
-		createSound(entity, sound);
+		if(entity.worldObj.isRemote)
+			createMovingEntitySound_(entity, string, volume, pitch, repeat);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void createSound(Entity entity, ISound sound)
+	private static void createMovingEntitySound_(Entity entity, String string, float volume, float pitch, boolean repeat)
 	{
-		String string = sound.getSoundLocation().getResourcePath();
+		ISound sound = new MovingSoundEntityGeneric(entity, string, volume, pitch, repeat);
 		if(sounds.get(entity) == null)
 		{
-			sounds.put(entity, new HashMap<String, ArrayList<ISound>>());
+			sounds.put(entity, new ArrayList<ISound>());
 		}
-		if(sounds.get(entity).get(string) == null)
-		{
-			sounds.get(entity).put(string, new ArrayList<ISound>());
-		}
-		sounds.get(entity).get(string).add(sound);
-		Minecraft.getMinecraft().getSoundHandler().playSound(sound);
+		sounds.get(entity).add(sound);
+		soundsToPlay.add(sound);
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public static void stopSound(Entity entity, String string)
 	{
-		ISound sound = getSound(entity, string);
-		if(sound != null)
-		{
-			Minecraft.getMinecraft().getSoundHandler().stopSound(sound);
-			if(sound instanceof MovingSoundPublic)
-			{
-				((MovingSoundPublic)sound).done();
-			}
-		}
+		if(entity.worldObj.isRemote)
+			stopSound_(entity, string);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static boolean isPlaying(Entity entity, String string)
+	private static void stopSound_(Entity entity, String string)
 	{
-		ISound sound = getSound(entity, string);
-		if(sound == null)
+		if(sounds != null && sounds.get(entity) != null)
 		{
-			return false;
+			for(int i = 0; i < sounds.get(entity).size(); ++i)
+			{
+				if(sounds.get(entity).get(i).getSoundLocation().toString().equals(string))
+				{
+					ISound sound = sounds.get(entity).get(i);
+					soundsToStop.add(sound);
+				}
+			}
 		}
-		if(sound instanceof MovingSound && ((MovingSound)sound).isDonePlaying())
-		{
-			return false;
-		}
-		return true;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void onUpdate()
 	{
+		for(int i = 0; i < soundsToStop.size(); ++i)
+		{
+			ISound sound = soundsToStop.get(i);
+			if(sound != null)
+				if(sound instanceof MovingSoundPublic)
+				{
+					((MovingSoundPublic)sound).done();
+				}
+				else
+				{
+					Minecraft.getMinecraft().getSoundHandler().stopSound(sound);
+				}
+		}
+		soundsToStop.clear();
+		for(int i = 0; i < soundsToPlay.size(); ++i)
+		{
+			ISound sound = soundsToPlay.get(i);
+			if(sound != null)
+				Minecraft.getMinecraft().getSoundHandler().playSound(sound);
+		}
+		soundsToPlay.clear();
+		
 		for(int i = 0; i < sounds.keySet().size(); ++i)
 		{
-			Object k1 = sounds.keySet().toArray()[i];
-			HashMap<String, ArrayList<ISound>> sounds2 = sounds.get(k1);
-			for(int i1 = 0; i1 < sounds2.keySet().size(); ++i1)
+			ArrayList array = sounds.get(sounds.keySet().toArray()[i]);
+			for(int i2 = 0; i2 < array.size(); ++i2)
 			{
-				Object k2 = sounds2.keySet().toArray()[i];
-				ArrayList<ISound> array = sounds2.get(k2);
-				for(int i2 = 0; i2 < array.size(); ++i2)
+				if(array.get(i2) instanceof MovingSoundPublic)
 				{
-					if(array.get(i2) instanceof MovingSoundPublic)
+					MovingSoundPublic sound = (MovingSoundPublic)array.get(i2);
+					if(sound.isDonePlaying())
 					{
-						MovingSoundPublic sound = (MovingSoundPublic)array.get(i2);
-						if(sound.isDonePlaying())
+						sound.done();
+						sounds.get(sound.entity).remove(i2);
+						if(sounds.get(sound.entity).size() <= 0)
 						{
-							sound.done();
-							array.remove(i2);
+							sounds.remove(sound.entity);
 						}
 					}
 				}
-				if(array.size() <= 0)
-				{
-					sounds2.remove(k2);
-				}
-			}
-			if(sounds2.size() <= 0)
-			{
-				sounds.remove(k1);
 			}
 		}
 	}
