@@ -232,7 +232,7 @@ public class GuiModHud extends Gui
 				for(int i = ((ItemWeaponRanged)stack.getItem()).allAmmoTypes.length; i > 0 && i <= ((ItemWeaponRanged)stack.getItem()).allAmmoTypes.length; --i)
 				{
 					String s = item.allAmmoTypes[item.allAmmoTypes.length - i].toString();
-					fontrenderer.drawStringWithShadow(s, 2, h - 10 - 10 * (item.allAmmoTypes.length - i), (Boolean)((ItemWeaponRanged)stack.getItem()).UPGRADES.get(stack, item.allAmmoTypes[item.allAmmoTypes.length - i]) ? 0xAF8A33 : 0x424242);
+					fontrenderer.drawStringWithShadow(s, 2, h - 10 - 10 * (item.allAmmoTypes.length - i), ((ItemWeaponRanged)stack.getItem()).UPGRADES.get(stack, item.allAmmoTypes[item.allAmmoTypes.length - i]) ? 0xAF8A33 : 0x424242);
 				}
 			}
 		}

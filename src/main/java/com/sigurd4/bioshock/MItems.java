@@ -761,6 +761,8 @@ public class MItems
 		
 		public class Shotgun
 		{
+			public ItemWeaponShotgun WeaponShotgunRapture = M.registerItem("shotgun_rapture", (ItemWeaponShotgun)new ItemWeaponShotgun(4, 24, 12, 17.5F, 22.5F, 12, 0.1F).setUnlocalizedName("weaponShotgunRapture"), false, new String[]{});
+			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
