@@ -87,6 +87,24 @@ public class HandlerClient
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void FOVUpdateEvent(FOVUpdateEvent event)
+	{
+		if(event.entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = event.entity;
+			ExtendedPlayer props = ExtendedPlayer.get(player);
+			if(player.getHeldItem() != null)
+			{
+				ItemStack stack = player.getHeldItem();
+				if(stack.getItem() instanceof ItemWeaponRanged && props.isZoomHeldDown && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 || Minecraft.getMinecraft().gameSettings.thirdPersonView == 1))
+				{
+					event.newfov = event.fov - ((ItemWeaponRanged)stack.getItem()).getZoom(player.worldObj, player, stack);
+				}
+			}
+		}
+	}
 	@SubscribeEvent
 	public void PlaySoundEvent(PlaySoundEvent event)
 	{

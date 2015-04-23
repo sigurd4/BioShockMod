@@ -13,6 +13,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -31,7 +32,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.sigurd4.bioshock.entity.projectile.EntityBullet;
+import com.sigurd4.bioshock.entity.projectile.IEntityGunProjectile;
 import com.sigurd4.bioshock.extendedentity.ExtendedLivingBase.LootEntry;
 import com.sigurd4.bioshock.item.ItemConsumable.ConsumableEffect;
 import com.sigurd4.bioshock.item.ItemPassiveGear;
@@ -853,16 +854,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties, IEntityAdditio
 			}
 		}
 		
-		public void bulletFire(ItemStack stack, EntityCrossbowBolt bullet)
-		{
-			ArrayList<Passive> p = ExtendedPlayer.this.getAllPassives();
-			for(int i = 0; i < p.size(); ++i)
-			{
-				p.get(i).bulletFire(ExtendedPlayer.this.player, stack, bullet);
-			}
-		}
-		
-		public void bulletFire(ItemStack stack, EntityBullet bullet)
+		public <T extends EntityThrowable & IEntityGunProjectile> void bulletFire(ItemStack stack, T bullet)
 		{
 			ArrayList<Passive> p = ExtendedPlayer.this.getAllPassives();
 			for(int i = 0; i < p.size(); ++i)

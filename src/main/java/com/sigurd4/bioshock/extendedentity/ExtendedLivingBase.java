@@ -26,6 +26,8 @@ import com.sigurd4.bioshock.reference.RefMod;
 
 public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdditionalSpawnData
 {
+	public ArrayList<TrapBolt> traps = new ArrayList<TrapBolt>();
+	public ArrayList<Item> items = new ArrayList<Item>();
 	public float fallDamageMultiplier = 0;
 	
 	private final EntityLivingBase entity;
@@ -33,6 +35,7 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	public ExtendedLivingBase(EntityLivingBase entity)
 	{
 		this.entity = entity;
+		this.traps.clear();
 	}
 	
 	/**
@@ -58,9 +61,58 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	public void loadNBTData(NBTTagCompound compound)
 	{
 		NBTTagCompound properties = (NBTTagCompound)compound.getTag(RefMod.MODID);
+		
+		this.traps.clear();
 		if(properties != null)
 		{
 			properties = new NBTTagCompound();
+		}
+		NBTTagList list = (NBTTagList)properties.getTag("Traps");
+		for(int i = 0; list != null && i < list.tagCount(); ++i)
+		{
+			NBTTagCompound trapCompound = list.getCompoundTagAt(i);
+			UUID shootingEntityUUID = null;
+			if(trapCompound.hasKey("ShootingEntityUUIDMost", 4) && trapCompound.hasKey("ShootingEntityUUIDLeast", 4))
+			{
+				shootingEntityUUID = new UUID(trapCompound.getLong("ShootingEntityUUIDMost"), trapCompound.getLong("ShootingEntityUUIDLeast"));
+			}
+			if(trapCompound.hasKey("ShootingEntityPersistentIDMSB") && trapCompound.hasKey("ShootingEntityPersistentIDLSB"))
+			{
+				shootingEntityUUID = new UUID(trapCompound.getLong("ShootingEntityPersistentIDMSB"), trapCompound.getLong("ShootingEntityPersistentIDLSB"));
+			}
+			Entity shootingEntity = null;
+			for(int i2 = 0; i2 < this.entity.worldObj.loadedEntityList.size(); ++i2)
+			{
+				Object entity2 = this.entity.worldObj.loadedEntityList.get(i2);
+				
+				if(entity2 instanceof Entity && shootingEntityUUID.equals(((Entity)entity2).getUniqueID()))
+				{
+					shootingEntity = (Entity)entity2;
+					break;
+				}
+			}
+			if(shootingEntity == null)
+			{
+				NBTTagCompound entityCompound = trapCompound.getCompoundTag("ShootingEntity");
+				if(entityCompound != null)
+				{
+					Entity entity2 = EntityList.createEntityFromNBT(entityCompound, this.entity.worldObj);
+					if(entity2 != null)
+					{
+						shootingEntity = entity2;
+					}
+				}
+			}
+			int stackID = trapCompound.getInteger("ItemStackID");
+			int trapTimer = trapCompound.getInteger("TrapTimer");
+			double x = trapCompound.getDouble("MotionX");
+			double y = trapCompound.getDouble("MotionY");
+			double z = trapCompound.getDouble("MotionZ");
+			if(shootingEntity != null)
+			{
+				TrapBolt trap = new TrapBolt(shootingEntity, x, y, z, trapTimer, stackID);
+				this.traps.add(trap);
+			}
 		}
 		this.fallDamageMultiplier = properties.getFloat("FallDamageMultiplier");
 	}
@@ -70,14 +122,128 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	{
 		NBTTagCompound properties = new NBTTagCompound();
 		compound.setTag(RefMod.MODID, properties);
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < this.traps.size(); ++i)
+		{
+			NBTTagCompound trapCompound = new NBTTagCompound();
+			NBTTagCompound entityCompound = new NBTTagCompound();
+			this.traps.get(i).shootingEntity.writeToNBT(entityCompound);
+			trapCompound.setTag("ShootingEntity", entityCompound);
+			trapCompound.setInteger("ItemStackID", this.traps.get(i).item);
+			trapCompound.setInteger("TrapTimer", this.traps.get(i).trapTimer);
+			trapCompound.setDouble("MotionX", this.traps.get(i).trapMotionX);
+			trapCompound.setDouble("MotionY", this.traps.get(i).trapMotionY);
+			trapCompound.setDouble("MotionZ", this.traps.get(i).trapMotionZ);
+			list.appendTag(trapCompound);
+		}
+		properties.setTag("Traps", list);
 		properties.setFloat("FallDamageMultiplier", this.fallDamageMultiplier);
 	}
+	
+	public void noTrap(int i)
+	{
+		if(this.traps.get(i).item > 0 && this.traps.get(i).item < this.items.size())
+		{
+			this.dropItem(this.traps.get(i).item);
+		}
+		this.traps.remove(i);
+	}
+	
+	public void dropItems()
+	{
+		for(int i = 0; i < this.items.size(); ++i)
+		{
+			this.dropItem(i);
+		}
+	}
+	
+	public void dropItem(int i)
+	{
+		if(!this.entity.worldObj.isRemote)
+		{
+			this.entity.dropItem(this.items.get(i), 1);
+		}
+		this.items.remove(i);
+	}
+	
 	public void onUpdate()
 	{
 		if(knockback.containsKey(this.entity) && knockback.get(this.entity) != null)
 		{
 			bullet2(this.entity);
 		}
+		for(int i = 0; i < this.traps.size(); ++i)
+		{
+			if(this.traps.get(i).trapTimer > 0)
+			{
+				--this.traps.get(i).trapTimer;
+			}
+			else if(this.traps.get(i).trapTimer == 0)
+			{
+				this.fireTrap(i);
+				this.noTrap(i);
+			}
+		}
+	}
+	
+	public void fireTrap(int i)
+	{
+		this.entity.worldObj.playSoundAtEntity(this.entity, RefMod.MODID + ":" + "item.weapon.crossbow.fire", 0.2F, 1.2F + this.entity.worldObj.rand.nextFloat() * 0.3F);
+		
+		EntityElectricTrap bolt = new EntityElectricTrap(this.entity.worldObj, this.traps.get(i).shootingEntity, this.entity, this.traps.get(i).trapMotionX, this.traps.get(i).trapMotionY - 0.1, this.traps.get(i).trapMotionZ, 1F, true);
+		bolt.damageName = "crossbow_electric_bolt";
+		bolt.silent = false;
+		if(this.traps.get(i).item > 0 && this.traps.get(i).item < this.items.size())
+		{
+			this.items.remove(this.traps.get(i).item);
+		}
+		
+		if(!this.entity.worldObj.isRemote)
+		{
+			this.entity.worldObj.spawnEntityInWorld(bolt);
+		}
+	}
+	
+	public void hitEntityWithTrapBolt(EntityCrossbowBolt bolt, boolean b)
+	{
+		TrapBolt trap = new TrapBolt(bolt.shootingEntity, bolt.motionX, bolt.motionY, bolt.motionZ, 30, b ? this.items.size() - 1 : -1);
+		this.traps.add(trap);
+		if(this.entity instanceof EntityLivingBase && (this.entity.getHealth() <= 0 || this.entity.isDead))
+		{
+			this.fireTrap(this.traps.size() - 1);
+			this.noTrap(this.traps.size() - 1);
+		}
+	}
+	
+	public boolean hitEntityWithBolt(EntityCrossbowBolt bolt)
+	{
+		if(!bolt.getPreventPickup())
+		{
+			this.items.add(Item.getItemById(bolt.getItem()));
+			return true;
+		}
+		return false;
+	}
+	
+	protected class TrapBolt
+	{
+		public final double trapMotionX;
+		public final double trapMotionY;
+		public final double trapMotionZ;
+		public final Entity shootingEntity;
+		public final int item;
+		public int trapTimer;
+		
+		protected TrapBolt(Entity shootingEntity, double trapMotionX, double trapMotionY, double trapMotionZ, int trapTimer, int item)
+		{
+			this.shootingEntity = shootingEntity;
+			this.trapMotionX = trapMotionX;
+			this.trapMotionY = trapMotionY;
+			this.trapMotionZ = trapMotionZ;
+			this.item = item;
+			this.trapTimer = 30;
+		}
+	}
 	
 	@Override
 	public void init(Entity entity, World world)

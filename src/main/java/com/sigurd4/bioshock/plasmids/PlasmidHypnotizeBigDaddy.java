@@ -86,7 +86,7 @@ public class PlasmidHypnotizeBigDaddy extends Plasmid implements IPlasmidProject
 	{
 		if(pos.entityHit != null)
 		{
-			if(pos.entityHit instanceof EntityBigDaddyBouncer)
+			/*if(pos.entityHit instanceof EntityBigDaddyBouncer)
 			{
 				((EntityBigDaddyBouncer)pos.entityHit).setAngry(0);
 				((EntityBigDaddyBouncer)pos.entityHit).setHypnotized(((EntityBigDaddyBouncer)pos.entityHit).hypnotizedMax);
@@ -96,7 +96,7 @@ public class PlasmidHypnotizeBigDaddy extends Plasmid implements IPlasmidProject
 				{
 					projectile.worldObj.spawnParticle(EnumParticleTypes.REDSTONE, true, pos.entityHit.posX + Stuff.Randomization.r(1.0), pos.entityHit.posY + Stuff.Randomization.r(2.5), pos.entityHit.posZ + Stuff.Randomization.r(1.0), -1.0D, 1.0D, 0.3D);
 				}
-			}
+			}TODO*/
 		}
 		
 		if(!projectile.worldObj.isRemote)
