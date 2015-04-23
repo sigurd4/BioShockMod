@@ -730,6 +730,8 @@ public class MItems
 		
 		public class Crossbow
 		{
+			public ItemWeaponCrossbow WeaponCrossbow = M.registerItem((ItemWeaponCrossbow)new ItemWeaponCrossbow("crossbow", 5, 21, 0.0F, 4.5F, 14, 0.52F, "Damage", "Bolt", new String[]{"IronTip", "Incendiary", "Trap", "Tranquilizer", "Noisemaker", "Gas"}), false, new String[]{});
+			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -747,6 +749,8 @@ public class MItems
 		
 		public class Pistol
 		{
+			public ItemWeaponPistol WeaponPistolRapture = M.registerItem((ItemWeaponPistol)new ItemWeaponPistol("pistol_rapture", 6, 24, 8, 1F, 16.6F, 15, 0.39F, "Damage", "Clip", new String[]{"Standard", "ArmorPiercing", "Antipersonnel"}), false, new String[]{});
+			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -778,6 +782,8 @@ public class MItems
 		
 		public class TommyGun
 		{
+			public ItemWeaponTommyGun WeaponMachineGunRapture = M.registerItem((ItemWeaponTommyGun)new ItemWeaponTommyGun("tommy_gun", 30, 3, 2.6F, 7.6F, 3.3F, 22, 0.31F, "Recoil Reduction", "Damage", new String[]{"Standard", "Antipersonnel", "ArmorPiercing"}), false, new String[]{});
+			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -792,6 +798,8 @@ public class MItems
 		
 		public class GrenadeLauncher
 		{
+			public ItemWeaponGrenadeLauncher WeaponGrenadeLauncher = M.registerItem((ItemWeaponGrenadeLauncher)new ItemWeaponGrenadeLauncher("grenade_launcher", 0, 6, 0), false, new String[]{});
+			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -799,5 +807,13 @@ public class MItems
 				public ItemAmmo frag_grenade = M.registerItem("ammo_grenade_frag", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponGrenadeLauncherAmmoFrag").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
 		}
+		
+		public Throwable throwable = new Throwable();
+		
+		public class Throwable
+		{
+			public ItemTennisBall tennis_ball = M.registerItem("tennis_ball", (ItemTennisBall)new ItemTennisBall(0.5F), false, new String[]{});
+		}
+	}
 	}
 }

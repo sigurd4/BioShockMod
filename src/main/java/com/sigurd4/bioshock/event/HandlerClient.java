@@ -105,6 +105,40 @@ public class HandlerClient
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void fogDensity(EntityViewRenderEvent.FogDensity event)
+	{
+		EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
+		if(bolt != null)
+		{
+			float x = (bolt.getDistanceToEntity(event.entity) - 7) * 40;
+			if(x < 0)
+			{
+				x = 0;
+			}
+			x += 3F;
+			GL11.glFogf(GL11.GL_FOG_START, 1);
+			if(event.density > x)
+			{
+				event.density = x;
+			}
+			event.setCanceled(true);
+			GL11.glFogf(GL11.GL_FOG_END, 1 + x);
+		}
+	}
+	
+	@SubscribeEvent
+	public void fogColors(EntityViewRenderEvent.FogColors event)
+	{
+		EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
+		if(bolt != null && bolt.getDistanceToEntity(event.entity) < 8.7)
+		{
+			event.blue = 230;
+			event.red = 230;
+			event.green = 230;
+		}
+	}
 	@SubscribeEvent
 	public void PlaySoundEvent(PlaySoundEvent event)
 	{

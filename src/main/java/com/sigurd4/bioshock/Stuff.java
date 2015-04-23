@@ -31,16 +31,17 @@ import com.sigurd4.bioshock.inventory.IContainerAddPlayerSlots;
 
 public final class Stuff
 {
-	public final static Random rand = new Random();
-	public final static Random randSeed = new Random();
 	
 	/** Random stuff **/
 	// - sigurd4
 	public static final class Randomization
 	{
+		public final static Random rand = new Random();
+		public final static Random randSeed = new Random();
+		
 		public static double r(double i)
 		{
-			return r(i, Stuff.rand);
+			return r(i, rand);
 		}
 		
 		public static double r(double i, Random rand)
@@ -50,12 +51,12 @@ public final class Stuff
 		
 		public static float r(float i)
 		{
-			return (float)r(i, Stuff.rand);
+			return (float)r(i, rand);
 		}
 		
 		public static double rG(double i)
 		{
-			return rG(i, Stuff.rand);
+			return rG(i, rand);
 		}
 		
 		public static double rG(double i, Random rand)
@@ -617,9 +618,14 @@ public final class Stuff
 			return s;
 		}
 		
-		public static String owner(String s)
+		public static String possessive(String s)
 		{
 			return s.length() > 0 && s.charAt(s.length() - 1) == 's' ? "'" : "'s";
+		}
+		
+		public static String indefiniteArticle(String s)
+		{
+			return s.length() > 0 && isVowel(s.charAt(0)) ? "an" : "a";
 		}
 	}
 	

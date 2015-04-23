@@ -58,7 +58,7 @@ public class ContainerUInvent extends Container implements IContainerAddPlayerSl
 		}
 		
 		this.onCraftMatrixChanged(this.craftMatrix);
-		onContainerOpened(inventory.player);
+		this.onContainerOpened(inventory.player);
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class ContainerUInvent extends Container implements IContainerAddPlayerSl
 		{
 			if(player == Minecraft.getMinecraft().thePlayer || playerList2.size() <= 0)
 			{
-				worldObj.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, RefMod.MODID + ":" + "block.uinvent.close", 1, 1);
+				this.worldObj.playSoundEffect(this.pos.getX() + 0.5, this.pos.getY() + 0.7, this.pos.getZ() + 0.5, RefMod.MODID + ":" + "block.uinvent.close", 1, 1);
 			}
 		}
 		
@@ -103,11 +103,11 @@ public class ContainerUInvent extends Container implements IContainerAddPlayerSl
 	
 	public void onContainerOpened(EntityPlayer player)
 	{
-		if(worldObj.isRemote)
+		if(this.worldObj.isRemote)
 		{
 			if(Minecraft.getMinecraft().thePlayer == player || playerList2.size() <= 0)
 			{
-				worldObj.playSoundEffect(pos.getX() + 0.5, pos.getY() + 0.7, pos.getZ() + 0.5, RefMod.MODID + ":" + "block.uinvent.open", 1, 1);
+				this.worldObj.playSoundEffect(this.pos.getX() + 0.5, this.pos.getY() + 0.7, this.pos.getZ() + 0.5, RefMod.MODID + ":" + "block.uinvent.open", 1, 1);
 			}
 		}
 		playerList2.add(player);
@@ -116,7 +116,7 @@ public class ContainerUInvent extends Container implements IContainerAddPlayerSl
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return this.worldObj.getBlockState(new BlockPos(this.pos.getX(), this.pos.getY(), this.pos.getZ())).getBlock() != M.VendorUInvent ? false : player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0D;
+		return this.worldObj.getBlockState(new BlockPos(this.pos.getX(), this.pos.getY(), this.pos.getZ())).getBlock() != M.VendorUInvent ? false : player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0D;
 	}
 	
 	/**

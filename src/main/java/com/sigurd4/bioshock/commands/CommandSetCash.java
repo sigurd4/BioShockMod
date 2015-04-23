@@ -65,7 +65,7 @@ public class CommandSetCash extends CommandBase implements ICommand
 			else
 			{
 				ItemMoney.setCash((ItemMoney)item, player, amount);
-				notifyOperators(commandSender, this, "commands.bioshocksetcash.success", new Object[]{"Set ", player, Stuff.Strings.owner(player.getDisplayNameString()) + " ", new ItemStack(item), " to ", amount});
+				notifyOperators(commandSender, this, "commands.bioshocksetcash.success", new Object[]{"Set ", player, Stuff.Strings.possessive(player.getDisplayNameString()) + " ", new ItemStack(item), " to ", amount});
 			}
 		}
 	}
