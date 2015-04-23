@@ -3,6 +3,7 @@ package com.sigurd4.bioshock.passives;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import com.sigurd4.bioshock.element.Element;
+import com.sigurd4.bioshock.entity.projectile.EntityGunBullet;
 
 public class PassiveSurpriseElement extends Passive
 {
@@ -17,7 +18,7 @@ public class PassiveSurpriseElement extends Passive
 	@Override
 	public void LivingAttackEvent(LivingHurtEvent event)
 	{
-		if(event.source.isProjectile() && event.source.getEntity() != event.source.getSourceOfDamage() && event.source.getSourceOfDamage() instanceof EntityBullet)
+		if(event.source.isProjectile() && event.source.getEntity() != event.source.getSourceOfDamage() && event.source.getSourceOfDamage() instanceof EntityGunBullet)
 		{
 			if(event.entity.worldObj.rand.nextFloat() <= this.chance)
 			{

@@ -77,7 +77,7 @@ public class PlasmidReturnToSender extends PlasmidHold implements IPlasmidProjec
 			}
 			if(entity instanceof EntityLivingBase)
 			{
-				EntityPlasmidBullet projectile = new EntityPlasmidBullet(world, (EntityLivingBase)entity, this, BULLETSHIELDSPEED.get(stack), BULLETSHIELDMASS.get(stack), BULLETSHIELDDAMAGE.get(stack));
+				EntityPlasmidBullet projectile = new EntityPlasmidBullet(world, (EntityLivingBase)entity, this, BULLETSHIELDSPEED.get(stack), BULLETSHIELDMASS.get(stack), BULLETSHIELDDAMAGE.get(stack), 4 / 16);
 				if(!world.isRemote)
 				{
 					world.spawnEntityInWorld(projectile);

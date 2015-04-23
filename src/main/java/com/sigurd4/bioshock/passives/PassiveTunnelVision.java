@@ -1,9 +1,10 @@
 package com.sigurd4.bioshock.passives;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 
-import com.sigurd4.bioshock.entity.projectile.EntityBullet;
+import com.sigurd4.bioshock.entity.projectile.IEntityGunProjectile;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 
 public class PassiveTunnelVision extends Passive
@@ -18,29 +19,17 @@ public class PassiveTunnelVision extends Passive
 		this.multiplierNotZooming = multiplierNotZooming;
 	}
 	
-	public void bulletFire(EntityPlayer player, ItemStack stack, EntityBullet bullet)
+	@Override
+	public <T extends EntityThrowable & IEntityGunProjectile> void bulletFire(EntityPlayer player, ItemStack stack, T bullet)
 	{
 		ExtendedPlayer props = ExtendedPlayer.get(player);
 		if(props.isZoomHeldDown)
 		{
-			bullet.damage *= this.multiplierZooming;
+			bullet.setDamage(bullet.getDamage() * this.multiplierZooming);
 		}
 		else
 		{
-			bullet.damage *= this.multiplierNotZooming;
-		}
-	}
-	
-	public void bulletFire(EntityPlayer player, ItemStack stack, EntityCrossbowBolt bolt)
-	{
-		ExtendedPlayer props = ExtendedPlayer.get(player);
-		if(props.isZoomHeldDown)
-		{
-			bolt.damage *= this.multiplierZooming;
-		}
-		else
-		{
-			bolt.damage *= this.multiplierNotZooming;
+			bullet.setDamage(bullet.getDamage() * this.multiplierNotZooming);
 		}
 	}
 }

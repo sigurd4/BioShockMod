@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.sigurd4.bioshock.entity.projectile.EntityBullet;
+import com.sigurd4.bioshock.entity.projectile.IEntityGunProjectile;
 import com.sigurd4.bioshock.extendedentity.ExtendedLivingBase.LootEntry;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.item.ItemConsumable.ConsumableEffect;
@@ -176,11 +177,7 @@ public class Passive
 		return amount;
 	}
 	
-	public void bulletFire(EntityPlayer player, ItemStack stack, EntityBullet bullet)
-	{
-	}
-	
-	public void bulletFire(EntityPlayer player, ItemStack stack, EntityCrossbowBolt bolt)
+	public <T extends EntityThrowable & IEntityGunProjectile> void bulletFire(EntityPlayer player, ItemStack stack, T bullet)
 	{
 	}
 	
