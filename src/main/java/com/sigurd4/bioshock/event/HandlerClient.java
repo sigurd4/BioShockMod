@@ -1,9 +1,6 @@
 package com.sigurd4.bioshock.event;
 
-import java.util.HashMap;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,20 +19,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
+import com.sigurd4.bioshock.Stuff;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.gui.GuiModHud;
 import com.sigurd4.bioshock.gui.GuiModHud.RenderOrder;
 import com.sigurd4.bioshock.item.IItemPickupSound;
 import com.sigurd4.bioshock.item.IItemWeapon;
+import com.sigurd4.bioshock.item.ItemArmorDivingSuit;
 import com.sigurd4.bioshock.item.ItemWeaponRanged;
 
 @SideOnly(Side.CLIENT)
 public class HandlerClient
 {
 	// minecraftforge events for client only here!
-	
-	public static HashMap<EntityPlayer, RenderPlayer> playerRenders = new HashMap();
-	
 	@SubscribeEvent
 	public void PlayerUseItemEventStart(PlayerUseItemEvent.Start event)
 	{
@@ -59,14 +55,13 @@ public class HandlerClient
 			{
 				event.renderer.getPlayerModel().aimedBow = true;
 			}
-			
 		}
 	}
 	
 	@SubscribeEvent
 	public void playerRenderEventPost(RenderPlayerEvent.Post event)
 	{
-		playerRenders.put(event.entityPlayer, event.renderer);
+		Stuff.Render.setPlayerRenderer(event.entityPlayer, event.renderer);
 	}
 	
 	@SubscribeEvent
@@ -139,6 +134,26 @@ public class HandlerClient
 			event.green = 230;
 		}
 	}
+	
+	@SubscribeEvent
+	public void livingHurtEvent(LivingHurtEvent event)
+	{
+		if(event.source == DamageSource.fall)
+		{
+			if(event.entity instanceof EntityLivingBase)
+			{
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(1) != null)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(1).getItem() instanceof ItemArmorDivingSuit)
+					{
+						event.entity.worldObj.playSoundAtEntity(event.entity, "step.stone", 0.4F + 0.6F / 8, 2);
+						event.entity.worldObj.playSoundAtEntity(event.entity, "random.anvil_land", 0.002F * (0.02F + 0.6F / 8), 4.1F);
+					}
+				}
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public void PlaySoundEvent(PlaySoundEvent event)
 	{

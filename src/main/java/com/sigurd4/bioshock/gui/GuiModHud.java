@@ -27,10 +27,12 @@ import com.sigurd4.bioshock.audio.AudioHandler;
 import com.sigurd4.bioshock.audio.MovingSoundAudioLog;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.item.ItemAmmo;
+import com.sigurd4.bioshock.item.ItemArmorDivingSuitTank;
 import com.sigurd4.bioshock.item.ItemAudioLog;
 import com.sigurd4.bioshock.item.ItemPassiveGear;
 import com.sigurd4.bioshock.item.ItemPassiveTonic;
 import com.sigurd4.bioshock.item.ItemPassiveTonicSyringe;
+import com.sigurd4.bioshock.item.ItemTank;
 import com.sigurd4.bioshock.item.ItemWeaponRanged;
 import com.sigurd4.bioshock.passives.Passive;
 import com.sigurd4.bioshock.reference.RefMod;
@@ -276,9 +278,9 @@ public class GuiModHud extends Gui
 		if(player.getEquipmentInSlot(3) != null && player.getEquipmentInSlot(3).getItem() instanceof ItemArmorDivingSuitTank)
 		{
 			ItemStack stack = player.getEquipmentInSlot(3);
-			if(ItemArmorDivingSuitTank.ISSEALED.get(stack))
+			if(stack != null && ((ItemArmorDivingSuitTank)stack.getItem()).isSealed(player) && ItemArmorDivingSuitTank.TANK.get(stack) != null)
 			{
-				fontrenderer.drawStringWithShadow("Oxygen: " + ItemArmorDivingSuitTank.AIR.get(stack) + "/" + ItemArmorDivingSuitTank.MAXAIR.get(stack), 2, 2 + 9 * line1, 0xD1EBFF);
+				fontrenderer.drawStringWithShadow("Oxygen: " + ((ItemTank)ItemArmorDivingSuitTank.TANK.get(stack).getItem()).FILLED.get(ItemArmorDivingSuitTank.TANK.get(stack)) + "/" + ((ItemTank)ItemArmorDivingSuitTank.TANK.get(stack).getItem()).CAPACITY.get(ItemArmorDivingSuitTank.TANK.get(stack)), 2, 2 + 9 * line1, 0xD1EBFF);
 				++line1;
 			}
 		}

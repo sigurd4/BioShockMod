@@ -2,10 +2,15 @@ package com.sigurd4.bioshock;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
 
 import com.sigurd4.bioshock.element.Element;
 import com.sigurd4.bioshock.item.EnumArmorType;
 import com.sigurd4.bioshock.item.ItemAmmo;
+import com.sigurd4.bioshock.item.ItemArmorDivingSuit;
+import com.sigurd4.bioshock.item.ItemArmorDivingSuitTank;
 import com.sigurd4.bioshock.item.ItemAudioLog;
 import com.sigurd4.bioshock.item.ItemConsumable;
 import com.sigurd4.bioshock.item.ItemConsumable.EnumConsumableType;
@@ -22,6 +27,7 @@ import com.sigurd4.bioshock.item.ItemPassiveTonic;
 import com.sigurd4.bioshock.item.ItemPlasmidDrinkable;
 import com.sigurd4.bioshock.item.ItemPlasmidInjectable;
 import com.sigurd4.bioshock.item.ItemRubbingAlcohol;
+import com.sigurd4.bioshock.item.ItemTank;
 import com.sigurd4.bioshock.item.ItemValuable;
 import com.sigurd4.bioshock.item.ItemWeaponMelee;
 import com.sigurd4.bioshock.item.ItemWeaponShotgun;
@@ -815,5 +821,55 @@ public class MItems
 			public ItemTennisBall tennis_ball = M.registerItem("tennis_ball", (ItemTennisBall)new ItemTennisBall(0.5F), false, new String[]{});
 		}
 	}
+	
+	public Utility utility = new Utility();
+	
+	public class Utility
+	{
+		public ItemTank tank = M.registerItem("tank", (ItemTank)new ItemTank(1000).setUnlocalizedName("tank"), false, new String[]{});
+	}
+	
+	public Armor armor = new Armor();
+	
+	public class Armor
+	{
+		public Materials materials = new Materials();
+		
+		public class Materials
+		{
+			public ArmorMaterial DIVING_SUIT_METAL = EnumHelper.addArmorMaterial("DIVING_SUIT_METAL", "", 16, new int[]{5, 6, 5, 3}, 0);
+			public ArmorMaterial DIVING_SUIT_CLOTH = EnumHelper.addArmorMaterial("DIVING_SUIT_CLOTH", "", 7, new int[]{1, 2, 1, 1}, 0);
+		}
+		
+		public class ArmorSet<I extends ItemArmor>
+		{
+			public I head;
+			public I body;
+			public I legs;
+			public I feet;
+			
+			public ArmorSet(I head, I body, I legs, I feet)
+			{
+				this.head = head;
+			}
+			
+			public I get(EnumArmorType armorType)
+			{
+				switch(armorType)
+				{
+				case HEAD:
+					return this.head;
+				case BODY:
+					return this.body;
+				case LEGS:
+					return this.legs;
+				case FEET:
+					return this.feet;
+				}
+				return null;
+			}
+		}
+		
+		public ArmorSet<ItemArmorDivingSuit> diving_suit = new ArmorSet((ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_METAL, EnumArmorType.HEAD, "diving_suit_helmet", "diving_suit_3", true).setUnlocalizedName("divingSuitHelmet"), (ItemArmorDivingSuitTank)new ItemArmorDivingSuitTank(M.items.armor.materials.DIVING_SUIT_CLOTH, EnumArmorType.BODY, "diving_suit_upper_body", false, M.items.armor.diving_suit.head, M.items.armor.diving_suit.legs, M.items.armor.diving_suit.feet).setUnlocalizedName("divingSuitUpperBody"), (ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_CLOTH, EnumArmorType.LEGS, "diving_suit_lower_body", false).setUnlocalizedName("divingSuitLowerBody"), (ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_METAL, EnumArmorType.FEET, "diving_suit_boots", true).setUnlocalizedName("divingSuitBoots"));
 	}
 }

@@ -35,6 +35,7 @@ import com.sigurd4.bioshock.block.IBlockBreakRegardless;
 import com.sigurd4.bioshock.element.Element;
 import com.sigurd4.bioshock.extendedentity.ExtendedLivingBase;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
+import com.sigurd4.bioshock.item.ItemArmorDivingSuit;
 import com.sigurd4.bioshock.item.ItemAudioLog;
 import com.sigurd4.bioshock.item.ItemEveHypo;
 import com.sigurd4.bioshock.item.ItemMoney;
@@ -267,6 +268,90 @@ public class HandlerCommon
 			if(props != null)
 			{
 				props.passiveController.attack(event);
+			}
+		}
+		if(Element.getElements(event.source).contains(Element.FIRE) || Element.getElements(event.source).contains(Element.WATER))
+		{
+			if(((EntityLivingBase)event.entity).getEquipmentInSlot(1) != null)
+			{
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(1).getItem() instanceof ItemArmorDivingSuit)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(2) != null)
+					{
+						if(((EntityLivingBase)event.entity).getEquipmentInSlot(2).getItem() instanceof ItemArmorDivingSuit)
+						{
+							if(((EntityLivingBase)event.entity).getEquipmentInSlot(3) != null)
+							{
+								if(((EntityLivingBase)event.entity).getEquipmentInSlot(3).getItem() instanceof ItemArmorDivingSuit)
+								{
+									if(((EntityLivingBase)event.entity).getEquipmentInSlot(4) != null)
+									{
+										if(((EntityLivingBase)event.entity).getEquipmentInSlot(4).getItem() instanceof ItemArmorDivingSuit)
+										{
+											event.ammount = event.ammount / 4;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if(event.source == DamageSource.fall)
+		{
+			if(event.entity instanceof EntityLivingBase)
+			{
+				ExtendedLivingBase props = ExtendedLivingBase.get((EntityLivingBase)event.entity);
+				boolean flag = false;
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(4) != null)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(4).getItem() instanceof ItemArmorDivingSuit)
+					{
+						double i = ((ItemArmorDivingSuit)((EntityLivingBase)event.entity).getEquipmentInSlot(4).getItem()).isMetal ? 1D : 2D;
+						event.ammount = event.ammount * 0.6F * (float)i;
+						flag = true;
+					}
+				}
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(3) != null)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(3).getItem() instanceof ItemArmorDivingSuit)
+					{
+						double i = ((ItemArmorDivingSuit)((EntityLivingBase)event.entity).getEquipmentInSlot(3).getItem()).isMetal ? 1D : 2D;
+						event.ammount = event.ammount * 0.7F * (float)i;
+						flag = true;
+					}
+				}
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(2) != null)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(2).getItem() instanceof ItemArmorDivingSuit)
+					{
+						double i = ((ItemArmorDivingSuit)((EntityLivingBase)event.entity).getEquipmentInSlot(2).getItem()).isMetal ? 1D : 2D;
+						event.ammount = event.ammount * 0.65F * (float)i;
+						flag = true;
+					}
+				}
+				if(((EntityLivingBase)event.entity).getEquipmentInSlot(1) != null)
+				{
+					if(((EntityLivingBase)event.entity).getEquipmentInSlot(1).getItem() instanceof ItemArmorDivingSuit)
+					{
+						double i = ((ItemArmorDivingSuit)((EntityLivingBase)event.entity).getEquipmentInSlot(1).getItem()).isMetal ? 0.9D : 2D;
+						event.ammount = event.ammount * 0.5F * (float)i;
+						flag = true;
+					}
+				}
+				if(flag)
+				{
+					if(event.ammount < 2)
+					{
+						event.setCanceled(true);
+					}
+				}
+				if(props.fallDamageMultiplier > 0)
+				{
+					event.ammount *= 1 + props.fallDamageMultiplier;
+					props.fallDamageMultiplier = 0;
+				}
 			}
 		}
 		if(event.source.getDamageType() == "arrow")
