@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
@@ -18,7 +19,7 @@ import net.minecraft.util.EnumParticleTypes;
 
 import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.Stuff;
-import com.sigurd4.bioshock.entity.projectile.EntityBullet;
+import com.sigurd4.bioshock.entity.projectile.IEntityGunProjectile;
 import com.sigurd4.bioshock.particles.ParticleHandler.EnumParticleTypes2;
 import com.sigurd4.bioshock.plasmids.IDamageSourcePlasmid.DamageSourcePlasmid;
 import com.sigurd4.bioshock.plasmids.IDamageSourcePlasmid.EntityDamageSourcePlasmid;
@@ -393,27 +394,15 @@ public enum Element
 		return ds;
 	}
 	
-	public static EntityDamageSource bullet(EntityCrossbowBolt bolt)
-	{
-		if(bolt.shootingEntity != null)
-		{
-			return new EntityDamageSourceIndirect(bolt.damageName != null ? "bullet" : "bullet", bolt, bolt.shootingEntity);
-		}
-		else
-		{
-			return new EntityDamageSource(bolt.damageName != null ? "bullet" : "bullet", bolt);
-		}
-	}
-	
-	public static EntityDamageSource bullet(EntityBullet bullet)
+	public static <T extends EntityThrowable & IEntityGunProjectile> EntityDamageSource bullet(T bullet)
 	{
 		if(bullet.getThrower() != null)
 		{
-			return new EntityDamageSourceIndirect(bullet.damageName != null ? "bullet" : "bullet", bullet, bullet.getThrower());
+			return new EntityDamageSourceIndirect(bullet.getDamageName() != null ? bullet.getDamageName() : "bullet", bullet, bullet.getThrower());
 		}
 		else
 		{
-			return new EntityDamageSource(bullet.damageName != null ? "bullet" : "bullet", bullet);
+			return new EntityDamageSource(bullet.getDamageName() != null ? bullet.getDamageName() : "bullet", bullet);
 		}
 	}
 	

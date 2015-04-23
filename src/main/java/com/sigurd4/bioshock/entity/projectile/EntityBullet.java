@@ -3,7 +3,6 @@ package com.sigurd4.bioshock.entity.projectile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -11,28 +10,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 import com.sigurd4.bioshock.Stuff;
-import com.sigurd4.bioshock.element.Element;
 
-public class EntityBullet extends EntityThrowable implements IEntityAdditionalSpawnData
+public abstract class EntityBullet extends EntityThrowable implements IEntityAdditionalSpawnData
 {
 	public float mass;
 	public float damage;
-	public float onTickDamageModifier;
 	public EntityLivingBase thrower;
 	public String throwerName;
-	public ItemStack gun;
 	
-	public EntityBullet(World world, EntityLivingBase thrower, ItemStack gun, float speed, float mass, float size, float damage)
+	public EntityBullet(World world, EntityLivingBase thrower, float speed, float mass, float damage, float size)
 	{
 		this(world, thrower);
 		this.setSize(size, size);
-		float f = speed / (float)Stuff.Coordinates3D.distance(new Vec3(this.motionX, this.motionY, this.motionZ));
-		this.motionX *= f;
-		this.motionY *= f;
-		this.motionZ *= f;
+		this.speed(speed);
 		this.mass = mass;
 		this.damage = damage;
-		this.gun = gun.copy();
 	}
 	
 	public EntityBullet(World world)
@@ -59,22 +51,21 @@ public class EntityBullet extends EntityThrowable implements IEntityAdditionalSp
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void writeSpawnData(ByteBuf buffer)
+	public void writeSpawnData(ByteBuf buf)
 	{
-		// TODO Auto-generated method stub
-		
+		buf.writeFloat(this.mass);
+		buf.writeFloat(this.damage);
 	}
 	
 	@Override
-	public void readSpawnData(ByteBuf additionalData)
+	public void readSpawnData(ByteBuf buf)
 	{
-		// TODO Auto-generated method stub
-		
+		this.mass = buf.readFloat();
+		this.damage = buf.readFloat();
 	}
 	
 	public float speed()
@@ -82,13 +73,18 @@ public class EntityBullet extends EntityThrowable implements IEntityAdditionalSp
 		return (float)Stuff.Coordinates3D.distance(new Vec3(this.motionX, this.motionY, this.motionZ));
 	}
 	
+	public void speed(float speed)
+	{
+		float f = speed / (float)Stuff.Coordinates3D.distance(new Vec3(this.motionX, this.motionY, this.motionZ));
+		this.motionX *= f;
+		this.motionY *= f;
+		this.motionZ *= f;
+	}
+	
 	public float force()
 	{
 		return this.speed() * this.mass;
 	}
 	
-	protected DamageSource damageSource()
-	{
-		return Element.bullet(this);
-	}
+	protected abstract DamageSource damageSource();
 }

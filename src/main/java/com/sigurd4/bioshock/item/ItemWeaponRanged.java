@@ -2,6 +2,7 @@ package com.sigurd4.bioshock.item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -420,7 +422,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 				entity.motionZ *= 0.01F;
 			}
 			
-			if(this.isRapidFire)
+			if(this.isRapidFire(stack))
 			{
 				if(props.isRightClickHeldDown && props.isRightClickHeldDownLast)
 				{
@@ -450,7 +452,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		ExtendedPlayer props = ExtendedPlayer.get(player);
 		if(!props.isRightClickHeldDownLast)
 		{
-			if(!((ItemWeaponRanged)stack.getItem()).isRapidFire)
+			if(!((ItemWeaponRanged)stack.getItem()).isRapidFire(stack))
 			{
 				if(FIRE_RATE_TIMER.get(stack) <= 0)
 				{
@@ -484,7 +486,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	
 	public ItemStack rapidFire(ItemStack stack, World world, EntityPlayer player)
 	{
-		if(this.isRapidFire)
+		if(this.isRapidFire(stack))
 		{
 			ExtendedPlayer props = ExtendedPlayer.get(player);
 			if(FIRE_RATE_TIMER.get(stack) <= 0)
@@ -512,16 +514,17 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	
 	public void applyRecoil(EntityPlayer player, ItemStack stack)
 	{
-		this.applyRecoil(player, stack, this.recoil(stack));
+		this.applyRecoil(player, stack, this.recoil(stack), this.kickBack(player, stack));
 	}
 	
 	public void applyRecoilPerTick(ItemStack stack, EntityPlayer player)
 	{
-		this.applyRecoilPerTick(stack, player, this.recoil(stack));
+		this.applyRecoilPerTick(stack, player, this.recoil(stack), this.kickBack(player, stack));
 	}
 	
-	public void applyRecoil(EntityPlayer player, ItemStack stack, double recoil)
+	public void applyRecoil(EntityPlayer player, ItemStack stack, double recoil, double kickBack)
 	{
+		//recoil
 		ExtendedPlayer props = ExtendedPlayer.get(player);
 		if(props.isZoomHeldDown)
 		{
@@ -532,7 +535,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		{
 			f *= 0.4;
 		}
-		f *= this.instability(player, stack, recoil);
+		f *= this.instability(player, stack, recoil, kickBack);
 		if(player.worldObj.isRemote)
 		{
 			if(f > 0)
@@ -543,16 +546,29 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 			player.rotationPitch -= recoil / 2;
 		}
 		this.RECOIL.add(stack, recoil);
-		player.rotationYaw += Stuff.Randomization.r(Math.sqrt(recoil) * this.instability(player, stack, recoil) * 2);
+		player.rotationYaw += Stuff.Randomization.r(Math.sqrt(recoil) * this.instability(player, stack, recoil, kickBack) * 2);
 		player.rotationPitch -= recoil;
+		
+		//kickback
+		if(player.worldObj.isRemote)
+		{
+			Vec3 vec = player.getLookVec();
+			Stuff.Coordinates3D.stabilize(vec, recoil * kickBack);
+			player.addVelocity(-vec.xCoord, -vec.yCoord, -vec.zCoord);
+		}
 	}
 	
-	public float instability(EntityPlayer player, ItemStack stack, double recoil)
+	public float instability(EntityPlayer player, ItemStack stack, double recoil, double kickBack)
 	{
 		return 1;
 	}
 	
-	public void applyRecoilPerTick(ItemStack stack, EntityPlayer player, double recoil)
+	public float kickBack(EntityPlayer player, ItemStack stack)
+	{
+		return 0.01F;
+	}
+	
+	public void applyRecoilPerTick(ItemStack stack, EntityPlayer player, double recoil, double kickBack)
 	{
 		ExtendedPlayer props = ExtendedPlayer.get(player);
 		if(props.isZoomHeldDown)
@@ -672,6 +688,17 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		player.playSound(RefMod.MODID + ":" + "item.weapon.shotgun.pump.auto", 0.2F, 1.1F + Item.itemRand.nextFloat() * 0.3F);
 	}
 	
+	@Override
+	public void playSelectSound(EntityPlayer player, ItemStack stack)
+	{
+		this.playPickupSound(player, stack);
+	}
+	
+	@Override
+	public void playRightClickSound(ItemStack stack, World world, EntityPlayer player)
+	{
+	}
+	
 	public static boolean heldUp(ItemStack stack)
 	{
 		ItemWeaponRanged item = (ItemWeaponRanged)stack.getItem();
@@ -756,5 +783,18 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 			}
 		}
 		return tex;
+	}
+	
+	public void applySpread(EntityPlayer player, ItemStack stack, Random rYaw, Random rPitch, Random r, float rotationYaw, float rotationPitch)
+	{
+		player.rotationYaw = rotationYaw;
+		player.rotationPitch = rotationPitch;
+		float yaw = (float)Stuff.Randomization.rG(this.spread(stack) / 2, rYaw);
+		float pitch = (float)Stuff.Randomization.rG(this.spread(stack) / 2, rPitch);
+		Vec3 vec = Stuff.Coordinates3D.stabilize(new Vec3(yaw, pitch, 0), this.spread(stack) * Math.pow(r.nextGaussian(), 2));
+		yaw = (float)vec.xCoord;
+		pitch = (float)vec.yCoord;
+		player.rotationYaw += yaw;
+		player.rotationPitch += pitch;
 	}
 }

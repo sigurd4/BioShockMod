@@ -137,12 +137,12 @@ public class EntityPlasmidProjectile<Plsmd extends Plasmid & IPlasmidProjectile>
 		PLASMID.set(compound, Plasmid.getIndex(this.plasmid));
 		COMPOUND.set(compound, this.compound);
 		
-		this.throwerName = compound.getString("ownerName");
-		
-		if(this.throwerName != null && this.throwerName.length() == 0)
+		if((this.throwerName == null || this.throwerName.length() == 0) && this.thrower instanceof EntityPlayer)
 		{
-			this.throwerName = null;
+			this.throwerName = this.thrower.getName();
 		}
+		
+		compound.setString("ownerName", this.throwerName == null ? "" : this.throwerName);
 	}
 	
 	/**
@@ -220,7 +220,7 @@ public class EntityPlasmidProjectile<Plsmd extends Plasmid & IPlasmidProjectile>
 	
 	public void setEntitySize(float width, float height)
 	{
-		this.setEntitySize(width, height);
+		this.setSize(width, height);
 	}
 	
 	public int getNearbyInstances(BlockPos offset)

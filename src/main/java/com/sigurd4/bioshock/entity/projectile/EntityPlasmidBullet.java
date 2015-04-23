@@ -8,23 +8,22 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.entity.IEntityPlasmid;
 import com.sigurd4.bioshock.plasmids.IPlasmidProjectile;
 import com.sigurd4.bioshock.plasmids.Plasmid;
 
-public class EntityPlasmidBullet<Plsmd extends Plasmid & IPlasmidProjectile> extends EntityBullet implements IEntityAdditionalSpawnData, IEntityPlasmid
+public class EntityPlasmidBullet<Plsmd extends Plasmid & IPlasmidProjectile> extends EntityBullet implements IEntityPlasmid
 {
 	private NBTTagCompound compound = new NBTTagCompound();
 	private Plsmd plasmid;
 	public EntityLivingBase thrower;
 	public String throwerName;
 	
-	public <Plsmd2 extends Plasmid & IPlasmidProjectile> EntityPlasmidBullet(World world, EntityLivingBase thrower, Plsmd2 plasmid, float speed, float mass, float damage)
+	public <Plsmd2 extends Plasmid & IPlasmidProjectile> EntityPlasmidBullet(World world, EntityLivingBase thrower, Plsmd2 plasmid, float speed, float mass, float damage, float size)
 	{
-		super(world, thrower, speed, mass, damage);
+		super(world, thrower, speed, mass, damage, size);
 		this.setSize(0, 0);
 		this.renderDistanceWeight = 6.0D;
 		this.plasmid = (Plsmd)plasmid;
