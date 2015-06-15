@@ -69,6 +69,7 @@ public class ItemInfusionQuantumSuperposition extends ItemInfusion implements II
 			ids.add(id.mod + ":" + id.id);
 			ids2.add(id.mod + ":" + id.id + "_animation");
 		}
+		ids.addAll(ids2);
 		return ids.toArray(new String[]{});
 	}
 	

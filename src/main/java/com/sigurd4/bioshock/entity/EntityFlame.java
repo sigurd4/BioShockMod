@@ -1,5 +1,6 @@
 package com.sigurd4.bioshock.entity;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -80,7 +81,7 @@ public class EntityFlame extends EntityThrowable implements IEntityPlasmid
 			}
 		}
 		
-		if(this.ticksExisted > 80 || this.worldObj.getBlockState(this.getPosition()).getBlock() == Blocks.water)
+		if(this.ticksExisted > 80 || this.worldObj.getBlockState(this.getPosition()).getBlock().getMaterial() == Material.water)
 		{
 			this.setDead();
 		}

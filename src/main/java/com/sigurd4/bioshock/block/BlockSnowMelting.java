@@ -17,7 +17,7 @@ public class BlockSnowMelting extends BlockSnow implements IBlockBreakRegardless
 		super();
 		this.setTickRandomly(true);
 		this.setCreativeTab(null);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(BlockIceMelting.MELTING, BlockIceMelting.MELTING.getAllowedValues().size() - 1));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, Integer.valueOf(1)).withProperty(BlockIceMelting.MELTING, BlockIceMelting.MELTING.getAllowedValues().size() - 1));
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public class BlockSnowMelting extends BlockSnow implements IBlockBreakRegardless
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		int meta = this.getMetaFromState(state);
+		int meta = super.getMetaFromState(state);
 		meta = 0;
 		meta += (Integer)state.getValue(BlockIceMelting.MELTING);
 		return meta;
@@ -83,6 +83,6 @@ public class BlockSnowMelting extends BlockSnow implements IBlockBreakRegardless
 	@Override
 	protected BlockState createBlockState()
 	{
-		return new BlockState(this, new IProperty[]{BlockIceMelting.MELTING});
+		return new BlockState(this, new IProperty[]{BlockIceMelting.MELTING, LAYERS});
 	}
 }

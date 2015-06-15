@@ -10,21 +10,21 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemValuable extends Item
+public abstract class ItemValuable extends Item
 {
 	public final int valueMin;
 	public final int valueMax;
-	public final ItemMoney currency;
 	
-	public ItemValuable(int valueMin, int valueMax, ItemMoney currency)
+	public ItemValuable(int valueMin, int valueMax)
 	{
 		super();
 		this.valueMin = valueMin;
 		this.valueMax = valueMax;
-		this.currency = currency;
 		this.setCreativeTab(null);
 		this.setMaxStackSize(1);
 	}
+	
+	public abstract ItemMoney currency();
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isSelected)
@@ -50,17 +50,17 @@ public class ItemValuable extends Item
 				((EntityPlayer)entity).inventory.setInventorySlotContents(slot, null);
 				if(world.isRemote && entity.equals(Minecraft.getMinecraft().thePlayer))
 				{
-					this.currency.playPickupSound((EntityPlayer)entity, new ItemStack(this.currency));
+					this.currency().playPickupSound((EntityPlayer)entity, new ItemStack(this.currency()));
 				}
 			}
-			this.currency.setCash(this.currency, (EntityPlayer)entity, amount);
+			this.currency().setCash(this.currency(), (EntityPlayer)entity, amount);
 		}
 		if(stack != null && (stack.stackSize > this.maxStackSize || stack.stackSize < 0))
 		{
 			((EntityPlayer)entity).inventory.setInventorySlotContents(slot, null);
 			if(world.isRemote && entity.equals(Minecraft.getMinecraft().thePlayer))
 			{
-				this.currency.playPickupSound((EntityPlayer)entity, new ItemStack(this.currency));
+				this.currency().playPickupSound((EntityPlayer)entity, new ItemStack(this.currency()));
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public class ItemValuable extends Item
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Currency: " + I18n.format(this.currency.getUnlocalizedName() + ".name"));
+		list.add("Currency: " + I18n.format(this.currency().getUnlocalizedName() + ".name"));
 		if(this.valueMin < this.valueMax)
 		{
 			list.add("Worth: " + this.valueMin + " to " + this.valueMax);

@@ -23,6 +23,7 @@ public class MTabs
 	};
 	public TabGeneric plasmids = new TabGeneric("plasmids");
 	public TabGeneric passives = new TabGeneric("passives");
-	public TabGeneric craftingItems = new TabGeneric("craftingItems");
+	public TabGeneric crafting_items = new TabGeneric("craftingItems");
 	public TabGeneric consumables = new TabGeneric("consumables");
+	public TabGeneric building_blocks = new TabGeneric("buildingBlocks");
 }

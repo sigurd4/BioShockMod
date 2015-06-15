@@ -13,7 +13,7 @@ import com.sigurd4.bioshock.Stuff;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.passives.Passive;
 
-public class ItemPassiveTonicSyringe extends Item implements IItemIdFrom
+public class ItemPassiveTonicSyringe extends Item implements IItemIdFrom, IItemInit
 {
 	public Passive p;
 	
@@ -28,6 +28,11 @@ public class ItemPassiveTonicSyringe extends Item implements IItemIdFrom
 		this.p = passive;
 		this.setCreativeTab(M.tabs.plasmids);
 		this.setMaxStackSize(1);
+	}
+	
+	@Override
+	public void init()
+	{
 		this.setContainerItem(M.items.crafting.empty_hypo);
 	}
 	

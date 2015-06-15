@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.Stuff;
 import com.sigurd4.bioshock.itemtags.ItemTagItemStack;
 
@@ -57,7 +58,11 @@ public class ItemArmorDivingSuitTank extends ItemArmorDivingSuit
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List list)
 	{
-		list.add(new ItemStack(item, 1, 1));
+		ItemStack stack = new ItemStack(item, 1, 0);
+		ItemStack tank = new ItemStack(M.items.utility.tank, 1, 0);
+		((ItemTank)tank.getItem()).FILLED.set(tank, ((ItemTank)tank.getItem()).CAPACITY.get(tank));
+		TANK.set(stack, tank);
+		list.add(stack);
 	}
 	
 	@Override
@@ -113,7 +118,7 @@ public class ItemArmorDivingSuitTank extends ItemArmorDivingSuit
 		{
 			String s = TANK.get(stack).getDisplayName();
 			list.add("With " + Stuff.Strings.indefiniteArticle(s) + " " + s + " attached.");
-			TANK.get(stack).getItem().addInformation(stack, player, list, bool);
+			TANK.get(stack).getItem().addInformation(TANK.get(stack), player, list, bool);
 			if(((ItemTank)TANK.get(stack).getItem()).FILLED.get(TANK.get(stack)) <= 0)
 			{
 				list.add("(EMPTY) Right click to remove gas tank.");
@@ -150,7 +155,7 @@ public class ItemArmorDivingSuitTank extends ItemArmorDivingSuit
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if(((ItemTank)TANK.get(stack).getItem()).FILLED.get(TANK.get(stack)) <= 0 || player.isSneaking())
+		if(TANK.get(stack) != null && (((ItemTank)TANK.get(stack).getItem()).FILLED.get(TANK.get(stack)) <= 0 || player.isSneaking()))
 		{
 			if(true)
 			{

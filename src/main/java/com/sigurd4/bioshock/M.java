@@ -9,11 +9,13 @@ import net.minecraft.command.ICommand;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -36,16 +38,40 @@ import com.sigurd4.bioshock.reference.RefMod;
 public class M
 {
 	/** Register entity with egg **/
-	public static void registerEntity(Class<? extends Entity> entityClass, String name, int entityID, int primaryColor, int secondaryColor)
+	public static void registerEntity(Class<? extends Entity> entityClass, String name, int primaryColor, int secondaryColor)
 	{
-		EntityRegistry.registerGlobalEntityID(entityClass, name, entityID);
-		ItemMonsterPlacerMod.EntityList2.registerEntity(entityClass, entityID, name, primaryColor, secondaryColor);
+		EntityRegistry.registerGlobalEntityID(entityClass, name, EntityRegistry.findGlobalUniqueEntityId());
+		ItemMonsterPlacerMod.EntityList2.registerEntity(entityClass, EntityRegistry.findGlobalUniqueEntityId(), name, primaryColor, secondaryColor);
 	}
 	
-	/** Register entity without egg **/
-	public static void registerEntityNoEgg(Class<? extends Entity> entityClass, String name, int entityID)
+	private static final ArrayList<Integer> modEntityIds = new ArrayList<Integer>();
+	
+	/**
+	 * Register entity without egg
+	 * 
+	 * @throws Exception
+	 **/
+	public static void registerEntityNoEgg(Class<? extends Entity> entityClass, String name) throws Exception
 	{
-		EntityRegistry.registerModEntity(entityClass, name, entityID, instance, 64, 1, true);
+		ModContainer mc = FMLCommonHandler.instance().findContainerFor(instance);
+		loop:
+		for(int id = 0; id < Integer.MAX_VALUE; ++id)
+		{
+			if(true/* || EntityRegistry.instance().lookupModSpawn(mc, id) == null*/)
+			{
+				for(Integer i : modEntityIds)
+				{
+					if(i.equals(id))
+					{
+						continue loop;
+					}
+				}
+				EntityRegistry.registerModEntity(entityClass, name, id, instance, 64, 1, true);
+				modEntityIds.add(id);
+				return;
+			}
+		}
+		throw new Exception("Not enough available ids for entity " + '"' + name + '"');
 	}
 	
 	private static final HashMap<Object, Id> ids = new HashMap<Object, Id>();
@@ -161,6 +187,7 @@ public class M
 		public final String mod;
 		public final String[] oreDictNames;
 		public final boolean replacedIfAlreadyAnOreDict;
+		public ItemBlock blockItem;
 		
 		public boolean shouldBeReplaced()
 		{
@@ -252,14 +279,38 @@ public class M
 	
 	public static <T extends Block> T registerBlock(String id, T block, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
 	{
-		return registerBlock(id, RefMod.MODID, block, replacedIfAlreadyAnOreDict, oreDictNames);
+		return registerBlock(id, block, (ItemBlock)null, replacedIfAlreadyAnOreDict, oreDictNames);
 	}
 	
 	public static <T extends Block> T registerBlock(String id, String modid, T block, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
 	{
+		return registerBlock(id, modid, block, (ItemBlock)null, replacedIfAlreadyAnOreDict, oreDictNames);
+	}
+	
+	public static <T extends Block> T registerBlock(String id, T block, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames, ItemBlock blockItem)
+	{
+		return registerBlock(id, block, blockItem, replacedIfAlreadyAnOreDict, oreDictNames);
+	}
+	
+	public static <T extends Block> T registerBlock(String id, String modid, T block, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames, ItemBlock blockItem)
+	{
+		return registerBlock(id, modid, block, blockItem, replacedIfAlreadyAnOreDict, oreDictNames);
+	}
+	
+	public static <T extends Block> T registerBlock(String id, T block, ItemBlock blockItem, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
+	{
+		return registerBlock(id, RefMod.MODID, block, replacedIfAlreadyAnOreDict, oreDictNames);
+	}
+	
+	public static <T extends Block> T registerBlock(String id, String modid, T block, ItemBlock blockItem, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
+	{
 		if(!ids.containsKey(block))
 		{
 			Id ID = new Id(id, modid, replacedIfAlreadyAnOreDict, oreDictNames);
+			if(blockItem != null)
+			{
+				ID.blockItem = blockItem;
+			}
 			ids.put(block, ID);
 			idsToBeRegistered.add(ID);
 		}

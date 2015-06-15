@@ -15,6 +15,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.entity.IEntityPlasmid;
@@ -236,5 +238,23 @@ public class EntityPlasmidProjectile<Plsmd extends Plasmid & IPlasmidProjectile>
 			}
 		}
 		return a.size();
+	}
+	
+	/**
+	 * Checks if the entity is in range to render by using the past in distance
+	 * and comparing it to its average edge
+	 * length * 64 * renderDistanceWeight Args: distance
+	 */
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isInRangeToRenderDist(double distance)
+	{
+		if(this.plasmid.isInRangeToRenderDist(this, distance))
+		{
+			double d1 = this.getBoundingBox().getAverageEdgeLength() * 4.0D;
+			d1 *= 64.0D * 6;
+			return distance < d1 * d1;
+		}
+		return false;
 	}
 }

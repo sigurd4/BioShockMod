@@ -113,7 +113,7 @@ public class ItemWeaponShotgun extends ItemWeaponRanged<EnumAmmoTypeShotgun, Enu
 	 */
 	public ItemWeaponShotgun(int capacity, int fireRate, int fireRate2, float spread, float recoil, int reloadTime, float zoom)
 	{
-		super(capacity, fireRate, spread, recoil, reloadTime, zoom, EnumAmmoTypeShotgun.values(), EnumUpgradesShotgun.values(), false);
+		super(capacity, fireRate, spread, recoil, reloadTime, zoom, false);
 		this.fireRate2 = fireRate2;
 	}
 	
@@ -317,5 +317,17 @@ public class ItemWeaponShotgun extends ItemWeaponRanged<EnumAmmoTypeShotgun, Enu
 	public float kickBack(EntityPlayer player, ItemStack stack)
 	{
 		return super.kickBack(player, stack) * 3;
+	}
+	
+	@Override
+	public EnumAmmoTypeShotgun[] allAmmoTypes()
+	{
+		return EnumAmmoTypeShotgun.values();
+	}
+	
+	@Override
+	public EnumUpgradesShotgun[] allUpgrades()
+	{
+		return EnumUpgradesShotgun.values();
 	}
 }

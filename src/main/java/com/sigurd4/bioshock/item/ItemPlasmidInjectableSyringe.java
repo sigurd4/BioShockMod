@@ -11,7 +11,7 @@ import com.sigurd4.bioshock.Stuff;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.plasmids.Plasmid;
 
-public class ItemPlasmidInjectableSyringe extends Item implements IItemIdFrom
+public class ItemPlasmidInjectableSyringe extends Item implements IItemIdFrom, IItemInit
 {
 	public Plasmid plasmid;
 	
@@ -22,10 +22,14 @@ public class ItemPlasmidInjectableSyringe extends Item implements IItemIdFrom
 	{
 		super();
 		this.setUnlocalizedName(ItemPlasmid.type(plasmid) + "." + plasmid.id);
-		//this;
 		this.plasmid = plasmid;
 		this.setCreativeTab(M.tabs.plasmids);
 		this.setMaxStackSize(1);
+	}
+	
+	@Override
+	public void init()
+	{
 		this.setContainerItem(M.items.crafting.empty_hypo);
 	}
 	

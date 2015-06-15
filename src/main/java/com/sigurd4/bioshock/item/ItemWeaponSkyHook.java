@@ -35,6 +35,8 @@ public class ItemWeaponSkyHook extends ItemWeaponMelee
 	public HashMap<ItemStack, Float> damageHashMapLast = new HashMap();
 	
 	//nbt
+	/** If set to true, the player will jump in the next tick **/
+	public final static ItemTagBoolean JUMP = new ItemTagBoolean("Jump", false, false);
 	/** The player can hook while HOOKED > 0. Goes down one every tick. **/
 	public final static ItemTagInteger CAN_HOOK = new ItemTagInteger("CanHook", 0, 0, 5, false);
 	/** If the player is sendt up in the air. **/
@@ -54,7 +56,6 @@ public class ItemWeaponSkyHook extends ItemWeaponMelee
 	public final static ItemTagInteger HOOKED = new ItemTagInteger("Hooked", 0, 0, 5, false);
 	/** How long the player has been on the hook. **/
 	public final static ItemTagInteger HOOK_TIME = new ItemTagInteger("HookTime", 0, 0, Integer.MAX_VALUE, false);
-	public final static String ISJUMPHELD = "IsJumpHeld";
 	public final static ItemTagFloat WEAPONDAMAGE = new ItemTagFloat("WeaponDamage", 0F, 0F, Float.MAX_VALUE, true);
 	//for animation
 	public final static ItemTagFloat ROTATION = new ItemTagFloat("Rotation", 0F, -180F, 180F, false);
@@ -405,7 +406,7 @@ public class ItemWeaponSkyHook extends ItemWeaponMelee
 			{
 				CAN_HOOK.add(stack, -1);
 			}
-			if(CAN_HOOK.get(stack) >= 100)
+			if(JUMP.get(stack))
 			{
 				this.jumpTo(stack, entity);
 				CAN_HOOK.set(stack, -2);
@@ -426,6 +427,7 @@ public class ItemWeaponSkyHook extends ItemWeaponMelee
 				}
 			}
 		}
+		JUMP.set(stack, false);
 	}
 	
 	protected void calculateDamage(ItemStack stack, World world, EntityLivingBase entity, int slot, boolean isSelected)

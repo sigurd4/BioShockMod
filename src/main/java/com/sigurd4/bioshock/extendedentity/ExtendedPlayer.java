@@ -456,7 +456,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties, IEntityAdditio
 	
 	public final void setShields(float amount)
 	{
-		this.shields = amount > 0 ? amount : 0;
+		this.shields = amount > this.getMaxShields() ? this.getMaxShields() : amount > 0 ? amount : 0;
 	}
 	
 	public final void setDrunkness(int amount)

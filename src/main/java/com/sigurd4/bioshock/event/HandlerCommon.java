@@ -163,6 +163,7 @@ public class HandlerCommon
 			if(props != null)
 			{
 				props.passiveController.update(event);
+				props.update();
 			}
 			if(event.entity.worldObj.isRemote)
 			{
@@ -201,7 +202,7 @@ public class HandlerCommon
 		{
 			EntityMob mob = (EntityMob)event.entity;
 			Entity target = null;
-			if(EntityCrossbowBolt.isEntityInGasCloud(mob) || mob.getActivePotionEffect(Potion.blindness) != null)
+			/*if(EntityCrossbowBolt.isEntityInGasCloud(mob) || mob.getActivePotionEffect(Potion.blindness) != null)
 			{
 				if(mob.getAttackTarget() != null && mob.getAttackTarget().getDistanceToEntity(mob) > 1.4 && !ExtendedLivingBase.canBlindedEntityTarget(mob))
 				{
@@ -209,7 +210,7 @@ public class HandlerCommon
 					mob.setAttackTarget(null);
 					mob.setRevengeTarget(null);
 				}
-			}
+			}*/
 			if(!ExtendedLivingBase.canBlindedEntityTarget(mob))
 			{
 				target = mob.getAttackTarget();

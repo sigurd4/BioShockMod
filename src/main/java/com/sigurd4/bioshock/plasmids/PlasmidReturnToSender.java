@@ -159,4 +159,9 @@ public class PlasmidReturnToSender extends PlasmidHold implements IPlasmidProjec
 		return Element.returnToSender(projectile.getThrower());
 	}
 	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return true;
+	}
 }

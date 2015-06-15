@@ -16,7 +16,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.reference.RefMod;
 
 public class ContainerUInvent extends Container implements IContainerAddPlayerSlots
@@ -116,7 +115,8 @@ public class ContainerUInvent extends Container implements IContainerAddPlayerSl
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return this.worldObj.getBlockState(new BlockPos(this.pos.getX(), this.pos.getY(), this.pos.getZ())).getBlock() != M.VendorUInvent ? false : player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0D;
+		return true;
+		//return this.worldObj.getBlockState(new BlockPos(this.pos.getX(), this.pos.getY(), this.pos.getZ())).getBlock() != M.VendorUInvent ? false : player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0D;
 	}
 	
 	/**

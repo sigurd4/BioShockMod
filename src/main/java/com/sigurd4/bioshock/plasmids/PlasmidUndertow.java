@@ -1,5 +1,6 @@
 package com.sigurd4.bioshock.plasmids;
 
+import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -245,7 +246,7 @@ public class PlasmidUndertow extends Plasmid implements IPlasmidProjectile
 					vec = new Vec3(Math.floor(vec.xCoord) + dir, vec.yCoord, vec.zCoord);
 					for(int i = 0; i < projectile.motionX * 12; ++i)
 					{
-						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(pos.entityHit.width), vec.yCoord + Stuff.Randomization.r(pos.entityHit.height), vec.zCoord + Stuff.Randomization.r(pos.entityHit.width), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
+						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(0.5), vec.yCoord + Stuff.Randomization.r(0.5), vec.zCoord + Stuff.Randomization.r(0.5), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
 					}
 					projectile.motionX *= -0.2;
 					break;
@@ -255,7 +256,7 @@ public class PlasmidUndertow extends Plasmid implements IPlasmidProjectile
 					vec = new Vec3(vec.xCoord, Math.floor(vec.yCoord) + dir, vec.zCoord);
 					for(int i = 0; i < projectile.motionY * 12; ++i)
 					{
-						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(pos.entityHit.width), vec.yCoord + Stuff.Randomization.r(pos.entityHit.height), vec.zCoord + Stuff.Randomization.r(pos.entityHit.width), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
+						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(0.5), vec.yCoord + Stuff.Randomization.r(0.5), vec.zCoord + Stuff.Randomization.r(0.5), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
 					}
 					projectile.motionY *= -0.2;
 					break;
@@ -265,7 +266,7 @@ public class PlasmidUndertow extends Plasmid implements IPlasmidProjectile
 					vec = new Vec3(vec.xCoord, vec.yCoord, Math.floor(vec.zCoord) + dir);
 					for(int i = 0; i < projectile.motionZ * 12; ++i)
 					{
-						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(pos.entityHit.width), vec.yCoord + Stuff.Randomization.r(pos.entityHit.height), vec.zCoord + Stuff.Randomization.r(pos.entityHit.width), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
+						projectile.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, true, vec.xCoord + Stuff.Randomization.r(0.5), vec.yCoord + Stuff.Randomization.r(0.5), vec.zCoord + Stuff.Randomization.r(0.5), -projectile.motionX * 2, -projectile.motionY * 2, -projectile.motionZ * 2);
 					}
 					projectile.motionZ *= -0.2;
 					break;
@@ -296,7 +297,7 @@ public class PlasmidUndertow extends Plasmid implements IPlasmidProjectile
 						{
 							if(projectile.worldObj.getBlockState(pos2.add(vec.xCoord, vec.yCoord - 1, vec.zCoord)).getBlock().getMaterial().isSolid())
 							{
-								projectile.worldObj.setBlockState(pos2.add(vec.xCoord, vec.yCoord, vec.zCoord), Blocks.flowing_water.getDefaultState());
+								projectile.worldObj.setBlockState(pos2.add(vec.xCoord, vec.yCoord, vec.zCoord), Blocks.flowing_water.getDefaultState().withProperty(BlockDynamicLiquid.LEVEL, 15 - rand.nextInt(10)));
 							}
 						}
 					}
@@ -394,21 +395,24 @@ public class PlasmidUndertow extends Plasmid implements IPlasmidProjectile
 	@Override
 	public boolean attackEntityFrom(EntityThrowable projectile, DamageSource src, float dmg)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
 	public boolean interactFirst(EntityThrowable projectile, EntityPlayer player)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
 	public DamageSource getDamageSource(EntityThrowable projectile)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return Element.undertow(projectile.getThrower());
+	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
 	}
 }

@@ -1,0 +1,26 @@
+[
+	{
+		"modid": "bioshock",
+		"name": "BioShock Mod",
+		"description": "BioShock in minecraft!",
+		"version": "1.0",
+		"credits": "sigurd4",
+		"logoFile": "/info/logo.png",
+		"mcversion": "1.8",
+		"url": "http://www.planetminecraft.com/mod/bioshock-mod",
+		"updateUrl": "",
+		"authors":
+        [
+            "sigurd4"
+        ],
+		"parent":"",
+		"screenshots":
+        [
+			"/info/logo_small.png"
+		],
+		"dependencies":
+        [
+            "Forge"
+		]
+	}
+]

@@ -2,6 +2,7 @@ package com.sigurd4.bioshock;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
@@ -344,7 +345,7 @@ public class MItems
 	public class Infusions
 	{
 		public ItemInfusionHealth health = M.registerItem("infusion_health", new ItemInfusionHealth(), false, new String[]{});
-		public ItemInfusionSalts salts = M.registerItem("infusion_shields", new ItemInfusionSalts(), false, new String[]{});
+		public ItemInfusionSalts salts = M.registerItem("infusion_salts", new ItemInfusionSalts(), false, new String[]{});
 		public ItemInfusionShields shields = M.registerItem("infusion_shields", new ItemInfusionShields(), false, new String[]{});
 		public ItemInfusionQuantumSuperposition quantum_superposition = M.registerItem("infusion_quantum_superposition", new ItemInfusionQuantumSuperposition(this.health, this.salts, this.shields), false, new String[]{});
 	}
@@ -361,134 +362,162 @@ public class MItems
 	
 	public class Valuables
 	{
+		private class ItemValuableR extends ItemValuable
+		{
+			public ItemValuableR(int valueMin, int valueMax)
+			{
+				super(valueMin, valueMax);
+			}
+			
+			@Override
+			public ItemMoney currency()
+			{
+				return MItems.this.money.dollars;
+			}
+		}
+		
+		private class ItemValuableC extends ItemValuable
+		{
+			public ItemValuableC(int valueMin, int valueMax)
+			{
+				super(valueMin, valueMax);
+			}
+			
+			@Override
+			public ItemMoney currency()
+			{
+				return MItems.this.money.silver_eagles;
+			}
+		}
+		
 		public Rapture rapture = new Rapture();
 		
 		public class Rapture
 		{
-			public ItemValuable teddy_bear = M.registerItem("valuable_rapture_teddy_bear", (ItemValuable)new ItemValuable(1, 2, M.items.money.dollars).setUnlocalizedName("valuableTeddyBear"), false, new String[]{});
+			public ItemValuable teddy_bear = M.registerItem("valuable_rapture_teddy_bear", (ItemValuable)new ItemValuableR(1, 2).setUnlocalizedName("valuableTeddyBear"), false, new String[]{});
 			
 			public Ring ring = new Ring();
 			
 			public class Ring
 			{
-				public ItemValuable diamond = M.registerItem("valuable_rapture_ring_diamond", (ItemValuable)new ItemValuable(5, 15, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable emerald = M.registerItem("valuable_rapture_ring_emerald", (ItemValuable)new ItemValuable(5, 14, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable enderpearl = M.registerItem("valuable_rapture_ring_enderpearl", (ItemValuable)new ItemValuable(10, 14, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable glowstone = M.registerItem("valuable_rapture_ring_glowstone", (ItemValuable)new ItemValuable(2, 13, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable gold = M.registerItem("valuable_rapture_ring_gold", (ItemValuable)new ItemValuable(4, 10, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable pearl = M.registerItem("valuable_rapture_ring_pearl", (ItemValuable)new ItemValuable(3, 7, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable prismarine = M.registerItem("valuable_rapture_ring_prismarine", (ItemValuable)new ItemValuable(7, 13, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable quartz = M.registerItem("valuable_rapture_ring_quartx", (ItemValuable)new ItemValuable(3, 8, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable ruby = M.registerItem("valuable_rapture_ring_ruby", (ItemValuable)new ItemValuable(4, 14, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
-				public ItemValuable silver = M.registerItem("valuable_rapture_ring_silver", (ItemValuable)new ItemValuable(7, 11, M.items.money.dollars).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable diamond = M.registerItem("valuable_rapture_ring_diamond", (ItemValuable)new ItemValuableR(5, 15).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable emerald = M.registerItem("valuable_rapture_ring_emerald", (ItemValuable)new ItemValuableR(5, 14).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable enderpearl = M.registerItem("valuable_rapture_ring_enderpearl", (ItemValuable)new ItemValuableR(10, 14).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable glowstone = M.registerItem("valuable_rapture_ring_glowstone", (ItemValuable)new ItemValuableR(2, 13).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable gold = M.registerItem("valuable_rapture_ring_gold", (ItemValuable)new ItemValuableR(4, 10).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable pearl = M.registerItem("valuable_rapture_ring_pearl", (ItemValuable)new ItemValuableR(3, 7).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable prismarine = M.registerItem("valuable_rapture_ring_prismarine", (ItemValuable)new ItemValuableR(7, 13).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable quartz = M.registerItem("valuable_rapture_ring_quartx", (ItemValuable)new ItemValuableR(3, 8).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable ruby = M.registerItem("valuable_rapture_ring_ruby", (ItemValuable)new ItemValuableR(4, 14).setUnlocalizedName("valuableRing"), false, new String[]{});
+				public ItemValuable silver = M.registerItem("valuable_rapture_ring_silver", (ItemValuable)new ItemValuableR(7, 11).setUnlocalizedName("valuableRing"), false, new String[]{});
 			}
 			
 			public Watch watch = new Watch();
 			
 			public class Watch
 			{
-				public ItemValuable gold_leather_black_strip = M.registerItem("valuable_rapture_watch_leather_black_strip", (ItemValuable)new ItemValuable(6, 14, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable gold_leather_brown = M.registerItem("valuable_rapture_watch_gold_leather_brown", (ItemValuable)new ItemValuable(6, 13, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable gold_leather_dark = M.registerItem("valuable_rapture_watch_gold_leather_dark", (ItemValuable)new ItemValuable(6, 14, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable gold_leather_dark_with_steel = M.registerItem("valuable_rapture_watch_gold_leather_dark_with_steel", (ItemValuable)new ItemValuable(6, 13, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable gold_leather_red = M.registerItem("valuable_rapture_watch_gold_leather_red", (ItemValuable)new ItemValuable(6, 12, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable pocket_gold = M.registerItem("valuable_rapture_watch_pocket_gold", (ItemValuable)new ItemValuable(2, 16, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable pocket_steelDark = M.registerItem("valuable_rapture_watch_pocket_steel_dark", (ItemValuable)new ItemValuable(1, 16, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable steel_dark = M.registerItem("valuable_rapture_watch_steel_dark", (ItemValuable)new ItemValuable(6, 11, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable steel_leatherDarkWithGold = M.registerItem("valuable_rapture_watch_steel_leather_dark_with_gold", (ItemValuable)new ItemValuable(6, 10, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
-				public ItemValuable steel_light = M.registerItem("valuable_rapture_watch_steel_light", (ItemValuable)new ItemValuable(6, 10, M.items.money.dollars).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable gold_leather_black_strip = M.registerItem("valuable_rapture_watch_leather_black_strip", (ItemValuable)new ItemValuableR(6, 14).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable gold_leather_brown = M.registerItem("valuable_rapture_watch_gold_leather_brown", (ItemValuable)new ItemValuableR(6, 13).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable gold_leather_dark = M.registerItem("valuable_rapture_watch_gold_leather_dark", (ItemValuable)new ItemValuableR(6, 14).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable gold_leather_dark_with_steel = M.registerItem("valuable_rapture_watch_gold_leather_dark_with_steel", (ItemValuable)new ItemValuableR(6, 13).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable gold_leather_red = M.registerItem("valuable_rapture_watch_gold_leather_red", (ItemValuable)new ItemValuableR(6, 12).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable pocket_gold = M.registerItem("valuable_rapture_watch_pocket_gold", (ItemValuable)new ItemValuableR(2, 16).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable pocket_steelDark = M.registerItem("valuable_rapture_watch_pocket_steel_dark", (ItemValuable)new ItemValuableR(1, 16).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable steel_dark = M.registerItem("valuable_rapture_watch_steel_dark", (ItemValuable)new ItemValuableR(6, 11).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable steel_leatherDarkWithGold = M.registerItem("valuable_rapture_watch_steel_leather_dark_with_gold", (ItemValuable)new ItemValuableR(6, 10).setUnlocalizedName("valuableWatch"), false, new String[]{});
+				public ItemValuable steel_light = M.registerItem("valuable_rapture_watch_steel_light", (ItemValuable)new ItemValuableR(6, 10).setUnlocalizedName("valuableWatch"), false, new String[]{});
 			}
 			
 			public Bracelet bracelet = new Bracelet();
 			
 			public class Bracelet
 			{
-				public ItemValuable diamond = M.registerItem("valuable_rapture_bracelet_diamond", (ItemValuable)new ItemValuable(5, 19, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable emerald = M.registerItem("valuable_rapture_bracelet_emerald", (ItemValuable)new ItemValuable(5, 17, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable emerald_gold = M.registerItem("valuable_rapture_bracelet_emerald_gold", (ItemValuable)new ItemValuable(5, 18, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable glowstone = M.registerItem("valuable_rapture_bracelet_glowstone", (ItemValuable)new ItemValuable(4, 16, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable obsidian = M.registerItem("valuable_rapture_bracelet_obsidian", (ItemValuable)new ItemValuable(6, 17, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable pearl = M.registerItem("valuable_rapture_bracelet_pearl", (ItemValuable)new ItemValuable(3, 13, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable pearl_blue = M.registerItem("valuable_rapture_bracelet_pearl_blue", (ItemValuable)new ItemValuable(3, 6, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable pearl_green = M.registerItem("valuable_rapture_bracelet_pearl_green", (ItemValuable)new ItemValuable(3, 6, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable pearl_pink = M.registerItem("valuable_rapture_bracelet_pearl_pink", (ItemValuable)new ItemValuable(3, 5, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable prismarine = M.registerItem("valuable_rapture_bracelet_prismarine", (ItemValuable)new ItemValuable(4, 16, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
-				public ItemValuable ruby = M.registerItem("valuable_rapture_bracelet_ruby", (ItemValuable)new ItemValuable(5, 18, M.items.money.dollars).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable diamond = M.registerItem("valuable_rapture_bracelet_diamond", (ItemValuable)new ItemValuableR(5, 19).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable emerald = M.registerItem("valuable_rapture_bracelet_emerald", (ItemValuable)new ItemValuableR(5, 17).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable emerald_gold = M.registerItem("valuable_rapture_bracelet_emerald_gold", (ItemValuable)new ItemValuableR(5, 18).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable glowstone = M.registerItem("valuable_rapture_bracelet_glowstone", (ItemValuable)new ItemValuableR(4, 16).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable obsidian = M.registerItem("valuable_rapture_bracelet_obsidian", (ItemValuable)new ItemValuableR(6, 17).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable pearl = M.registerItem("valuable_rapture_bracelet_pearl", (ItemValuable)new ItemValuableR(3, 13).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable pearl_blue = M.registerItem("valuable_rapture_bracelet_pearl_blue", (ItemValuable)new ItemValuableR(3, 6).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable pearl_green = M.registerItem("valuable_rapture_bracelet_pearl_green", (ItemValuable)new ItemValuableR(3, 6).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable pearl_pink = M.registerItem("valuable_rapture_bracelet_pearl_pink", (ItemValuable)new ItemValuableR(3, 5).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable prismarine = M.registerItem("valuable_rapture_bracelet_prismarine", (ItemValuable)new ItemValuableR(4, 16).setUnlocalizedName("valuableBracelet"), false, new String[]{});
+				public ItemValuable ruby = M.registerItem("valuable_rapture_bracelet_ruby", (ItemValuable)new ItemValuableR(5, 18).setUnlocalizedName("valuableBracelet"), false, new String[]{});
 			}
 			
 			public LadiesShoe ladiesShoe = new LadiesShoe();
 			
 			public class LadiesShoe
 			{
-				public ItemValuable beige = M.registerItem("valuable_rapture_ladies_shoe_beige", (ItemValuable)new ItemValuable(2, 5, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable black = M.registerItem("valuable_rapture_ladies_shoe_black", (ItemValuable)new ItemValuable(3, 5, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable blue = M.registerItem("valuable_rapture_ladies_shoe_blue", (ItemValuable)new ItemValuable(2, 4, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable green = M.registerItem("valuable_rapture_ladies_shoe_green", (ItemValuable)new ItemValuable(2, 4, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable pink = M.registerItem("valuable_rapture_ladies_shoe_pink", (ItemValuable)new ItemValuable(2, 4, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable red = M.registerItem("valuable_rapture_ladies_shoe_red", (ItemValuable)new ItemValuable(3, 5, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
-				public ItemValuable white = M.registerItem("valuable_rapture_ladies_shoe_white", (ItemValuable)new ItemValuable(3, 5, M.items.money.dollars).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable beige = M.registerItem("valuable_rapture_ladies_shoe_beige", (ItemValuable)new ItemValuableR(2, 5).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable black = M.registerItem("valuable_rapture_ladies_shoe_black", (ItemValuable)new ItemValuableR(3, 5).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable blue = M.registerItem("valuable_rapture_ladies_shoe_blue", (ItemValuable)new ItemValuableR(2, 4).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable green = M.registerItem("valuable_rapture_ladies_shoe_green", (ItemValuable)new ItemValuableR(2, 4).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable pink = M.registerItem("valuable_rapture_ladies_shoe_pink", (ItemValuable)new ItemValuableR(2, 4).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable red = M.registerItem("valuable_rapture_ladies_shoe_red", (ItemValuable)new ItemValuableR(3, 5).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
+				public ItemValuable white = M.registerItem("valuable_rapture_ladies_shoe_white", (ItemValuable)new ItemValuableR(3, 5).setUnlocalizedName("valuableLadiesShoe"), false, new String[]{});
 			}
 			
 			public Necklace necklace = new Necklace();
 			
 			public class Necklace
 			{
-				public ItemValuable diamond = M.registerItem("valuable_rapture_necklace_diamond", (ItemValuable)new ItemValuable(5, 25, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable emerald = M.registerItem("valuable_rapture_necklace_emerald", (ItemValuable)new ItemValuable(5, 21, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable glowstone = M.registerItem("valuable_rapture_necklace_glowstone", (ItemValuable)new ItemValuable(3, 19, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable enderpearl = M.registerItem("valuable_rapture_necklace_enderpearl", (ItemValuable)new ItemValuable(11, 18, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable obsidian = M.registerItem("valuable_rapture_necklace_obsidian", (ItemValuable)new ItemValuable(7, 23, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable pearl = M.registerItem("valuable_rapture_necklace_pearl", (ItemValuable)new ItemValuable(2, 12, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable prismarine = M.registerItem("valuable_rapture_necklace_prismarine", (ItemValuable)new ItemValuable(4, 22, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
-				public ItemValuable ruby = M.registerItem("valuable_rapture_necklace_ruby", (ItemValuable)new ItemValuable(4, 24, M.items.money.dollars).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable diamond = M.registerItem("valuable_rapture_necklace_diamond", (ItemValuable)new ItemValuableR(5, 25).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable emerald = M.registerItem("valuable_rapture_necklace_emerald", (ItemValuable)new ItemValuableR(5, 21).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable glowstone = M.registerItem("valuable_rapture_necklace_glowstone", (ItemValuable)new ItemValuableR(3, 19).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable enderpearl = M.registerItem("valuable_rapture_necklace_enderpearl", (ItemValuable)new ItemValuableR(11, 18).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable obsidian = M.registerItem("valuable_rapture_necklace_obsidian", (ItemValuable)new ItemValuableR(7, 23).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable pearl = M.registerItem("valuable_rapture_necklace_pearl", (ItemValuable)new ItemValuableR(2, 12).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable prismarine = M.registerItem("valuable_rapture_necklace_prismarine", (ItemValuable)new ItemValuableR(4, 22).setUnlocalizedName("valuableNecklace"), false, new String[]{});
+				public ItemValuable ruby = M.registerItem("valuable_rapture_necklace_ruby", (ItemValuable)new ItemValuableR(4, 24).setUnlocalizedName("valuableNecklace"), false, new String[]{});
 			}
 			
 			public Doll doll = new Doll();
 			
 			public class Doll
 			{
-				public ItemValuable blue = M.registerItem("valuable_rapture_doll_blue", (ItemValuable)new ItemValuable(1, 8, M.items.money.dollars).setUnlocalizedName("valuableDoll"), false, new String[]{});
-				public ItemValuable green = M.registerItem("valuable_rapture_doll_green", (ItemValuable)new ItemValuable(1, 8, M.items.money.dollars).setUnlocalizedName("valuableDoll"), false, new String[]{});
-				public ItemValuable red = M.registerItem("valuable_rapture_doll_red", (ItemValuable)new ItemValuable(1, 8, M.items.money.dollars).setUnlocalizedName("valuableDoll"), false, new String[]{});
-				public ItemValuable yellow = M.registerItem("valuable_rapture_doll_yellow", (ItemValuable)new ItemValuable(1, 8, M.items.money.dollars).setUnlocalizedName("valuableDoll"), false, new String[]{});
+				public ItemValuable blue = M.registerItem("valuable_rapture_doll_blue", (ItemValuable)new ItemValuableR(1, 8).setUnlocalizedName("valuableDoll"), false, new String[]{});
+				public ItemValuable green = M.registerItem("valuable_rapture_doll_green", (ItemValuable)new ItemValuableR(1, 8).setUnlocalizedName("valuableDoll"), false, new String[]{});
+				public ItemValuable red = M.registerItem("valuable_rapture_doll_red", (ItemValuable)new ItemValuableR(1, 8).setUnlocalizedName("valuableDoll"), false, new String[]{});
+				public ItemValuable yellow = M.registerItem("valuable_rapture_doll_yellow", (ItemValuable)new ItemValuableR(1, 8).setUnlocalizedName("valuableDoll"), false, new String[]{});
 			}
 			
 			public Bar Bar = new Bar();
 			
 			public class Bar
 			{
-				public ItemValuable gold_large = M.registerItem("valuable_rapture_gold_bar_large", (ItemValuable)new ItemValuable(100, 100, M.items.money.dollars).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
-				public ItemValuable gold_small = M.registerItem("valuable_rapture_gold_bar_small", (ItemValuable)new ItemValuable(50, 50, M.items.money.dollars).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
+				public ItemValuable gold_large = M.registerItem("valuable_rapture_gold_bar_large", (ItemValuable)new ItemValuableR(100, 100).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
+				public ItemValuable gold_small = M.registerItem("valuable_rapture_gold_bar_small", (ItemValuable)new ItemValuableR(50, 50).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
 			}
 			
 			public Wallet wallet = new Wallet();
 			
 			public class Wallet
 			{
-				public ItemValuable beige = M.registerItem("valuable_rapture_wallet_beige", (ItemValuable)new ItemValuable(8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable black = M.registerItem("valuable_rapture_wallet_black", (ItemValuable)new ItemValuable(8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable brown = M.registerItem("valuable_rapture_wallet_brown", (ItemValuable)new ItemValuable(8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable gray = M.registerItem("valuable_rapture_wallet_gray", (ItemValuable)new ItemValuable(8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable red = M.registerItem("valuable_rapture_wallet_red", (ItemValuable)new ItemValuable(8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable beige_open = M.registerItem("valuable_rapture_wallet_beige_open", (ItemValuable)new ItemValuable(-8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable black_open = M.registerItem("valuable_rapture_wallet_black_open", (ItemValuable)new ItemValuable(-8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable brown_open = M.registerItem("valuable_rapture_wallet_brown_open", (ItemValuable)new ItemValuable(-8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable gray_open = M.registerItem("valuable_rapture_wallet_gray_open", (ItemValuable)new ItemValuable(-8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable red_open = M.registerItem("valuable_rapture_wallet_red_open", (ItemValuable)new ItemValuable(-8, 30, M.items.money.dollars).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable beige = M.registerItem("valuable_rapture_wallet_beige", (ItemValuable)new ItemValuableR(8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable black = M.registerItem("valuable_rapture_wallet_black", (ItemValuable)new ItemValuableR(8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable brown = M.registerItem("valuable_rapture_wallet_brown", (ItemValuable)new ItemValuableR(8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable gray = M.registerItem("valuable_rapture_wallet_gray", (ItemValuable)new ItemValuableR(8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable red = M.registerItem("valuable_rapture_wallet_red", (ItemValuable)new ItemValuableR(8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable beige_open = M.registerItem("valuable_rapture_wallet_beige_open", (ItemValuable)new ItemValuableR(-8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable black_open = M.registerItem("valuable_rapture_wallet_black_open", (ItemValuable)new ItemValuableR(-8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable brown_open = M.registerItem("valuable_rapture_wallet_brown_open", (ItemValuable)new ItemValuableR(-8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable gray_open = M.registerItem("valuable_rapture_wallet_gray_open", (ItemValuable)new ItemValuableR(-8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable red_open = M.registerItem("valuable_rapture_wallet_red_open", (ItemValuable)new ItemValuableR(-8, 30).setUnlocalizedName("valuableWallet"), false, new String[]{});
 			}
 			
 			public Purse purse = new Purse();
 			
 			public class Purse
 			{
-				public ItemValuable beige = M.registerItem("valuable_rapture_purse_beige", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable black = M.registerItem("valuable_rapture_purse_black", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable blue = M.registerItem("valuable_rapture_purse_blue", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable brown = M.registerItem("valuable_rapture_purse_brown", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable gray = M.registerItem("valuable_rapture_purse_gray", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable green = M.registerItem("valuable_rapture_purse_green", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable orange = M.registerItem("valuable_rapture_purse_orange", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable red = M.registerItem("valuable_rapture_purse_red", (ItemValuable)new ItemValuable(1, 26, M.items.money.dollars).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable beige = M.registerItem("valuable_rapture_purse_beige", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable black = M.registerItem("valuable_rapture_purse_black", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable blue = M.registerItem("valuable_rapture_purse_blue", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable brown = M.registerItem("valuable_rapture_purse_brown", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable gray = M.registerItem("valuable_rapture_purse_gray", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable green = M.registerItem("valuable_rapture_purse_green", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable orange = M.registerItem("valuable_rapture_purse_orange", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable red = M.registerItem("valuable_rapture_purse_red", (ItemValuable)new ItemValuableR(1, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
 			}
 		}
 		
@@ -500,33 +529,33 @@ public class MItems
 			
 			public class Wallet
 			{
-				public ItemValuable black = M.registerItem("valuable_columbia_wallet_black", (ItemValuable)new ItemValuable(1, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable brown = M.registerItem("valuable_columbia_wallet_brown", (ItemValuable)new ItemValuable(1, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable red = M.registerItem("valuable_columbia_wallet_red", (ItemValuable)new ItemValuable(1, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable black_open = M.registerItem("valuable_columbia_wallet_black_open", (ItemValuable)new ItemValuable(-5, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable brown_open = M.registerItem("valuable_columbia_wallet_brown_open", (ItemValuable)new ItemValuable(-5, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
-				public ItemValuable red_open = M.registerItem("valuable_columbia_wallet_red_open", (ItemValuable)new ItemValuable(-5, 25, M.items.money.silver_eagles).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable black = M.registerItem("valuable_columbia_wallet_black", (ItemValuable)new ItemValuableC(1, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable brown = M.registerItem("valuable_columbia_wallet_brown", (ItemValuable)new ItemValuableC(1, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable red = M.registerItem("valuable_columbia_wallet_red", (ItemValuable)new ItemValuableC(1, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable black_open = M.registerItem("valuable_columbia_wallet_black_open", (ItemValuable)new ItemValuableC(-5, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable brown_open = M.registerItem("valuable_columbia_wallet_brown_open", (ItemValuable)new ItemValuableC(-5, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
+				public ItemValuable red_open = M.registerItem("valuable_columbia_wallet_red_open", (ItemValuable)new ItemValuableC(-5, 25).setUnlocalizedName("valuableWallet"), false, new String[]{});
 			}
 			
 			public Purse purse = new Purse();
 			
 			public class Purse
 			{
-				public ItemValuable beige = M.registerItem("valuable_columbia_purse_beige", (ItemValuable)new ItemValuable(1, 24, M.items.money.silver_eagles).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable black = M.registerItem("valuable_columbia_purse_black", (ItemValuable)new ItemValuable(2, 26, M.items.money.silver_eagles).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable brown = M.registerItem("valuable_columbia_purse_brown", (ItemValuable)new ItemValuable(1, 23, M.items.money.silver_eagles).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable gray = M.registerItem("valuable_columbia_purse_gray", (ItemValuable)new ItemValuable(4, 25, M.items.money.silver_eagles).setUnlocalizedName("valuablePurse"), false, new String[]{});
-				public ItemValuable orange = M.registerItem("valuable_columbia_purse_orange", (ItemValuable)new ItemValuable(3, 23, M.items.money.silver_eagles).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable beige = M.registerItem("valuable_columbia_purse_beige", (ItemValuable)new ItemValuableC(1, 24).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable black = M.registerItem("valuable_columbia_purse_black", (ItemValuable)new ItemValuableC(2, 26).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable brown = M.registerItem("valuable_columbia_purse_brown", (ItemValuable)new ItemValuableC(1, 23).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable gray = M.registerItem("valuable_columbia_purse_gray", (ItemValuable)new ItemValuableC(4, 25).setUnlocalizedName("valuablePurse"), false, new String[]{});
+				public ItemValuable orange = M.registerItem("valuable_columbia_purse_orange", (ItemValuable)new ItemValuableC(3, 23).setUnlocalizedName("valuablePurse"), false, new String[]{});
 			}
 			
-			public ItemValuable cash_bag = M.registerItem("valuable_columbia_cash_bag", (ItemValuable)new ItemValuable(13, 61, M.items.money.silver_eagles).setUnlocalizedName("valuableCashBag"), false, new String[]{});
+			public ItemValuable cash_bag = M.registerItem("valuable_columbia_cash_bag", (ItemValuable)new ItemValuableC(13, 61).setUnlocalizedName("valuableCashBag"), false, new String[]{});
 			
 			public Bar bar = new Bar();
 			
 			public class Bar
 			{
-				public ItemValuable silver = M.registerItem("valuable_columbia_silver_bar", (ItemValuable)new ItemValuable(100, 100, M.items.money.silver_eagles).setUnlocalizedName("valuableSilverBar"), false, new String[]{});
-				public ItemValuable gold = M.registerItem("valuable_columbia_gold_bar", (ItemValuable)new ItemValuable(500, 500, M.items.money.silver_eagles).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
+				public ItemValuable silver = M.registerItem("valuable_columbia_silver_bar", (ItemValuable)new ItemValuableC(100, 100).setUnlocalizedName("valuableSilverBar"), false, new String[]{});
+				public ItemValuable gold = M.registerItem("valuable_columbia_gold_bar", (ItemValuable)new ItemValuableC(500, 500).setUnlocalizedName("valuableGoldBar"), false, new String[]{});
 			}
 		}
 	}
@@ -541,7 +570,14 @@ public class MItems
 		public ItemCrafting bullet_standard = M.registerItem("bullet_standard", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletStandard"), false, new String[]{});
 		public ItemCrafting bullet_armor_piercing = M.registerItem("bullet_armor_piercing", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletArmorPiercing"), false, new String[]{});
 		public ItemCrafting bullet_antipersonnel = M.registerItem("bullet_antipersonnel", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemBulletAntipersonnel"), false, new String[]{});
-		public ItemCrafting chlorophyll_solution = M.registerItem("vial_chlorophyll_solution", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemChlorophyllSolution").setContainerItem(M.items.crafting.empty_vial), false, new String[]{});
+		public ItemCrafting chlorophyll_solution = M.registerItem("vial_chlorophyll_solution", (ItemCrafting)new ItemCrafting()
+		{
+			@Override
+			public Item getContainerItem()
+			{
+				return MItems.this.crafting.empty_vial;
+			}
+		}.setUnlocalizedName("craftingItemChlorophyllSolution"), false, new String[]{});
 		public ItemCrafting cup = M.registerItem("cup", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemCup"), false, new String[]{});
 		public ItemCrafting cup_white = M.registerItem("cup2", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemCup"), false, new String[]{});
 		public ItemCrafting empty_auto_round = M.registerItem("empty_auto_round", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyAutoRound"), false, new String[]{});
@@ -552,8 +588,22 @@ public class MItems
 		public ItemCrafting empty_shell_casing = M.registerItem("empty_shell_casing", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyShellCasing"), false, new String[]{});
 		public ItemCrafting empty_tank = M.registerItem("tank_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyTank"), false, new String[]{});
 		public ItemCrafting empty_vial = M.registerItem("vial_empty", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEmptyVial"), false, new String[]{});
-		public ItemCrafting enzyme_sample = M.registerItem("pipette_enzyme_sample", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemEnzymeSample").setContainerItem(M.items.crafting.empty_pipette), false, new String[]{});
-		public ItemConsumable fresh_water = M.items.consumables.drink.fresh_water;
+		public ItemCrafting enzyme_sample = M.registerItem("pipette_enzyme_sample", (ItemCrafting)new ItemCrafting()
+		{
+			@Override
+			public Item getContainerItem()
+			{
+				return MItems.this.crafting.empty_pipette;
+			}
+		}.setUnlocalizedName("craftingItemEnzymeSample"), false, new String[]{});
+		public ItemConsumable fresh_water = M.registerItem("consumable_fresh_water", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "freshWater", 3, 0, 0, 0.8F, 20, 0, false, "cork")
+		{
+			@Override
+			public CreativeTabs[] getCreativeTabs()
+			{
+				return new CreativeTabs[]{M.tabs.consumables, M.tabs.crafting_items};
+			}
+		}.setUnlocalizedName("consumableFreshWater").setContainerItem(Items.glass_bottle), false, new String[]{});
 		public ItemCrafting gear_steel = M.registerItem("gear_steel", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemGear"), false, new String[]{});
 		public ItemCrafting glue = M.registerItem("glue", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemGlue"), false, new String[]{});
 		public ItemCrafting kerosene = M.registerItem("kerosene_can", (ItemCrafting)new ItemCrafting().setUnlocalizedName("craftingItemKerosene"), false, new String[]{});
@@ -575,8 +625,22 @@ public class MItems
 		
 		public class Misc
 		{
-			public ItemConsumable AdamInjectable = M.registerItem("adam_hypo", (ItemConsumable)new ItemConsumable(EnumConsumableType.INJECTABLE, "adam", 0, 0, 0, 0.0F, 24, 0, false, null).setUnlocalizedName("adamInjectable").setCreativeTab(M.tabs.core).setContainerItem(M.items.crafting.empty_hypo), false, new String[]{});
-			public ItemEveHypo EveInjectable = M.registerItem("eve_hypo", (ItemEveHypo)new ItemEveHypo(EnumConsumableType.INJECTABLE, "eve", 0, 100, 0, 0.0F, 24, 0, null).setUnlocalizedName("eveInjectable").setCreativeTab(M.tabs.core).setContainerItem(M.items.crafting.empty_hypo), false, new String[]{});
+			public ItemConsumable AdamInjectable = M.registerItem("adam_hypo", (ItemConsumable)new ItemConsumable(EnumConsumableType.INJECTABLE, "adam", 0, 0, 0, 0.0F, 24, 0, false, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.empty_hypo;
+				}
+			}.setUnlocalizedName("adamInjectable").setCreativeTab(M.tabs.core), false, new String[]{});
+			public ItemEveHypo EveInjectable = M.registerItem("eve_hypo", (ItemEveHypo)new ItemEveHypo(EnumConsumableType.INJECTABLE, "eve", 0, 100, 0, 0.0F, 24, 0, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.empty_hypo;
+				}
+			}.setUnlocalizedName("eveInjectable").setCreativeTab(M.tabs.core), false, new String[]{});
 			public ItemEveHypo EveDrinkableSmall = M.registerItem("eve_drinkable_small", (ItemEveHypo)new ItemEveHypo(EnumConsumableType.DRINK, "eve", 0, 25, 0, 0.0F, 16, 0, "cork").setUnlocalizedName("eveDrinkableSmall").setCreativeTab(M.tabs.core), false, new String[]{});
 			public ItemEveHypo EveDrinkableMedium = M.registerItem("eve_drinkable_medium", (ItemEveHypo)new ItemEveHypo(EnumConsumableType.DRINK, "eve", 0, 50, 0, 0.0F, 24, 0, "cork").setUnlocalizedName("eveDrinkableMedium").setCreativeTab(M.tabs.core), false, new String[]{});
 			public ItemEveHypo EveDrinkableLarge = M.registerItem("eve_drinkable_large", (ItemEveHypo)new ItemEveHypo(EnumConsumableType.DRINK, "eve", 0, 100, 0, 0.0F, 32, 0, "cork").setUnlocalizedName("eveDrinkableLarge").setCreativeTab(M.tabs.core), false, new String[]{});
@@ -622,25 +686,60 @@ public class MItems
 		public class Drink
 		{
 			//public Item Consumable = new Consumable(EnumConsumableType.DRINK,"",0,10,0,0.3F,20,0).setUnlocalizedName("consumable");
-			public ItemConsumable coffee_thermos = M.registerItem("consumable_coffee_thermos", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeThermos", 0, 12, 0, 0.3F, 29, 0, false, "thermos").setUnlocalizedName("consumableCoffeeThermos").setContainerItem(M.items.consumables.drink.coffee_thermos), false, new String[]{});
-			public ItemConsumable coffee_rapture_tin = M.registerItem("consumable_rapture_coffee_tin", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "raptureCoffeeTin", 0, 12, 0, 0.3F, 28, 0, false, "tin").setUnlocalizedName("consumableRaptureCoffeeTin"), false, new String[]{});
-			public ItemConsumable coffee_cup_white = M.registerItem("consumable_coffee_cup2", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeCupPorcelain", 0, 12, 0, 0.3F, 15, 0, false, null).setUnlocalizedName("consumableCoffeeCupPorcelain").setContainerItem(M.items.crafting.cup_white), false, new String[]{});
-			public ItemConsumable tea_thermos = M.registerItem("consumable_tea_thermos", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaThermos", 0, 9, 0, 0.5F, 29, 0, false, "thermos").setUnlocalizedName("consumableTeaThermos").setContainerItem(M.items.consumables.drink.tea_thermos), false, new String[]{});
-			public ItemConsumable tea_cup_white = M.registerItem("consumable_tea_cup2", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaCupPorcelain", 0, 9, 0, 0.5F, 15, 0, false, null).setUnlocalizedName("consumableTeaCupPorcelain").setContainerItem(M.items.crafting.cup_white), false, new String[]{});
-			public ItemConsumable fresh_water = M.registerItem("consumable_fresh_water", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "freshWater", 3, 0, 0, 0.8F, 20, 0, false, "cork")
+			public ItemConsumable coffee_thermos = M.registerItem("consumable_coffee_thermos", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeThermos", 0, 12, 0, 0.3F, 29, 0, false, "thermos")
 			{
 				@Override
-				public CreativeTabs[] getCreativeTabs()
+				public Item getContainerItem()
 				{
-					return new CreativeTabs[]{M.tabs.consumables, M.tabs.craftingItems};
+					return MItems.this.consumables.drink.coffee_thermos;
 				}
-			}.setUnlocalizedName("consumableFreshWater").setContainerItem(Items.glass_bottle), false, new String[]{});
+			}.setUnlocalizedName("consumableCoffeeThermos"), false, new String[]{});
+			public ItemConsumable coffee_rapture_tin = M.registerItem("consumable_rapture_coffee_tin", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "raptureCoffeeTin", 0, 12, 0, 0.3F, 28, 0, false, "tin").setUnlocalizedName("consumableRaptureCoffeeTin"), false, new String[]{});
+			public ItemConsumable coffee_cup_white = M.registerItem("consumable_coffee_cup2", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeCupPorcelain", 0, 12, 0, 0.3F, 15, 0, false, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.cup_white;
+				}
+			}.setUnlocalizedName("consumableCoffeeCupPorcelain"), false, new String[]{});
+			public ItemConsumable tea_thermos = M.registerItem("consumable_tea_thermos", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaThermos", 0, 9, 0, 0.5F, 29, 0, false, "thermos")
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.consumables.drink.tea_thermos;
+				}
+			}.setUnlocalizedName("consumableTeaThermos"), false, new String[]{});
+			public ItemConsumable tea_cup_white = M.registerItem("consumable_tea_cup2", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaCupPorcelain", 0, 9, 0, 0.5F, 15, 0, false, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.cup_white;
+				}
+			}.setUnlocalizedName("consumableTeaCupPorcelain"), false, new String[]{});
+			public ItemConsumable fresh_water = MItems.this.crafting.fresh_water;
 			public ItemConsumable hop_up_cola = M.registerItem("consumable_hop_up_cola", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "hopUpCola", 0, 10, 0, 0.1F, 20, 0, true, "soda").setUnlocalizedName("consumableHopUpCola"), false, new String[]{});
 			public ItemConsumable milk_bottle = M.registerItem("consumable_milk_bottle", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "milkBottle", 3, 0, 0, 0.8F, 20, 0, false, "cork").setUnlocalizedName("consumableMilkBottle").setContainerItem(Items.glass_bottle), false, new String[]{});
 			public ItemConsumable coffee_columbia_tin = M.registerItem("consumable_columbia_coffee_tin", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "columbiaCoffeeTin", 0, 12, 0, 0.3F, 28, 0, false, "tin").setUnlocalizedName("consumableColumbiaCoffeeTin"), false, new String[]{});
-			public ItemConsumable coffee_cup = M.registerItem("consumable_coffee_cup", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeCup", 0, 12, 0, 0.3F, 15, 0, false, null).setUnlocalizedName("consumableCoffeeCup").setContainerItem(M.items.crafting.cup), false, new String[]{});
+			public ItemConsumable coffee_cup = M.registerItem("consumable_coffee_cup", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "coffeeCup", 0, 12, 0, 0.3F, 15, 0, false, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.cup;
+				}
+			}.setUnlocalizedName("consumableCoffeeCup"), false, new String[]{});
 			public ItemConsumable pap_drink_soda = M.registerItem("consumable_pap_drink_soda", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "papDrinkSoda", 0, 10, 0, 0.1F, 20, 0, true, "soda").setUnlocalizedName("consumablePapDrinkSoda"), false, new String[]{});
-			public ItemConsumable tea_cup = M.registerItem("consumable_tea_cup", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaCup", 0, 9, 0, 0.5F, 15, 0, false, null).setUnlocalizedName("consumableTeaCup").setContainerItem(M.items.crafting.cup), false, new String[]{});
+			public ItemConsumable tea_cup = M.registerItem("consumable_tea_cup", (ItemConsumable)new ItemConsumable(EnumConsumableType.DRINK, "teaCup", 0, 9, 0, 0.5F, 15, 0, false, null)
+			{
+				@Override
+				public Item getContainerItem()
+				{
+					return MItems.this.crafting.cup;
+				}
+			}.setUnlocalizedName("consumableTeaCup"), false, new String[]{});
 		}
 		
 		public Food food = new Food();
@@ -736,8 +835,6 @@ public class MItems
 		
 		public class Crossbow
 		{
-			public ItemWeaponCrossbow WeaponCrossbow = M.registerItem((ItemWeaponCrossbow)new ItemWeaponCrossbow("crossbow", 5, 21, 0.0F, 4.5F, 14, 0.52F, "Damage", "Bolt", new String[]{"IronTip", "Incendiary", "Trap", "Tranquilizer", "Noisemaker", "Gas"}), false, new String[]{});
-			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -749,14 +846,14 @@ public class MItems
 				public ItemAmmo noisemaker_bolt = M.registerItem("ammo_crossbow_bolt_noisemaker", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltNoisemaker").setCreativeTab(M.tabs.weapons), false, new String[]{});
 				public ItemAmmo gas_bolt = M.registerItem("ammo_crossbow_bolt_gas", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponCrossbowBoltGas").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
+			
+			//public ItemWeaponCrossbow WeaponCrossbow = M.registerItem((ItemWeaponCrossbow)new ItemWeaponCrossbow("crossbow", 5, 21, 0.0F, 4.5F, 14, 0.52F, "Damage", "Bolt", new String[]{"IronTip", "Incendiary", "Trap", "Tranquilizer", "Noisemaker", "Gas"}), false, new String[]{});
 		}
 		
 		public Pistol pistol = new Pistol();
 		
 		public class Pistol
 		{
-			public ItemWeaponPistol WeaponPistolRapture = M.registerItem((ItemWeaponPistol)new ItemWeaponPistol("pistol_rapture", 6, 24, 8, 1F, 16.6F, 15, 0.39F, "Damage", "Clip", new String[]{"Standard", "ArmorPiercing", "Antipersonnel"}), false, new String[]{});
-			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -765,14 +862,14 @@ public class MItems
 				public ItemAmmo armor_piercing_round = M.registerItem("ammo_pistol_round_armor_piercing", (ItemAmmo)new ItemAmmo(6).setUnlocalizedName("weaponPistolAmmoArmorPiercing").setCreativeTab(M.tabs.weapons), false, new String[]{});
 				public ItemAmmo antipersonnel_round = M.registerItem("ammo_pistol_round_antipersonnel", (ItemAmmo)new ItemAmmo(6).setUnlocalizedName("weaponPistolAmmoAntipersonnel").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
+			
+			//public ItemWeaponPistol WeaponPistolRapture = M.registerItem((ItemWeaponPistol)new ItemWeaponPistol("pistol_rapture", 6, 24, 8, 1F, 16.6F, 15, 0.39F, "Damage", "Clip", new String[]{"Standard", "ArmorPiercing", "Antipersonnel"}), false, new String[]{});
 		}
 		
 		public Shotgun shotgun = new Shotgun();
 		
 		public class Shotgun
 		{
-			public ItemWeaponShotgun WeaponShotgunRapture = M.registerItem("shotgun_rapture", (ItemWeaponShotgun)new ItemWeaponShotgun(4, 24, 12, 17.5F, 22.5F, 12, 0.1F).setUnlocalizedName("weaponShotgunRapture"), false, new String[]{});
-			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -782,14 +879,15 @@ public class MItems
 				public ItemAmmo exploding_buck = M.registerItem("ammo_shotgun_shell_exploding", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmoExploding").setCreativeTab(M.tabs.weapons), false, new String[]{});
 				public ItemAmmo solid_slug = M.registerItem("ammo_shotgun_shell_solid_slug", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponShotgunAmmoSolidSlug").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
+			
+			public ItemWeaponShotgun WeaponShotgunRapture = M.registerItem("shotgun_rapture", (ItemWeaponShotgun)new ItemWeaponShotgun(4, 24, 12, 17.5F, 22.5F, 12, 0.1F).setUnlocalizedName("weaponShotgunRapture"), false, new String[]{});
+			
 		}
 		
 		public TommyGun tommy_gun = new TommyGun();
 		
 		public class TommyGun
 		{
-			public ItemWeaponTommyGun WeaponMachineGunRapture = M.registerItem((ItemWeaponTommyGun)new ItemWeaponTommyGun("tommy_gun", 30, 3, 2.6F, 7.6F, 3.3F, 22, 0.31F, "Recoil Reduction", "Damage", new String[]{"Standard", "Antipersonnel", "ArmorPiercing"}), false, new String[]{});
-			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
@@ -798,27 +896,28 @@ public class MItems
 				public ItemAmmo antipersonnel_round = M.registerItem("ammo_auto_round_antipersonnel", (ItemAmmo)new ItemAmmo(30).setUnlocalizedName("weaponAutoAmmoAntipersonnel").setCreativeTab(M.tabs.weapons), false, new String[]{});
 				public ItemAmmo armor_piercing_round = M.registerItem("ammo_auto_round_armor_piercing", (ItemAmmo)new ItemAmmo(30).setUnlocalizedName("weaponAutoAmmoArmorPiercing").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
+			//public ItemWeaponTommyGun WeaponMachineGunRapture = M.registerItem((ItemWeaponTommyGun)new ItemWeaponTommyGun("tommy_gun", 30, 3, 2.6F, 7.6F, 3.3F, 22, 0.31F, "Recoil Reduction", "Damage", new String[]{"Standard", "Antipersonnel", "ArmorPiercing"}), false, new String[]{});
 		}
 		
 		public GrenadeLauncher grenade_launcher = new GrenadeLauncher();
 		
 		public class GrenadeLauncher
 		{
-			public ItemWeaponGrenadeLauncher WeaponGrenadeLauncher = M.registerItem((ItemWeaponGrenadeLauncher)new ItemWeaponGrenadeLauncher("grenade_launcher", 0, 6, 0), false, new String[]{});
-			
 			public Ammo ammo = new Ammo();
 			
 			public class Ammo
 			{
 				public ItemAmmo frag_grenade = M.registerItem("ammo_grenade_frag", (ItemAmmo)new ItemAmmo(0).setUnlocalizedName("weaponGrenadeLauncherAmmoFrag").setCreativeTab(M.tabs.weapons), false, new String[]{});
 			}
+			
+			//public ItemWeaponGrenadeLauncher WeaponGrenadeLauncher = M.registerItem((ItemWeaponGrenadeLauncher)new ItemWeaponGrenadeLauncher("grenade_launcher", 0, 6, 0), false, new String[]{});
 		}
 		
 		public Throwable throwable = new Throwable();
 		
 		public class Throwable
 		{
-			public ItemTennisBall tennis_ball = M.registerItem("tennis_ball", (ItemTennisBall)new ItemTennisBall(0.5F), false, new String[]{});
+			//public ItemTennisBall tennis_ball = M.registerItem("tennis_ball", (ItemTennisBall)new ItemTennisBall(0.5F), false, new String[]{});
 		}
 	}
 	
@@ -848,9 +947,12 @@ public class MItems
 			public I legs;
 			public I feet;
 			
-			public ArmorSet(I head, I body, I legs, I feet)
+			public ArmorSet(String id, I head, I body, I legs, I feet)
 			{
-				this.head = head;
+				this.head = M.registerItem(id + "_" + EnumArmorType.values()[head.armorType].toString().toLowerCase(), head, false, new String[]{});
+				this.body = M.registerItem(id + "_" + EnumArmorType.values()[body.armorType].toString().toLowerCase(), body, false, new String[]{});
+				this.legs = M.registerItem(id + "_" + EnumArmorType.values()[legs.armorType].toString().toLowerCase(), legs, false, new String[]{});
+				this.feet = M.registerItem(id + "_" + EnumArmorType.values()[feet.armorType].toString().toLowerCase(), feet, false, new String[]{});
 			}
 			
 			public I get(EnumArmorType armorType)
@@ -870,6 +972,11 @@ public class MItems
 			}
 		}
 		
-		public ArmorSet<ItemArmorDivingSuit> diving_suit = new ArmorSet((ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_METAL, EnumArmorType.HEAD, "diving_suit_helmet", "diving_suit_3", true).setUnlocalizedName("divingSuitHelmet"), (ItemArmorDivingSuitTank)new ItemArmorDivingSuitTank(M.items.armor.materials.DIVING_SUIT_CLOTH, EnumArmorType.BODY, "diving_suit_upper_body", false, M.items.armor.diving_suit.head, M.items.armor.diving_suit.legs, M.items.armor.diving_suit.feet).setUnlocalizedName("divingSuitUpperBody"), (ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_CLOTH, EnumArmorType.LEGS, "diving_suit_lower_body", false).setUnlocalizedName("divingSuitLowerBody"), (ItemArmorDivingSuit)new ItemArmorDivingSuit(M.items.armor.materials.DIVING_SUIT_METAL, EnumArmorType.FEET, "diving_suit_boots", true).setUnlocalizedName("divingSuitBoots"));
+		private ItemArmorDivingSuit diving_suit_head = (ItemArmorDivingSuit)new ItemArmorDivingSuit(this.materials.DIVING_SUIT_METAL, EnumArmorType.HEAD, "diving_suit_helmet", "diving_suit_3", true).setUnlocalizedName("divingSuitHelmet");
+		private ItemArmorDivingSuit diving_suit_legs = (ItemArmorDivingSuit)new ItemArmorDivingSuit(this.materials.DIVING_SUIT_CLOTH, EnumArmorType.LEGS, "diving_suit_lower_body", null, true).setUnlocalizedName("divingSuitLowerBody");
+		private ItemArmorDivingSuit diving_suit_feet = (ItemArmorDivingSuit)new ItemArmorDivingSuit(this.materials.DIVING_SUIT_METAL, EnumArmorType.FEET, "diving_suit_boots", null, true).setUnlocalizedName("divingSuitBoots");
+		private ItemArmorDivingSuitTank diving_suit_body = (ItemArmorDivingSuitTank)new ItemArmorDivingSuitTank(this.materials.DIVING_SUIT_CLOTH, EnumArmorType.BODY, "diving_suit_upper_body", false, this.diving_suit_head, this.diving_suit_legs, this.diving_suit_feet).setUnlocalizedName("divingSuitUpperBody");
+		
+		public ArmorSet<ItemArmorDivingSuit> diving_suit = new ArmorSet("diving_suit", this.diving_suit_head, this.diving_suit_body, this.diving_suit_legs, this.diving_suit_feet);
 	}
 }

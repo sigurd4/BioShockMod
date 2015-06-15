@@ -29,7 +29,7 @@ import com.sigurd4.bioshock.itemtags.ItemTagEnumMapBoolean;
 import com.sigurd4.bioshock.itemtags.ItemTagInteger;
 import com.sigurd4.bioshock.reference.RefMod;
 
-public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType, EnumUpgrades extends Enum & IEnumUpgrade> extends Item implements IItemWeapon, IItemTextureVariants
+public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType, EnumUpgrades extends Enum & IEnumUpgrade> extends Item implements IItemWeapon, IItemTextureVariants, IItemInit
 {
 	protected static interface IEnumAmmoType
 	{
@@ -105,9 +105,6 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	
 	protected boolean differentTextureIfEmpty;
 	
-	public final EnumAmmoType[] allAmmoTypes;
-	public final EnumUpgrades[] allUpgrades;
-	
 	public int reloads = 10;
 	
 	//nbt
@@ -137,7 +134,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		}
 	};
 	public final static ItemTagInteger AMMO = new ItemTagInteger("Ammo", 0, 0, Integer.MAX_VALUE, true);
-	public final ItemTagEnum<EnumAmmoType> AMMO_TYPE = new ItemTagEnum<EnumAmmoType>("AmmoType", this.allAmmoTypes[0], false);
+	public ItemTagEnum<EnumAmmoType> AMMO_TYPE;
 	public final ItemTagInteger FIRE_RATE = new ItemTagInteger("FireRate", Integer.MAX_VALUE, 1, Integer.MAX_VALUE, false)
 	{
 		@Override
@@ -252,7 +249,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	 * @param String
 	 *            name for third type of ammunition
 	 */
-	public ItemWeaponRanged(int capacity, int fireRate, float spread, float recoil, int reloadTime, float zoom, EnumAmmoType[] allAmmoTypes, EnumUpgrades[] allUpgrades, boolean differentTextureIfEmpty)
+	public ItemWeaponRanged(int capacity, int fireRate, float spread, float recoil, int reloadTime, float zoom, boolean differentTextureIfEmpty)
 	{
 		super();
 		this.isRapidFire = false;
@@ -262,8 +259,6 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		this.recoil = recoil;
 		this.reloadTime = reloadTime;
 		this.zoom = zoom;
-		this.allAmmoTypes = allAmmoTypes;
-		this.allUpgrades = allUpgrades;
 		this.setMaxStackSize(1);
 		this.setCreativeTab(M.tabs.weapons);
 		this.setUnlocalizedName("weapon");
@@ -272,6 +267,16 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		this.setHasSubtypes(true);
 		this.differentTextureIfEmpty = differentTextureIfEmpty;
 	}
+	
+	@Override
+	public void init()
+	{
+		this.AMMO_TYPE = new ItemTagEnum<EnumAmmoType>("AmmoType", this.allAmmoTypes()[0], false);;
+	}
+	
+	public abstract EnumAmmoType[] allAmmoTypes();
+	
+	public abstract EnumUpgrades[] allUpgrades();
 	
 	/**
 	 * Queries the percentage of the 'Durability' bar that should be drawn.
@@ -294,10 +299,13 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	
 	private void forCombination(Item item, ItemStack[] stacks, int i2, int stack)
 	{
-		for(int i = 0; i < 1; ++i)
+		for(int i = 0; i < 2; ++i)
 		{
-			this.UPGRADES.set(stacks[stack + i], this.allUpgrades[i2], i > 0);
-			if(i2 < this.allUpgrades.length)
+			if(stacks.length > stack + i && this.allUpgrades().length > i2)
+			{
+				this.UPGRADES.set(stacks[stack + i], this.allUpgrades()[i2], i > 0);
+			}
+			if(i2 < this.allUpgrades().length)
 			{
 				this.forCombination(item, stacks, i2 + 1, stack + i);
 			}
@@ -315,19 +323,19 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		this.getSubItems2(item, creativeTab, list);
 		
 		long time = 34325 + M.proxy.world(0).getTotalWorldTime();
-		int ammoType = (int)(time % this.allAmmoTypes.length);
+		int ammoType = (int)(time % this.allAmmoTypes().length);
 		for(int i = 0; i < list.size(); ++i)
 		{
 			if(list.get(i) instanceof ItemStack)
 			{
-				this.AMMO_TYPE.set((ItemStack)list.get(i), this.allAmmoTypes[ammoType]);
+				this.AMMO_TYPE.set((ItemStack)list.get(i), this.allAmmoTypes()[ammoType]);
 			}
 		}
 	}
 	
 	public void getSubItems2(Item item, CreativeTabs creativeTab, List list)
 	{
-		ItemStack[] stacks = new ItemStack[(int)Math.pow(this.allUpgrades.length, this.allUpgrades.length)];
+		ItemStack[] stacks = new ItemStack[(int)Math.pow(this.allUpgrades().length, this.allUpgrades().length)];
 		for(int i = 0; i < stacks.length; ++i)
 		{
 			stacks[i] = new ItemStack(item, 1, 0);
@@ -353,7 +361,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Ammo: ");
-		list.add(AMMO.get(stack) + "/" + this.CAPACITY.get(stack));
+		list.add(AMMO.get(stack).toString() + "/" + this.CAPACITY.get(stack).toString());
 		
 		if(true)
 		{
@@ -367,8 +375,8 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 		}
 		
 		list.add("Fire Rate: ");
-		list.add(this.FIRE_RATE.get(stack) / 20F);
-		if(((ItemWeaponRanged)stack.getItem()).isRapidFire)
+		list.add(((Float)(this.FIRE_RATE.get(stack) / 20F)).toString());
+		if(((ItemWeaponRanged)stack.getItem()).isRapidFire(stack))
 		{
 			list.add("(Rapid Fire)");
 		}
@@ -422,21 +430,19 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 				entity.motionZ *= 0.01F;
 			}
 			
-			if(this.isRapidFire(stack))
+			if(props.isRightClickHeldDown && (this.isRapidFire(stack) ? props.isRightClickHeldDownLast : !props.isRightClickHeldDownLast))
 			{
-				if(props.isRightClickHeldDown && props.isRightClickHeldDownLast)
+				this.rightClick(stack, entity.worldObj, (EntityPlayer)entity);
+				if(INSTABILITY.get(stack) < 40)
 				{
-					if(INSTABILITY.get(stack) < 40)
-					{
-						INSTABILITY.add(stack, +itemRand.nextInt(2 + 1));
-					}
+					INSTABILITY.add(stack, +itemRand.nextInt(2 + 1));
 				}
-				else
+			}
+			else
+			{
+				if(INSTABILITY.get(stack) > 0)
 				{
-					if(INSTABILITY.get(stack) > 0)
-					{
-						INSTABILITY.add(stack, -10 + itemRand.nextInt(4 + 1));
-					}
+					INSTABILITY.add(stack, -10 + itemRand.nextInt(4 + 1));
 				}
 			}
 			if(this.RECOIL.get(stack) > 0.01)
@@ -450,36 +456,38 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
 		ExtendedPlayer props = ExtendedPlayer.get(player);
-		if(!props.isRightClickHeldDownLast)
+		if(!props.isRightClickHeldDownLast && !this.isRapidFire(stack))
 		{
-			if(!((ItemWeaponRanged)stack.getItem()).isRapidFire(stack))
+			stack = this.rightClick(stack, world, player);
+		}
+		return stack;
+	}
+	
+	public ItemStack rightClick(ItemStack stack, World world, EntityPlayer player)
+	{
+		ExtendedPlayer props = ExtendedPlayer.get(player);
+		if(FIRE_RATE_TIMER.get(stack) <= 0)
+		{
+			if(AMMO.get(stack) > 0)
 			{
-				if(FIRE_RATE_TIMER.get(stack) <= 0)
+				this.fireBullet(stack, world, player);
+				AMMO.add(stack, -props.passiveController.gunUse(player, stack, 1));
+				if(AMMO.get(stack) <= 0)
 				{
-					if(AMMO.get(stack) > 0)
-					{
-						this.fireBullet(stack, world, player);
-						AMMO.add(stack, -props.passiveController.gunUse(player, stack, 1));
-						if(AMMO.get(stack) <= 0)
-						{
-							FIRE_RATE_TIMER.set(stack, 0);
-							AMMO.set(stack, 0);
-							world.playSoundAtEntity(player, RefMod.MODID + ":" + "item.weapon.empty", 3.0F, 0.9F + itemRand.nextFloat() * 0.3F);
-						}
-						else
-						{
-							this.setFireRate(stack);
-						}
-						this.applyRecoil(player, stack);
-					}
-					else
-					{
-						world.playSoundAtEntity(player, RefMod.MODID + ":" + "item.weapon.empty", 3.0F, 0.9F + itemRand.nextFloat() * 0.3F);
-					}
+					FIRE_RATE_TIMER.set(stack, 0);
+					AMMO.set(stack, 0);
+					world.playSoundAtEntity(player, RefMod.MODID + ":" + "item.weapon.empty", 3.0F, 0.9F + itemRand.nextFloat() * 0.3F);
 				}
+				else
+				{
+					this.setFireRate(stack);
+				}
+				this.applyRecoil(player, stack);
 			}
-			props.isRightClickHeldDownLast = true;
-			props.isRightClickHeldDown = true;
+			else if(props.isRightClickHeldDown && !props.isRightClickHeldDownLast)
+			{
+				world.playSoundAtEntity(player, RefMod.MODID + ":" + "item.weapon.empty", 3.0F, 0.9F + itemRand.nextFloat() * 0.3F);
+			}
 		}
 		return stack;
 	}
@@ -546,8 +554,11 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 			player.rotationPitch -= recoil / 2;
 		}
 		this.RECOIL.add(stack, recoil);
-		player.rotationYaw += Stuff.Randomization.r(Math.sqrt(recoil) * this.instability(player, stack, recoil, kickBack) * 2);
-		player.rotationPitch -= recoil;
+		if(player.worldObj.isRemote)
+		{
+			player.rotationYaw += Stuff.Randomization.r(Math.sqrt(recoil) * this.instability(player, stack, recoil, kickBack) * 2);
+			player.rotationPitch -= recoil;
+		}
 		
 		//kickback
 		if(player.worldObj.isRemote)
@@ -576,9 +587,12 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 			recoil *= 2F / 3F;
 		}
 		int i = 3;
-		player.rotationPitch += recoil - recoil * (i - 1) / i;
+		if(player.worldObj.isRemote)
+		{
+			player.rotationPitch += recoil - recoil * (i - 1) / i;
+		}
 		
-		this.RECOIL.set(stack, recoil * (i - 1) / i);
+		this.RECOIL.add(stack, -recoil * (i - 1) / i);
 	}
 	
 	public void setFireRate(ItemStack stack)
@@ -607,15 +621,15 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 			}
 		}
 		AMMO.set(stack, 0);
-		this.AMMO_TYPE.set(stack, this.allAmmoTypes[ammoNameNumber]);
+		this.AMMO_TYPE.set(stack, this.allAmmoTypes()[ammoNameNumber]);
 	}
 	
 	protected int getAmmoNameIndex(ItemStack stack, int modifier)
 	{
 		int a = this.AMMO_TYPE.get(stack).ordinal() + modifier;
-		if(a > this.allAmmoTypes.length - 1)
+		if(a > this.allAmmoTypes().length - 1)
 		{
-			a -= this.allAmmoTypes.length;
+			a -= this.allAmmoTypes().length;
 		}
 		
 		if(a < 0)
@@ -753,7 +767,7 @@ public abstract class ItemWeaponRanged<EnumAmmoType extends Enum & IEnumAmmoType
 	public ArrayList<EnumUpgrades> getUpgrades(ItemStack stack)
 	{
 		ArrayList<EnumUpgrades> upgrades = new ArrayList<EnumUpgrades>();
-		for(EnumUpgrades upgrade : this.allUpgrades)
+		for(EnumUpgrades upgrade : this.allUpgrades())
 		{
 			if(this.UPGRADES.get(stack, upgrade))
 			{

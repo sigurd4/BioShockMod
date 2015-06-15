@@ -89,16 +89,29 @@ public class GuiModHud extends Gui
 		h = scaledresolution.getScaledHeight();
 		FontRenderer fr = this.mc.fontRendererObj;
 		
-		if(this.mc.inGameHasFocus)
+		GlStateManager.popMatrix();
+		if(this.mc.inGameHasFocus && order == RenderOrder.POST && type == ElementType.EXPERIENCE)
 		{
 			line1 = 0;
 			
+			GlStateManager.popMatrix();
 			this.ammoStats(player, fr, order, type);
+			GlStateManager.pushMatrix();
+			GlStateManager.popMatrix();
 			this.eveStats(player, fr, order, type);
+			GlStateManager.pushMatrix();
+			GlStateManager.popMatrix();
 			this.shieldsStats(player, fr, order, type);
+			GlStateManager.pushMatrix();
+			GlStateManager.popMatrix();
 			this.oxygenStats(player, fr, order, type);
+			GlStateManager.pushMatrix();
+			GlStateManager.popMatrix();
 			this.tonicList(player, fr, order, type);
+			GlStateManager.pushMatrix();
+			GlStateManager.color(1, 1, 1);
 		}
+		GlStateManager.pushMatrix();
 		this.audiologPlaying(player, fr, order, type);
 		
 		++timer;
@@ -224,18 +237,15 @@ public class GuiModHud extends Gui
 	{
 		this.mc.mcProfiler.startSection("ammoStats");
 		GlStateManager.pushMatrix();
-		if(player.getHeldItem() != null)
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemWeaponRanged)
 		{
-			if(player.getHeldItem().getItem() instanceof ItemWeaponRanged)
+			ItemStack stack = player.getHeldItem();
+			ItemWeaponRanged item = (ItemWeaponRanged)stack.getItem();
+			fontrenderer.drawStringWithShadow("Ammo: " + ItemWeaponRanged.AMMO.get(stack) + "/" + ((ItemWeaponRanged)stack.getItem()).CAPACITY.get(stack), 2, h - 10 - 10 * ((ItemWeaponRanged)stack.getItem()).allAmmoTypes().length, 0xAF8A33);
+			for(int i = ((ItemWeaponRanged)stack.getItem()).allAmmoTypes().length; i > 0 && i <= ((ItemWeaponRanged)stack.getItem()).allAmmoTypes().length; --i)
 			{
-				ItemStack stack = player.getHeldItem();
-				ItemWeaponRanged item = (ItemWeaponRanged)stack.getItem();
-				fontrenderer.drawStringWithShadow("Ammo: " + ItemWeaponRanged.AMMO.get(stack) + "/" + ((ItemWeaponRanged)stack.getItem()).CAPACITY.get(stack), 2, h - 10 - 10 * ((ItemWeaponRanged)stack.getItem()).allAmmoTypes.length, 0xAF8A33);
-				for(int i = ((ItemWeaponRanged)stack.getItem()).allAmmoTypes.length; i > 0 && i <= ((ItemWeaponRanged)stack.getItem()).allAmmoTypes.length; --i)
-				{
-					String s = item.allAmmoTypes[item.allAmmoTypes.length - i].toString();
-					fontrenderer.drawStringWithShadow(s, 2, h - 10 - 10 * (item.allAmmoTypes.length - i), ((ItemWeaponRanged)stack.getItem()).UPGRADES.get(stack, item.allAmmoTypes[item.allAmmoTypes.length - i]) ? 0xAF8A33 : 0x424242);
-				}
+				String s = item.allAmmoTypes()[item.allAmmoTypes().length - i].toString();
+				fontrenderer.drawStringWithShadow(s, 2, h - 10 - 10 * (item.allAmmoTypes().length - i), ((ItemWeaponRanged)stack.getItem()).AMMO_TYPE.get(stack) == item.allAmmoTypes()[item.allAmmoTypes().length - i] ? 0xAF8A33 : 0x424242);
 			}
 		}
 		GlStateManager.popMatrix();
@@ -275,10 +285,18 @@ public class GuiModHud extends Gui
 	{
 		this.mc.mcProfiler.startSection("oxygenStats");
 		GlStateManager.pushMatrix();
-		if(player.getEquipmentInSlot(3) != null && player.getEquipmentInSlot(3).getItem() instanceof ItemArmorDivingSuitTank)
+		ItemStack stack = null;
+		for(int i = 0; i < player.inventory.armorInventory.length; ++i)
 		{
-			ItemStack stack = player.getEquipmentInSlot(3);
-			if(stack != null && ((ItemArmorDivingSuitTank)stack.getItem()).isSealed(player) && ItemArmorDivingSuitTank.TANK.get(stack) != null)
+			if(player.inventory.armorInventory[i] != null && player.inventory.armorInventory[i].getItem() instanceof ItemArmorDivingSuitTank)
+			{
+				stack = player.inventory.armorInventory[i];
+				break;
+			}
+		}
+		if(stack != null)
+		{
+			if(((ItemArmorDivingSuitTank)stack.getItem()).isSealed(player) && ItemArmorDivingSuitTank.TANK.get(stack) != null)
 			{
 				fontrenderer.drawStringWithShadow("Oxygen: " + ((ItemTank)ItemArmorDivingSuitTank.TANK.get(stack).getItem()).FILLED.get(ItemArmorDivingSuitTank.TANK.get(stack)) + "/" + ((ItemTank)ItemArmorDivingSuitTank.TANK.get(stack).getItem()).CAPACITY.get(ItemArmorDivingSuitTank.TANK.get(stack)), 2, 2 + 9 * line1, 0xD1EBFF);
 				++line1;

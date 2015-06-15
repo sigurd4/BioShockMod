@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -122,7 +122,7 @@ public class EntityWaterElectro extends Entity implements IEntityPlasmid
 								BlockPos c = new BlockPos(x, y, z).add(this.coords);
 								if(electrosAll.get(c) == null || electrosAll.get(c).coords != null && !electrosAll.get(c).coords.equals(c))
 								{
-									if(this.worldObj.getBlockState(c).getBlock() == Blocks.water)
+									if(this.worldObj.getBlockState(c).getBlock().getMaterial() == Material.water)
 									{
 										this.entity.electros.put(c, new Electro(this.worldObj, c.getX() + x, c.getY() + y, c.getZ() + z, this.entity));
 									}

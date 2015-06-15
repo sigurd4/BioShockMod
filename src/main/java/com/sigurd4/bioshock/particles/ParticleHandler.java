@@ -36,14 +36,21 @@ public class ParticleHandler
 			@Override
 			public EntityFX get(World world, double x, double y, double z, double mx, double my, double mz, int... par)
 			{
+				float r = 1;
+				float g = 0;
+				float b = 0;
 				float scale = 1;
-				if(par.length == 1)
+				
+				if(par.length >= 3)
 				{
-					scale = (float)par[0] / 100;
+					r = (float)par[0] / 100;
+					g = (float)par[1] / 100;
+					b = (float)par[2] / 100;
+					scale = (float)par[3] / 100;
 				}
 				else
 				{
-					par = new int[]{100};
+					par = new int[]{100, 0, 0, 100};
 				}
 				if(scale > 4)
 				{
@@ -54,10 +61,10 @@ public class ParticleHandler
 					scale = 0.1F;
 				}
 				
-				EntityReddust2FX p = new EntityReddust2FX(world, x, y, z, scale, mx, my, mz);
-				p.motionX = 0;
-				p.motionY = 0;
-				p.motionZ = 0;
+				EntityReddust2FX p = new EntityReddust2FX(world, x, y, z, scale, r - 1, g, b);
+				p.motionX = mx;
+				p.motionY = my;
+				p.motionZ = mz;
 				
 				RenderManager rm = Minecraft.getMinecraft().getRenderManager();
 				if(p.getDistance(rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ) > 64)

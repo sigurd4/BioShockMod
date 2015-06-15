@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -21,13 +22,19 @@ import com.sigurd4.bioshock.Stuff;
 
 public class BlockIceMelting extends BlockIce implements IBlockBreakRegardless
 {
-	public static enum EnumMeltType
+	public static enum EnumMeltType implements IStringSerializable
 	{
-		AIR, WATER
+		AIR, WATER;
+		
+		@Override
+		public String getName()
+		{
+			return this.toString().toLowerCase();
+		}
 	}
 	
 	public static final PropertyInteger MELTING = PropertyInteger.create("melting", 0, 7);
-	public static final PropertyEnum MELT_TYPE = PropertyEnum.create("melt_type", EnumMeltType.class);
+	public static final PropertyEnum MELT_TYPE = PropertyEnum.create("melt_type", EnumMeltType.class, EnumMeltType.values());
 	
 	public BlockIceMelting()
 	{
@@ -58,7 +65,7 @@ public class BlockIceMelting extends BlockIce implements IBlockBreakRegardless
 			}
 			if(!world.isRemote)
 			{
-				if((EnumMeltType)state.getValue(MELT_TYPE) == EnumMeltType.WATER || (world.getBlockState(pos.down()).getBlock() == Blocks.water || world.getBlockState(pos.down()).getBlock().getMaterial().blocksMovement()) && world.getBlockState(pos.north()).getBlock() == Blocks.water && world.getBlockState(pos.south()).getBlock() == Blocks.water && world.getBlockState(pos.east()).getBlock() == Blocks.water && world.getBlockState(pos.west()).getBlock() == Blocks.water)
+				if((EnumMeltType)state.getValue(MELT_TYPE) == EnumMeltType.WATER || (world.getBlockState(pos.down()).getBlock().getMaterial() == Material.water || world.getBlockState(pos.down()).getBlock().getMaterial().blocksMovement()) && world.getBlockState(pos.north()).getBlock().getMaterial() == Material.water && world.getBlockState(pos.south()).getBlock().getMaterial() == Material.water && world.getBlockState(pos.east()).getBlock().getMaterial() == Material.water && world.getBlockState(pos.west()).getBlock().getMaterial() == Material.water)
 				{
 					world.setBlockState(pos, Blocks.water.getDefaultState());
 				}
@@ -130,7 +137,7 @@ public class BlockIceMelting extends BlockIce implements IBlockBreakRegardless
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		int meta = this.getMetaFromState(state);
+		int meta = 0;
 		meta += (Integer)state.getValue(MELTING);
 		if((EnumMeltType)state.getValue(MELT_TYPE) == EnumMeltType.WATER)
 		{

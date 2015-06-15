@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,14 +28,21 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.M.Id;
 import com.sigurd4.bioshock.config.Config;
+import com.sigurd4.bioshock.entity.EntityFlame;
+import com.sigurd4.bioshock.entity.EntityWaterElectro;
+import com.sigurd4.bioshock.entity.projectile.EntityGunBullet;
+import com.sigurd4.bioshock.entity.projectile.EntityPlasmidBullet;
+import com.sigurd4.bioshock.entity.projectile.EntityPlasmidProjectile;
 import com.sigurd4.bioshock.event.HandlerCommon;
 import com.sigurd4.bioshock.event.HandlerCommonFML;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.gui.GuiHandler;
+import com.sigurd4.bioshock.item.IItemInit;
 import com.sigurd4.bioshock.item.ItemAudioLog;
 import com.sigurd4.bioshock.packet.PacketKey;
 import com.sigurd4.bioshock.packet.PacketPlayerData;
 import com.sigurd4.bioshock.packet.PacketPlayerSkin;
+import com.sigurd4.bioshock.packet.PacketShieldBreak;
 import com.sigurd4.bioshock.particles.ParticleHandler.EnumParticleTypes2;
 import com.sigurd4.bioshock.reference.RefMod;
 
@@ -64,7 +72,7 @@ public abstract class ProxyCommon
 	
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		
+		this.itemInit();
 	}
 	
 	public abstract World world(int dimension);
@@ -75,6 +83,7 @@ public abstract class ProxyCommon
 		M.network.registerMessage(PacketKey.Handler.class, PacketKey.class, 0, Side.SERVER);
 		M.network.registerMessage(PacketPlayerData.Handler.class, PacketPlayerData.class, 1, Side.CLIENT);
 		M.network.registerMessage(PacketPlayerSkin.Handler.class, PacketPlayerSkin.class, 2, Side.SERVER);
+		M.network.registerMessage(PacketShieldBreak.Handler.class, PacketShieldBreak.class, 3, Side.CLIENT);
 	}
 	
 	private void recipes()
@@ -125,7 +134,19 @@ public abstract class ProxyCommon
 	
 	private void entities()
 	{
-		//M.registerEntityNoEgg(EntityShuriken.class, "shuriken", 1);
+		try
+		{
+			M.registerEntityNoEgg(EntityGunBullet.class, "bullet");
+			M.registerEntityNoEgg(EntityPlasmidProjectile.class, "plasmidProjectile");
+			M.registerEntityNoEgg(EntityPlasmidBullet.class, "plasmidBullet");
+			M.registerEntityNoEgg(EntityFlame.class, "entityFlame");
+			M.registerEntityNoEgg(EntityWaterElectro.class, "entityWaterElectro");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			Minecraft.getMinecraft().shutdown();
+		}
 	}
 	
 	private void registerItems()
@@ -139,7 +160,14 @@ public abstract class ProxyCommon
 				Object item = M.getItem(id);
 				if(item != null && item instanceof Block)
 				{
-					GameRegistry.registerBlock((Block)item, id.id);
+					if(id.blockItem == null)
+					{
+						GameRegistry.registerBlock((Block)item, id.id);
+					}
+					else
+					{
+						GameRegistry.registerBlock((Block)item, id.blockItem.getClass(), id.id);
+					}
 				}
 				if(item != null && item instanceof Item)
 				{
@@ -222,6 +250,22 @@ public abstract class ProxyCommon
 		}
 		
 		//stuff on init
+	}
+	
+	private void itemInit()
+	{
+		Iterator<Id> ids = M.getIds();
+		while(ids.hasNext())
+		{
+			Id id = ids.next();
+			if(id != null)
+			{
+				if(M.getItem(id) instanceof IItemInit)
+				{
+					((IItemInit)M.getItem(id)).init();
+				}
+			}
+		}
 	}
 	
 	public void sendPlayerSkinData(EntityPlayer entity)

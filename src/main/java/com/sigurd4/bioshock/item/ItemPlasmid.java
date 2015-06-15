@@ -22,6 +22,7 @@ import com.sigurd4.bioshock.M;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.itemtags.ItemTagInteger;
 import com.sigurd4.bioshock.itemtags.ItemTagLong;
+import com.sigurd4.bioshock.itemtags.ItemTagString;
 import com.sigurd4.bioshock.plasmids.Plasmid;
 import com.sigurd4.bioshock.plasmids.PlasmidHold;
 
@@ -36,6 +37,7 @@ public abstract class ItemPlasmid extends Item implements IItemIdFrom
 	public static final ItemTagInteger COOLDOWN = new ItemTagInteger("Cooldown", 0, 0, Integer.MAX_VALUE, true);
 	public static final ItemTagLong PLAYER_UUID_MOST = new ItemTagLong("PlayerUUIDMost", 0L, 0L, Long.MAX_VALUE, false);
 	public static final ItemTagLong PLAYER_UUID_LEAST = new ItemTagLong("PlayerUUIDLeast", 0L, 0L, Long.MAX_VALUE, false);
+	public static final ItemTagString PLAYER_NAME = new ItemTagString("PlayerName", "", false);
 	
 	public ItemPlasmid(Plasmid plasmid)
 	{
@@ -119,6 +121,7 @@ public abstract class ItemPlasmid extends Item implements IItemIdFrom
 				UUID uuid = ((EntityPlayer)entity).getUUID(((EntityPlayer)entity).getGameProfile());
 				PLAYER_UUID_MOST.set(stack, uuid.getMostSignificantBits());
 				PLAYER_UUID_LEAST.set(stack, uuid.getLeastSignificantBits());
+				PLAYER_NAME.set(stack, ((EntityPlayer)entity).getName());
 				if(world.isRemote)
 				{
 					M.proxy.sendPlayerSkinData((EntityPlayer)entity);
@@ -244,7 +247,7 @@ public abstract class ItemPlasmid extends Item implements IItemIdFrom
 	{
 		ExtendedPlayer props = ExtendedPlayer.get(player);
 		EnumCanUsePlasmidResult canUsePlasmid = this.canUsePlasmid(stack, world, player);
-		if(canUsePlasmid == EnumCanUsePlasmidResult.YES)
+		if(canUsePlasmid == EnumCanUsePlasmidResult.YES && this.consumeEve(stack, player, this.plasmid.cost1))
 		{
 			this.plasmid.onItemRightClick(stack, world, player);
 			COOLDOWN.set(stack, 7);
@@ -267,7 +270,7 @@ public abstract class ItemPlasmid extends Item implements IItemIdFrom
 			{
 				if((!props.isRightClickHeldDownLast || this.plasmid instanceof PlasmidHold) && !player.isInsideOfMaterial(Material.water))
 				{
-					if(this.consumeEve(stack, player, this.plasmid.cost1))
+					if(this.hasEve(stack, player, this.plasmid.cost1))
 					{
 						return EnumCanUsePlasmidResult.YES;
 					}
@@ -288,7 +291,23 @@ public abstract class ItemPlasmid extends Item implements IItemIdFrom
 	
 	public static final EntityPlayer getPlayer(ItemStack stack)
 	{
-		Entity entity = MinecraftServer.getServer().getEntityFromUuid(new UUID(PLAYER_UUID_MOST.get(stack), PLAYER_UUID_LEAST.get(stack)));
+		UUID uuid = new UUID(PLAYER_UUID_MOST.get(stack), PLAYER_UUID_LEAST.get(stack));
+		Entity entity = MinecraftServer.getServer().getEntityFromUuid(uuid);
+		if(entity == null)
+		{
+			loop:
+			for(World world : MinecraftServer.getServer().worldServers)
+			{
+				for(Object player : world.playerEntities)
+				{
+					if(player instanceof EntityPlayer && (PLAYER_NAME.get(stack).equals(((EntityPlayer)player).getName()) || ((EntityPlayer)player).getUniqueID().getMostSignificantBits() == uuid.getMostSignificantBits() && ((EntityPlayer)player).getUniqueID().getLeastSignificantBits() == uuid.getLeastSignificantBits()))
+					{
+						entity = (EntityPlayer)player;
+						break loop;
+					}
+				}
+			}
+		}
 		if(entity != null && entity instanceof EntityPlayer)
 		{
 			return (EntityPlayer)entity;

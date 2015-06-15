@@ -162,7 +162,7 @@ public class PlasmidElectroBolt extends Plasmid implements IPlasmidProjectile
 			}
 		}
 		
-		if(projectile.worldObj.getBlockState(new BlockPos(vec)).getBlock() == Blocks.water)
+		if(projectile.worldObj.getBlockState(new BlockPos(vec)).getBlock().getMaterial() == Material.water)
 		{
 			for(int i = 0; i < 12; ++i)
 			{
@@ -266,7 +266,7 @@ public class PlasmidElectroBolt extends Plasmid implements IPlasmidProjectile
 	{
 		EntityPlasmidProjectile projectile = (EntityPlasmidProjectile)projectile_;
 		BlockPos pos = null;
-		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock() == Blocks.water)
+		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock().getMaterial() == Material.water)
 		{
 			pos = projectile.getPosition();
 		}
@@ -279,7 +279,7 @@ public class PlasmidElectroBolt extends Plasmid implements IPlasmidProjectile
 					if(x1 == 0 && y1 == 0 || x1 == 0 && z1 == 0 || y1 == 0 && z1 == 0)
 					{
 						BlockPos pos1 = projectile.getPosition().add(new BlockPos(x1, y1, z1));
-						if(projectile.worldObj.getBlockState(pos1).getBlock() == Blocks.water)
+						if(projectile.worldObj.getBlockState(pos1).getBlock().getMaterial() == Material.water)
 						{
 							pos = pos1;
 						}
@@ -287,16 +287,25 @@ public class PlasmidElectroBolt extends Plasmid implements IPlasmidProjectile
 				}
 			}
 		}
-		EntityWaterElectro electro = new EntityWaterElectro(projectile.worldObj, 3, projectile.getThrower(), damage, projectile.getPlasmid());
-		electro.maxTime = 16;
-		electro.spawnLimiter = 3;
-		electro.damage = damage;
-		electro.thrower = projectile.getThrower();
-		
-		if(projectile.worldObj.getBlockState(pos).getBlock() == Blocks.water && projectile.getNearbyInstances(new BlockPos(0, 0, 0)) == 0)
+		if(pos != null)
 		{
-			electro.setLocationAndAngles(pos.getX() + 0.5 + vec.xCoord, pos.getY() + vec.yCoord, pos.getZ() + 0.5 + vec.zCoord, 0, 0.0F);
-			projectile.worldObj.spawnEntityInWorld(electro);
+			EntityWaterElectro electro = new EntityWaterElectro(projectile.worldObj, 3, projectile.getThrower(), damage, projectile.getPlasmid());
+			electro.maxTime = 16;
+			electro.spawnLimiter = 3;
+			electro.damage = damage;
+			electro.thrower = projectile.getThrower();
+			
+			if(projectile.worldObj.getBlockState(pos).getBlock().getMaterial() == Material.water)
+			{
+				electro.setLocationAndAngles(pos.getX() + 0.5 + vec.xCoord, pos.getY() + vec.yCoord, pos.getZ() + 0.5 + vec.zCoord, 0, 0.0F);
+				projectile.worldObj.spawnEntityInWorld(electro);
+			}
 		}
+	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
 	}
 }

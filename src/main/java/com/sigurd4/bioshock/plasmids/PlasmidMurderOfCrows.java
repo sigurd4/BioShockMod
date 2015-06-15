@@ -245,4 +245,10 @@ public class PlasmidMurderOfCrows extends Plasmid implements IPlasmidProjectile
 		crow.target = pos.entityHit;
 		projectile.worldObj.spawnEntityInWorld(crow);
 	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
+	}
 }

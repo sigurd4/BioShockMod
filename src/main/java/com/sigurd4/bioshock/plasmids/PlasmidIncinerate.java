@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockSnow;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -192,7 +193,7 @@ public class PlasmidIncinerate extends Plasmid implements IPlasmidProjectile
 		}
 		setFireToNearbyEntities(projectile, this.damage, vec, 80);
 		
-		if(projectile.worldObj.getBlockState(pos.getBlockPos()).getBlock() == Blocks.water)
+		if(pos.getBlockPos() == null || projectile.worldObj.getBlockState(pos.getBlockPos()).getBlock().getMaterial() == Material.water)
 		{
 			projectile.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, projectile.posX, projectile.posY, projectile.posZ, Stuff.Randomization.r(0.1), Stuff.Randomization.r(0.1) + 0.2, Stuff.Randomization.r(0.1));
 			for(int i = 0; i < 5; ++i)
@@ -253,7 +254,7 @@ public class PlasmidIncinerate extends Plasmid implements IPlasmidProjectile
 	@Override
 	public void onEntityUpdate(EntityThrowable projectile)
 	{
-		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock() == Blocks.water)
+		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock().getMaterial() == Material.water)
 		{
 			projectile.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, projectile.posX, projectile.posY, projectile.posZ, Stuff.Randomization.r(0.1), Stuff.Randomization.r(0.1) + 0.2, Stuff.Randomization.r(0.1));
 			for(int i = 0; i < 5; ++i)
@@ -434,5 +435,11 @@ public class PlasmidIncinerate extends Plasmid implements IPlasmidProjectile
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
 	}
 }

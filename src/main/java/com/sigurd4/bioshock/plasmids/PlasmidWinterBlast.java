@@ -329,4 +329,10 @@ public class PlasmidWinterBlast extends Plasmid implements IPlasmidProjectile
 			((IPlasmidProjectile)projectile.getPlasmid()).onImpact(projectile, pos);
 		}
 	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return true;
+	}
 }

@@ -1,0 +1,624 @@
+{
+  #mobs
+  "mob.bigdaddy.death":
+  {
+    "category": "hostile",
+    "sounds":
+    [
+        "mob/bigdaddy/death0",
+        "mob/bigdaddy/death1",
+        "mob/bigdaddy/death2",
+        "mob/bigdaddy/death3"
+    ]
+  },
+  
+  "mob.bigdaddy.hurt":
+  {
+    "category": "hostile",
+    "sounds":
+    [
+        "mob/bigdaddy/hurt0",
+        "mob/bigdaddy/hurt1",
+        "mob/bigdaddy/hurt2",
+        "mob/bigdaddy/hurt3",
+        "mob/bigdaddy/hurt4",
+        "mob/bigdaddy/hurt5"
+    ]
+  },
+  
+  "mob.bigdaddy.idle":
+  {
+    "category": "hostile",
+    "sounds":
+    [
+        "mob/bigdaddy/say0",
+        "mob/bigdaddy/say1",
+        "mob/bigdaddy/say2",
+        "mob/bigdaddy/say3",
+        "mob/bigdaddy/say4"
+    ]
+  },
+  
+  "mob.bigdaddy.step":
+  {
+    "category": "hostile",
+    "sounds":
+    [
+        "mob/bigdaddy/step"
+    ]
+  },
+  
+  #weapons
+  "item.weapon.chemical_thrower.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/chemical_thrower/pickup"
+    ]
+  },
+  
+  "item.weapon.crossbow.fire":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/fire"
+    ]
+  },
+  
+  "item.weapon.crossbow.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/pickup"
+    ]
+  },
+  
+  "item.weapon.crossbow.pump.1":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/pump_1"
+    ]
+  },
+  
+  "item.weapon.crossbow.pump.2":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/pump_2"
+    ]
+  },
+  
+  "item.weapon.crossbow.reload":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/reload"
+    ]
+  },
+  
+  "item.weapon.crossbow.ring":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/crossbow/ring"
+    ]
+  },
+  
+  "item.weapon.grenade_launcher.fire":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/grenade_launcher/fire"
+    ]
+  },
+  
+  "item.weapon.grenade_launcher.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/grenade_launcher/pickup"
+    ]
+  },
+  
+  "item.weapon.grenade_launcher.reload.open":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/grenade_launcher/reload_open"
+    ]
+  },
+  
+  "item.weapon.grenade_launcher.reload":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/grenade_launcher/reload"
+    ]
+  },
+  
+  "item.weapon.grenade_launcher.reload.close":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/grenade_launcher/reload_close"
+    ]
+  },
+  
+  "item.weapon.pistol.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/pistol/pickup"
+    ]
+  },
+  
+  "item.weapon.pistol.cock":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/pistol/cock"
+    ]
+  },
+  
+  "item.weapon.pistol.cock.back":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/pistol/cock_back"
+    ]
+  },
+  
+  "item.weapon.pistol.reload":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/pistol/reload"
+    ]
+  },
+  
+  "item.weapon.pistol.fire":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/pistol/fire"
+    ]
+  },
+  
+  "item.weapon.research_camera.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/research_camera/pickup"
+    ]
+  },
+  
+  "item.weapon.shotgun.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/shotgun/pickup"
+    ]
+  },
+  
+  "item.weapon.shotgun.pump":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/shotgun/pump"
+    ]
+  },
+  
+  "item.weapon.shotgun.pump.auto":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/shotgun/pump_auto"
+    ]
+  },
+  
+  "item.weapon.shotgun.reload":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/shotgun/reload"
+    ]
+  },
+  
+  "item.weapon.shotgun.fire":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/shotgun/fire"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor.start":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor_start"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor.end":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor_end"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor.rough.start":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor_rough_start"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor.rough":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor_rough"
+    ]
+  },
+  
+  "item.weapon.skyhook.motor.rough.end":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/motor_rough_end"
+    ]
+  },
+  
+  "item.weapon.skyhook.target":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/skyhook/target"
+    ]
+  },
+  
+  "item.weapon.thomson.fire":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/thomson/fire"
+    ]
+  },
+  
+  "item.weapon.thomson.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/thomson/pickup"
+    ]
+  },
+  
+  "item.weapon.thomson.reload":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/thomson/reload"
+    ]
+  },
+  
+  "item.weapon.wrench.pickup":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/wrench/pickup"
+    ]
+  },
+  
+  "item.weapon.wrench.swing":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/wrench/swing"
+    ]
+  },
+  
+  "item.weapon.empty":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/weapon/empty"
+    ]
+  },
+  
+  #audiodiaries
+  "item.audiodiary.start":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/audiodiary/start"
+    ]
+  },
+  
+  "item.audiodiary.end":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/audiodiary/end"
+    ]
+  },
+  
+  "item.audiodiary.playing":
+  {
+    "category": "player",
+    "sounds":
+    [
+        {
+            "name": "item/audiodiary/playing",
+            "stream": true
+        }
+    ]
+  },
+  
+  "item.voxophone.start":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/voxophone/start"
+    ]
+  },
+  
+  "item.voxophone.end":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/voxophone/end"
+    ]
+  },
+  
+  "item.voxophone.playing":
+  {
+    "category": "player",
+    "sounds":
+    [
+        {
+            "name": "item/voxophone/playing",
+            "stream": true
+        }
+    ]
+  },
+  
+  #consumables
+  "item.consumables.right_click.cork":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/cork"
+    ]
+  },
+  
+  "item.consumables.right_click.zip":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/zip"
+    ]
+  },
+  
+  "item.consumables.right_click.beer":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/beer"
+    ]
+  },
+  
+  "item.consumables.right_click.lid":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/lid"
+    ]
+  },
+  
+  "item.consumables.right_click.thermos":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/thermos"
+    ]
+  },
+  
+  "item.consumables.right_click.tin":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/tin"
+    ]
+  },
+  
+  "item.consumables.right_click.soda":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/soda"
+    ]
+  },
+  
+  "item.consumables.right_click.paper":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/paper"
+    ]
+  },
+  
+  "item.consumables.right_click.peel_banana":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/peel_banana"
+    ]
+  },
+  
+  "item.consumables.right_click.peel_orange":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/peel_orange"
+    ]
+  },
+  
+  "item.consumables.right_click.metal_box":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/metal_box"
+    ]
+  },
+  
+  "item.consumables.right_click.lighter":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/right_click/lighter"
+    ]
+  },
+  
+  "item.consumables.use.medkit":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "item/consumables/use/medkit"
+    ]
+  },
+  
+  #vendors
+  "block.uinvent.close":
+  {
+    "category": "block",
+    "sounds":
+    [
+        "block/u_invent/close"
+    ]
+  },
+  
+  "block.uinvent.open":
+  {
+    "category": "block",
+    "sounds":
+    [
+        "block/u_invent/open"
+    ]
+  },
+  
+  "block.uinvent.purchase":
+  {
+    "category": "block",
+    "sounds":
+    [
+        "block/u_invent/purchase"
+    ]
+  },
+  
+  #random
+  "random.coin":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "random/coin"
+    ]
+  },
+  
+  "random.nope":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "random/nope"
+    ]
+  },
+  
+  "random.respawn":
+  {
+    "category": "player",
+    "sounds":
+    [
+        "random/respawn"
+    ]
+  },
+  
+  #audiologs:
+  
+  "audiologs.sigurd4.test":
+  {
+    "category": "player",
+    "sounds":
+    [
+        {
+            "name": "audiologs/sigurd4/test",
+            "stream": true
+        }
+    ]
+  }
+}

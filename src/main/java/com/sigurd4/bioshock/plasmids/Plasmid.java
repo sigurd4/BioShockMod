@@ -34,6 +34,7 @@ public abstract class Plasmid
 		this.cost1 = cost1;
 		this.cost2 = cost2;
 		this.type = type;
+		plasmids.put(id, this);
 	}
 	
 	public abstract ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player);
@@ -76,7 +77,7 @@ public abstract class Plasmid
 		{
 			if(p == a.get(i))
 			{
-				return 0;
+				return i;
 			}
 		}
 		return -1;

@@ -147,4 +147,10 @@ public class PlasmidHypnotizeBigDaddy extends Plasmid implements IPlasmidProject
 	{
 		return new EntityDamageSourceIndirect(this.id, projectile, projectile.getThrower());
 	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return true;
+	}
 }

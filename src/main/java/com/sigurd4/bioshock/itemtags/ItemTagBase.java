@@ -17,6 +17,10 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 	{
 		this.key = key;
 		this.local = false;
+		if(defaultValue != null)
+		{
+			this.defaultValue = this.rawToNBTTag(defaultValue);
+		}
 	}
 	
 	public W get(ItemStack stack)
@@ -27,6 +31,10 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 	public W get(ItemStack stack, boolean createNew)
 	{
 		NBTTagCompound compound = this.getCompound(stack, createNew);
+		if(compound == null)
+		{
+			return this.getDefault();
+		}
 		return this.get(compound, createNew);
 	}
 	
@@ -36,13 +44,18 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 		{
 			this.set(compound, this.get(compound, false));
 		}
-		if(compound.hasKey(this.key) && this.getDefault2().getClass().isInstance(compound.getTag(this.key)) && compound.getTag(this.key).getId() == this.getDefault2().getId())
+		if(this.has(compound))
 		{
 			return this.NBTTagToRaw(this.isValid2(compound, (T)compound.getTag(this.key)));
 		}
 		else
 		{
-			return this.NBTTagToRaw(this.isValid2(compound, (T)this.getDefault2().copy()));
+			T d = this.getDefault2();
+			if(d != null)
+			{
+				return this.NBTTagToRaw(this.isValid2(compound, (T)this.getDefault2().copy()));
+			}
+			return null;
 		}
 	}
 	
@@ -54,8 +67,15 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 	
 	public void set(NBTTagCompound compound, W value)
 	{
-		T tag = this.rawToNBTTag(value);
-		compound.setTag(this.key, tag);
+		if(value != null)
+		{
+			T tag = this.rawToNBTTag(value);
+			compound.setTag(this.key, tag);
+		}
+		else
+		{
+			this.remove(compound);
+		}
 	}
 	
 	public boolean has(ItemStack stack)
@@ -66,7 +86,9 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 	
 	public boolean has(NBTTagCompound compound)
 	{
-		return compound.hasKey(this.key, this.getDefault2().getId());
+		NBTBase tag = compound.getTag(this.key);
+		T d = this.getDefault2();
+		return tag != null && (d == null || d.getClass().isInstance(tag) && tag.getId() == d.getId());
 	}
 	
 	public boolean remove(ItemStack stack)
@@ -89,7 +111,12 @@ public abstract class ItemTagBase<W, T extends NBTBase>
 	
 	public W getDefault()
 	{
-		return this.NBTTagToRaw(this.getDefault2());
+		T d = this.getDefault2();
+		if(d != null)
+		{
+			return this.NBTTagToRaw(d);
+		}
+		return null;
 	}
 	
 	public T getDefault2()

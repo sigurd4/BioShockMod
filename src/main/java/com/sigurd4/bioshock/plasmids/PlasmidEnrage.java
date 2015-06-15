@@ -246,4 +246,10 @@ public class PlasmidEnrage extends Plasmid implements IPlasmidProjectile
 			return blameEntity(projectile, range + 1, target, limitFar, limitClose, limiter + 1);
 		}
 	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
+	}
 }

@@ -17,8 +17,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import org.lwjgl.opengl.GL11;
-
 import com.sigurd4.bioshock.Stuff;
 import com.sigurd4.bioshock.extendedentity.ExtendedPlayer;
 import com.sigurd4.bioshock.gui.GuiModHud;
@@ -46,7 +44,7 @@ public class HandlerClient
 	}
 	
 	@SubscribeEvent
-	public void playerRenderEventPre(RenderPlayerEvent.Pre event)
+	public void playerRenderEvent(RenderPlayerEvent.Specials event)
 	{
 		EntityPlayer player = (EntityPlayer)event.entity;
 		if(player.getHeldItem() != null)
@@ -56,11 +54,6 @@ public class HandlerClient
 				event.renderer.getPlayerModel().aimedBow = true;
 			}
 		}
-	}
-	
-	@SubscribeEvent
-	public void playerRenderEventPost(RenderPlayerEvent.Post event)
-	{
 		Stuff.Render.setPlayerRenderer(event.entityPlayer, event.renderer);
 	}
 	
@@ -93,7 +86,7 @@ public class HandlerClient
 			if(player.getHeldItem() != null)
 			{
 				ItemStack stack = player.getHeldItem();
-				if(stack.getItem() instanceof ItemWeaponRanged && props.isZoomHeldDown && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 || Minecraft.getMinecraft().gameSettings.thirdPersonView == 1))
+				if(stack.getItem() instanceof ItemWeaponRanged && ((ItemWeaponRanged)stack.getItem()).isHeldUp(stack) && props.isZoomHeldDown && (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 || Minecraft.getMinecraft().gameSettings.thirdPersonView == 1))
 				{
 					event.newfov = event.fov - ((ItemWeaponRanged)stack.getItem()).getZoom(player.worldObj, player, stack);
 				}
@@ -104,7 +97,7 @@ public class HandlerClient
 	@SubscribeEvent
 	public void fogDensity(EntityViewRenderEvent.FogDensity event)
 	{
-		EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
+		/*EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
 		if(bolt != null)
 		{
 			float x = (bolt.getDistanceToEntity(event.entity) - 7) * 40;
@@ -120,19 +113,19 @@ public class HandlerClient
 			}
 			event.setCanceled(true);
 			GL11.glFogf(GL11.GL_FOG_END, 1 + x);
-		}
+		}*/
 	}
 	
 	@SubscribeEvent
 	public void fogColors(EntityViewRenderEvent.FogColors event)
 	{
-		EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
+		/*EntityCrossbowBolt bolt = EntityCrossbowBolt.getClosestGasCloud(event.entity);
 		if(bolt != null && bolt.getDistanceToEntity(event.entity) < 8.7)
 		{
 			event.blue = 230;
 			event.red = 230;
 			event.green = 230;
-		}
+		}*/
 	}
 	
 	@SubscribeEvent

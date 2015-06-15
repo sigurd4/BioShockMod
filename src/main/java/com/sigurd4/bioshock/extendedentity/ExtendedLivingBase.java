@@ -44,7 +44,7 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	 */
 	public static final ExtendedLivingBase get(EntityLivingBase entity)
 	{
-		return (ExtendedLivingBase)entity.getExtendedProperties(RefMod.MODID);
+		return (ExtendedLivingBase)entity.getExtendedProperties(RefMod.MODID + "_livingBase");
 	}
 	
 	/**
@@ -54,13 +54,13 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	 */
 	public static final void register(EntityLivingBase entity)
 	{
-		entity.registerExtendedProperties(RefMod.MODID, new ExtendedLivingBase(entity));
+		entity.registerExtendedProperties(RefMod.MODID + "_livingBase", new ExtendedLivingBase(entity));
 	}
 	
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		NBTTagCompound properties = (NBTTagCompound)compound.getTag(RefMod.MODID);
+		NBTTagCompound properties = (NBTTagCompound)compound.getTag(RefMod.MODID + "_livingBase");
 		
 		this.traps.clear();
 		if(properties != null)
@@ -121,7 +121,7 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	public void saveNBTData(NBTTagCompound compound)
 	{
 		NBTTagCompound properties = new NBTTagCompound();
-		compound.setTag(RefMod.MODID, properties);
+		compound.setTag(RefMod.MODID + "_livingBase", properties);
 		NBTTagList list = new NBTTagList();
 		for(int i = 0; i < this.traps.size(); ++i)
 		{
@@ -188,7 +188,7 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 	
 	public void fireTrap(int i)
 	{
-		this.entity.worldObj.playSoundAtEntity(this.entity, RefMod.MODID + ":" + "item.weapon.crossbow.fire", 0.2F, 1.2F + this.entity.worldObj.rand.nextFloat() * 0.3F);
+		/*this.entity.worldObj.playSoundAtEntity(this.entity, RefMod.MODID + ":" + "item.weapon.crossbow.fire", 0.2F, 1.2F + this.entity.worldObj.rand.nextFloat() * 0.3F);
 		
 		EntityElectricTrap bolt = new EntityElectricTrap(this.entity.worldObj, this.traps.get(i).shootingEntity, this.entity, this.traps.get(i).trapMotionX, this.traps.get(i).trapMotionY - 0.1, this.traps.get(i).trapMotionZ, 1F, true);
 		bolt.damageName = "crossbow_electric_bolt";
@@ -201,10 +201,10 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 		if(!this.entity.worldObj.isRemote)
 		{
 			this.entity.worldObj.spawnEntityInWorld(bolt);
-		}
+		}*/
 	}
 	
-	public void hitEntityWithTrapBolt(EntityCrossbowBolt bolt, boolean b)
+	/*public void hitEntityWithTrapBolt(EntityCrossbowBolt bolt, boolean b)
 	{
 		TrapBolt trap = new TrapBolt(bolt.shootingEntity, bolt.motionX, bolt.motionY, bolt.motionZ, 30, b ? this.items.size() - 1 : -1);
 		this.traps.add(trap);
@@ -223,7 +223,7 @@ public class ExtendedLivingBase implements IExtendedEntityProperties, IEntityAdd
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	protected class TrapBolt
 	{

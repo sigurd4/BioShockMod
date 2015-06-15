@@ -18,7 +18,7 @@ public class ItemCrafting extends Item
 	public ItemCrafting()
 	{
 		this.setMaxStackSize(64);
-		this.setCreativeTab(M.tabs.craftingItems);
+		this.setCreativeTab(M.tabs.crafting_items);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.sigurd4.bioshock.plasmids;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -153,7 +154,7 @@ public class PlasmidDevilsKiss extends PlasmidIncinerate implements IPlasmidProj
 			}
 		}
 		
-		if(projectile.worldObj.getBlockState(new BlockPos(vec)).getBlock() == Blocks.water)
+		if(projectile.worldObj.getBlockState(new BlockPos(vec)).getBlock().getMaterial() == Material.water)
 		{
 			projectile.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, vec.xCoord, vec.yCoord, vec.zCoord, Stuff.Randomization.r(0.1), Stuff.Randomization.r(0.1) + 0.2, Stuff.Randomization.r(0.1));
 			for(int i = 0; i < 6; ++i)
@@ -181,7 +182,7 @@ public class PlasmidDevilsKiss extends PlasmidIncinerate implements IPlasmidProj
 		{
 			this.fuse.add(projectile.getCompound(), 1);
 		}
-		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock() == Blocks.water)
+		if(projectile.worldObj.getBlockState(projectile.getPosition()).getBlock().getMaterial() == Material.water)
 		{
 			projectile.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, true, projectile.posX, projectile.posY, projectile.posZ, Stuff.Randomization.r(0.1), Stuff.Randomization.r(0.1) + 0.2, Stuff.Randomization.r(0.1));
 			for(int i = 0; i < 5; ++i)

@@ -480,4 +480,10 @@ public class PlasmidCycloneTrap extends Plasmid implements IPlasmidProjectile
 			entity.worldObj.spawnParticle(EnumParticleTypes.CRIT, true, entity.posX, entity.posY + entity.getYOffset(), entity.posZ, x, 0.4F, z);
 		}
 	}
+	
+	@Override
+	public boolean isInRangeToRenderDist(EntityThrowable projectile, double distance)
+	{
+		return false;
+	}
 }
