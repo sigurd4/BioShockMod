@@ -35,7 +35,7 @@ public class ItemWeaponWrench extends ItemWeaponMelee
 			IBlockState state = world.getBlockState(pos);
 			EnumFacing[] directions = state.getBlock().getValidRotations(world, pos);
 			EnumFacing preferredDirection = null;
-			if(directions.length > 0)
+			if(directions != null && directions.length > 0)
 			{
 				boolean b = state.getBlock().rotateBlock(world, pos, directions[Item.itemRand.nextInt(directions.length - 1 + 1)]);
 				if(b || !world.getBlockState(pos).equals(state))
