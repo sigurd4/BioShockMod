@@ -113,8 +113,6 @@ public class BlockSeastone extends Block
 		ALGAE(4, "algae", "seastoneAlgae", 3.2F),
 		CRUSHED(5, "crushed", "seastoneCrushed", 0.5F),
 		OLD(6, "old", "seastoneOld", 6.9F);
-		/** Array of the Block's BlockStates */
-		private static final BlockSeastone.EnumType[] META_LOOKUP = new BlockSeastone.EnumType[values().length];
 		/** The BlockState's metadata. */
 		private final int meta;
 		/** The EnumType's name. */
@@ -149,12 +147,12 @@ public class BlockSeastone extends Block
 		 */
 		public static BlockSeastone.EnumType byMetadata(int meta)
 		{
-			if(meta < 0 || meta >= META_LOOKUP.length)
+			if(meta < 0 || meta >= values().length)
 			{
 				meta = 0;
 			}
 			
-			return META_LOOKUP[meta];
+			return values()[meta];
 		}
 		
 		@Override
@@ -176,7 +174,7 @@ public class BlockSeastone extends Block
 			for(int var2 = 0; var2 < var1; ++var2)
 			{
 				BlockSeastone.EnumType var3 = var0[var2];
-				META_LOOKUP[var3.getMetadata()] = var3;
+				values()[var3.getMetadata()] = var3;
 			}
 		}
 	}

@@ -1,27 +1,33 @@
 {
     "variants": {
-        "algae": [
-            { "model": "bioshock:seastone_algae" },
-            { "model": "bioshock:seastone_algae_mirrored" },
-            { "model": "bioshock:seastone_algae", "y": 180 },
-            { "model": "bioshock:seastone_algae_mirrored", "y": 180 }
-        ],
-        "cracked": { "model": "bioshock:seastone_cracked" },
-        "crushed": { "model": "bioshock:seastone_crushed" },
-        "dark": [
-            { "model": "bioshock:seastone_dark" },
-            { "model": "bioshock:seastone_dark_mirrored" },
-            { "model": "bioshock:seastone_dark", "y": 180 },
-            { "model": "bioshock:seastone_dark_mirrored", "y": 180 }
-        ],
-        "light": [
+        "normal": [
             { "model": "bioshock:seastone_light" },
             { "model": "bioshock:seastone_light_mirrored" },
             { "model": "bioshock:seastone_light", "y": 180 },
             { "model": "bioshock:seastone_light_mirrored", "y": 180 }
         ],
-        "old": { "model": "bioshock:seastone_old" },
-        "porous": [
+        "variant=algae": [
+            { "model": "bioshock:seastone_algae" },
+            { "model": "bioshock:seastone_algae_mirrored" },
+            { "model": "bioshock:seastone_algae", "y": 180 },
+            { "model": "bioshock:seastone_algae_mirrored", "y": 180 }
+        ],
+        "variant=cracked": { "model": "bioshock:seastone_cracked" },
+        "variant=crushed": { "model": "bioshock:seastone_crushed" },
+        "variant=dark": [
+            { "model": "bioshock:seastone_dark" },
+            { "model": "bioshock:seastone_dark_mirrored" },
+            { "model": "bioshock:seastone_dark", "y": 180 },
+            { "model": "bioshock:seastone_dark_mirrored", "y": 180 }
+        ],
+        "variant=light": [
+            { "model": "bioshock:seastone_light" },
+            { "model": "bioshock:seastone_light_mirrored" },
+            { "model": "bioshock:seastone_light", "y": 180 },
+            { "model": "bioshock:seastone_light_mirrored", "y": 180 }
+        ],
+        "variant=old": { "model": "bioshock:seastone_old" },
+        "variant=porous": [
             { "model": "bioshock:seastone_porous" },
             { "model": "bioshock:seastone_porous_mirrored" },
             { "model": "bioshock:seastone_porous", "y": 180 },

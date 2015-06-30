@@ -10,6 +10,14 @@ public class ItemBlockSeastone extends ItemBlock
 	public ItemBlockSeastone(BlockSeastone block)
 	{
 		super(block);
+		this.setMaxDamage(BlockSeastone.EnumType.values().length);
+		this.setHasSubtypes(true);
+	}
+	
+	@Override
+	public int getMetadata(int metadata)
+	{
+		return metadata;
 	}
 	
 	/**

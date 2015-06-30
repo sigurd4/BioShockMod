@@ -299,7 +299,7 @@ public class M
 	
 	public static <T extends Block> T registerBlock(String id, T block, ItemBlock blockItem, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
 	{
-		return registerBlock(id, RefMod.MODID, block, replacedIfAlreadyAnOreDict, oreDictNames);
+		return registerBlock(id, RefMod.MODID, block, blockItem, replacedIfAlreadyAnOreDict, oreDictNames);
 	}
 	
 	public static <T extends Block> T registerBlock(String id, String modid, T block, ItemBlock blockItem, boolean replacedIfAlreadyAnOreDict, String[] oreDictNames)
